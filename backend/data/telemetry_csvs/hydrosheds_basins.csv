@@ -1,0 +1,5 @@
+hybas_id,watershed_id,stream_order,catchment_area_sqkm,dis_m3_pyr,run_mm_syr,ari_ix_sav,smp_nz_s01,wet_pc_sg1,data_source
+HYBAS_7120401020,WS_MH_001,3,42.5,1.45,350.2,62,28,1.2,WWF HydroSHEDS / HydroATLAS v1.0
+HYBAS_7120502010,WS_KA_004,4,55.8,2.10,280.5,55,22,0.8,WWF HydroSHEDS / HydroATLAS v1.0
+HYBAS_7110203010,WS_RJ_002,2,61.2,0.35,95.0,25,12,0.1,WWF HydroSHEDS / HydroATLAS v1.0
+HYBAS_7120401055,WS_MH_042,4,48.2,1.85,410.0,68,32,1.5,WWF HydroSHEDS / HydroATLAS v1.0

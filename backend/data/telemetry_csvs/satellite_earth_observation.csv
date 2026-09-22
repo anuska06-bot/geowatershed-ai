@@ -1,0 +1,7 @@
+observation_id,watershed_id,latitude,longitude,sensing_date,ndvi_value,ndwi_value,bsi_value,cloud_cover_percent,satellite_sensor
+SAT_OBS_101,WS_MH_001,18.52043,73.85674,2025-10-15,0.68,0.12,-0.22,2.1,Sentinel-2A
+SAT_OBS_102,WS_MH_001,18.52043,73.85674,2026-02-10,0.42,-0.05,-0.05,0.0,Sentinel-2B
+SAT_OBS_103,WS_MH_001,18.52210,73.85820,2025-10-15,0.55,0.45,-0.38,1.5,Resourcesat-2_LISS3
+SAT_OBS_104,WS_KA_004,12.97160,77.59460,2026-01-20,0.31,-0.18,0.15,0.5,Sentinel-2A
+SAT_OBS_105,WS_RJ_002,26.91240,75.78730,2026-02-28,0.22,-0.30,0.28,0.0,Resourcesat-2_LISS3
+SAT_OBS_106,WS_MH_042,18.91340,73.32410,2026-02-15,0.58,0.28,-0.18,1.0,Sentinel-2B

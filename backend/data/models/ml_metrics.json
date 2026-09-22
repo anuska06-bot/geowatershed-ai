@@ -1,0 +1,55 @@
+{
+  "model_comparison": {
+    "classification": {
+      "RandomForest": {
+        "accuracy": 1.0,
+        "f1_macro": 1.0
+      },
+      "HistGradientBoosting": {
+        "accuracy": 1.0,
+        "f1_macro": 1.0
+      },
+      "LogisticRegression": {
+        "accuracy": 1.0,
+        "f1_macro": 1.0
+      },
+      "champion": "RandomForestClassifier"
+    },
+    "regression": {
+      "RandomForestRegressor": {
+        "r2_score": -0.0511116166720349
+      },
+      "RidgeRegressor": {
+        "r2_score": -0.10955068836211046
+      },
+      "champion": "RandomForestRegressor"
+    },
+    "intervention_recommender": {
+      "accuracy": 0.4523809523809524
+    },
+    "sih_secondary_erosion_risk": {
+      "accuracy": 1.0,
+      "model": "Multi-Spectral (Sentinel-2) + CartoDEM TWI Random Forest"
+    },
+    "sih_ps15_maintenance_dispatch": {
+      "accuracy": 1.0,
+      "model": "Intervention Structural Maintenance Dispatcher"
+    }
+  },
+  "top_feature_importances": {
+    "longitude": 0.1204,
+    "prob_crops": 0.1202,
+    "seasonal_fluctuation_m": 0.1089,
+    "elevation_m": 0.0979,
+    "latitude": 0.0958,
+    "prob_bare": 0.0953,
+    "ari_ix_sav": 0.0656,
+    "wet_pc_sg1": 0.0493
+  },
+  "total_training_samples": 590,
+  "sih_readiness": {
+    "primary_statement": "SIH 2026 PS 15: Geocoded Image Verification & Outcome Enhancement",
+    "secondary_statement": "SIH Multi-Spectral & DEM AI Land Degradation & Erosion Siting",
+    "status": "DUAL_STATEMENT_QUALIFIED"
+  }
+}

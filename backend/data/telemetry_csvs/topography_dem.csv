@@ -1,0 +1,7 @@
+location_id,watershed_id,latitude,longitude,elevation_m,slope_percent,slope_class,aspect_deg,topographic_wetness_index,dem_source
+LOC_TOP_001,WS_MH_001,18.52043,73.85674,560.5,4.2,Gentle (2-5%),180.5,7.82,CartoDEM_1ArcSec
+LOC_TOP_002,WS_MH_001,18.52210,73.85820,552.1,1.8,Flat (0-2%),120.0,9.15,CartoDEM_1ArcSec
+LOC_TOP_003,WS_KA_004,12.97160,77.59460,920.0,12.5,Moderate (10-15%),45.2,5.11,SRTM_30m
+LOC_TOP_004,WS_MH_002,19.07600,72.87770,12.0,0.5,Flat (0-2%),270.0,11.40,CartoDEM_1ArcSec
+LOC_TOP_005,WS_RJ_002,26.91240,75.78730,430.8,8.7,Moderate (5-10%),315.0,6.25,CartoDEM_1ArcSec
+LOC_TOP_006,WS_MH_042,18.91340,73.32410,105.0,6.8,Moderate (5-10%),210.0,8.45,CartoDEM_1ArcSec

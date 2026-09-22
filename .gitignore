@@ -1,0 +1,48 @@
+# ==============================================================================
+# GeoWatershed AI - Root .gitignore
+# ==============================================================================
+
+# Python / Virtualenv
+.venv/
+*/.venv/
+__pycache__/
+*/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+*/.pytest_cache/
+
+# Local databases
+*.db
+backend/geowatershed.db
+
+# Uploaded media (keep folder structure, exclude large test images)
+backend/data/uploads/evidence/*.jpg
+backend/data/uploads/evidence/*.png
+backend/data/uploads/evidence/*.webp
+
+# Node / Frontend
+node_modules/
+*/node_modules/
+dist/
+*/dist/
+.npm/
+.eslintcache
+
+# Environment variables & secrets (NEVER commit secrets to GitHub)
+.env
+*.env
+backend/.env
+frontend/.env
+*.env.local
+
+# Archives
+*.zip
+GeoWatershed_AI_Team_Package.zip
+
+# System & IDE
+.freebuff/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

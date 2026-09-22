@@ -1,0 +1,189 @@
+{
+  "watershed": {
+    "code": "MH-WDC-042",
+    "name": "Karjat Micro-Watershed",
+    "state": "Maharashtra",
+    "district": "Ahmednagar",
+    "block": "Karjat",
+    "basin": "Bhima Sub-Basin / Krishna Basin",
+    "area_hectares": 1420.0,
+    "centroid_lat": 18.9150,
+    "centroid_lon": 73.3280,
+    "boundary_geojson": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [73.3080, 18.9050],
+          [73.3150, 18.9280],
+          [73.3320, 18.9350],
+          [73.3480, 18.9250],
+          [73.3450, 18.9020],
+          [73.3280, 18.8950],
+          [73.3080, 18.9050]
+        ]
+      ]
+    },
+    "drainage_geojson": {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": { "name": "Main Nala Reach", "stream_order": 4 },
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [73.3150, 18.9250],
+              [73.3220, 18.9180],
+              [73.3280, 18.9120],
+              [73.3380, 18.9050]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": { "name": "North Branch Tributary", "stream_order": 3 },
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [73.3280, 18.9320],
+              [73.3250, 18.9240],
+              [73.3220, 18.9180]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": { "name": "East Ridge Gully Stream", "stream_order": 2 },
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [73.3420, 18.9200],
+              [73.3350, 18.9150],
+              [73.3280, 18.9120]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": { "name": "South Headwater Feeder", "stream_order": 1 },
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [73.3180, 18.9020],
+              [73.3240, 18.9080],
+              [73.3280, 18.9120]
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "projects": [
+    {
+      "name": "WDC-PMKSY 2.0 Karjat Ridge-to-Valley Integrated Works",
+      "scheme_name": "WDC-PMKSY 2.0",
+      "status": "In Progress",
+      "sanctioned_budget_inr": 8500000.0,
+      "expenditure_inr": 5120000.0,
+      "start_date": "2024-04-01",
+      "target_date": "2027-03-31",
+      "description": "Comprehensive soil and water conservation program under PMKSY 2.0 combining ridge-line continuous contour trenches, drainage line check dams, and recharge farm ponds."
+    }
+  ],
+  "interventions": [
+    {
+      "name": "Masonry Check Dam CD-01 (Main Stem)",
+      "intervention_type": "Check Dam",
+      "target_latitude": 18.9125,
+      "target_longitude": 73.3278,
+      "stream_order": 4,
+      "status": "Operational"
+    },
+    {
+      "name": "Gabion Check Dam CD-02 (North Confluence)",
+      "intervention_type": "Check Dam",
+      "target_latitude": 18.9182,
+      "target_longitude": 73.3222,
+      "stream_order": 3,
+      "status": "Completed"
+    },
+    {
+      "name": "Percolation Tank PT-01 (Valley Recharge Basin)",
+      "intervention_type": "Percolation Tank",
+      "target_latitude": 18.9060,
+      "target_longitude": 73.3370,
+      "stream_order": 4,
+      "status": "Operational"
+    },
+    {
+      "name": "Earthen Farm Pond FP-03 (Farmer Collective)",
+      "intervention_type": "Farm Pond",
+      "target_latitude": 18.9210,
+      "target_longitude": 73.3310,
+      "stream_order": 2,
+      "status": "Completed"
+    },
+    {
+      "name": "Continuous Contour Trench CCT-Ridge-04",
+      "intervention_type": "Contour Trench",
+      "target_latitude": 18.9300,
+      "target_longitude": 73.3180,
+      "stream_order": 1,
+      "status": "Completed"
+    },
+    {
+      "name": "Loose Boulder Gully Plug GP-08",
+      "intervention_type": "Gully Plug",
+      "target_latitude": 18.9160,
+      "target_longitude": 73.3380,
+      "stream_order": 2,
+      "status": "Operational"
+    }
+  ],
+  "indicators": [
+    {
+      "indicator_type": "NDVI_POST_MONSOON",
+      "period_start": "2025-10-01",
+      "period_end": "2025-11-15",
+      "value": 0.54,
+      "unit": "Index (0-1)",
+      "data_source": "Sentinel-2 Level-2A (10m ESA Copernicus)",
+      "methodology": "Atmospherically corrected surface reflectance (Band 8 - Band 4) / (Band 8 + Band 4)",
+      "data_quality_status": "Verified External Baseline",
+      "completeness_score": 0.98
+    },
+    {
+      "indicator_type": "NDVI_SUMMER_BASELINE",
+      "period_start": "2026-04-01",
+      "period_end": "2026-05-15",
+      "value": 0.22,
+      "unit": "Index (0-1)",
+      "data_source": "Sentinel-2 Level-2A (10m ESA Copernicus)",
+      "methodology": "Pre-monsoon dry season vegetative baseline index",
+      "data_quality_status": "Verified External Baseline",
+      "completeness_score": 0.95
+    },
+    {
+      "indicator_type": "SURFACE_WATER_SPREAD",
+      "period_start": "2025-11-01",
+      "period_end": "2025-11-30",
+      "value": 18.4,
+      "unit": "Hectares",
+      "data_source": "Sentinel-2 NDWI (Band 3 - Band 8)",
+      "methodology": "Water threshold extraction from modified normalized difference water index",
+      "data_quality_status": "Verified External Baseline",
+      "completeness_score": 0.92
+    },
+    {
+      "indicator_type": "DRAINAGE_DENSITY",
+      "period_start": "2024-01-01",
+      "period_end": "2026-01-01",
+      "value": 2.45,
+      "unit": "km / km²",
+      "data_source": "CartoDEM 30m / Survey of India 1:50k Toposheet",
+      "methodology": "Total channel length divided by total watershed area (14.2 km²)",
+      "data_quality_status": "Calibrated Baseline",
+      "completeness_score": 1.0
+    }
+  ]
+}

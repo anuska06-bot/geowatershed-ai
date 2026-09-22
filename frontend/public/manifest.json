@@ -1,0 +1,17 @@
+{
+  "short_name": "GeoWatershed AI",
+  "name": "GeoWatershed AI — Smart Geospatial Intelligence for Watershed Development",
+  "description": "Smart Geospatial Intelligence, Hydrologic Risk Alerts, and SUTRA-AI Diagnostics under WDC-PMKSY 2.0",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#121619",
+  "theme_color": "#121619",
+  "display": "standalone",
+  "orientation": "portrait"
+}

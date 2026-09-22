@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#101416" />
+      <stop offset="50%" stop-color="#141a1e" />
+      <stop offset="100%" stop-color="#0d1113" />
+    </linearGradient>
+    <pattern id="contours" width="200" height="200" patternUnits="userSpaceOnUse">
+      <path d="M0,50 Q50,20 100,60 T200,40" fill="none" stroke="#10b981" stroke-width="1.2" opacity="0.18" />
+      <path d="M0,100 Q60,130 120,90 T200,110" fill="none" stroke="#10b981" stroke-width="1.2" opacity="0.18" />
+      <path d="M0,150 Q40,110 100,160 T200,140" fill="none" stroke="#10b981" stroke-width="1.2" opacity="0.18" />
+      <circle cx="100" cy="100" r="70" fill="none" stroke="#10b981" stroke-width="1" stroke-dasharray="4 4" opacity="0.15" />
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect width="1200" height="630" fill="url(#contours)" />
+
+  <!-- Outer Border Frame -->
+  <rect x="24" y="24" width="1152" height="582" rx="16" fill="none" stroke="#242d32" stroke-width="2" />
+
+  <!-- Top Institutional Bar -->
+  <g transform="translate(80, 80)">
+    <rect width="210" height="36" rx="6" fill="#10b981" fill-opacity="0.12" stroke="#10b981" stroke-opacity="0.4" stroke-width="1" />
+    <text x="14" y="23" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="700" fill="#10b981" letter-spacing="1">WDC-PMKSY 2.0</text>
+    <text x="150" y="23" font-family="'JetBrains Mono', monospace" font-size="13" fill="#9ba3a7">• MoRD • DoLR</text>
+  </g>
+
+  <!-- Main Headline -->
+  <g transform="translate(80, 190)">
+    <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="64" font-weight="800" fill="#f1f0eb" letter-spacing="-1.5">
+      GeoWatershed <tspan fill="#10b981">AI</tspan>
+    </text>
+    <text x="0" y="55" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="500" fill="#9ba3a7">
+      Smart Geospatial Intelligence for Watershed Development
+    </text>
+  </g>
+
+  <!-- Feature Highlights -->
+  <g transform="translate(80, 360)">
+    <!-- Box 1 -->
+    <rect x="0" y="0" width="320" height="150" rx="10" fill="#181f23" stroke="#242d32" stroke-width="1.5" />
+    <circle cx="36" cy="38" r="14" fill="#10b981" fill-opacity="0.2" />
+    <text x="64" y="44" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="700" fill="#f1f0eb">Hydrologic GIS</text>
+    <text x="24" y="85" font-family="system-ui, sans-serif" font-size="14" fill="#9ba3a7" width="270">Strahler stream ordering, DEM slope, and sub-basin catchment topology across 7 pan-India zones.</text>
+
+    <!-- Box 2 -->
+    <rect x="345" y="0" width="320" height="150" rx="10" fill="#181f23" stroke="#242d32" stroke-width="1.5" />
+    <circle cx="381" cy="38" r="14" fill="#10b981" fill-opacity="0.2" />
+    <text x="409" y="44" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="700" fill="#f1f0eb">SUTRA-AI Video</text>
+    <text x="369" y="85" font-family="system-ui, sans-serif" font-size="14" fill="#9ba3a7">Computer vision video inspection for check dam cracks, siltation depth, and instant repair costing.</text>
+
+    <!-- Box 3 -->
+    <rect x="690" y="0" width="320" height="150" rx="10" fill="#181f23" stroke="#242d32" stroke-width="1.5" />
+    <circle cx="726" cy="38" r="14" fill="#f59e0b" fill-opacity="0.2" />
+    <text x="754" y="44" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="700" fill="#f1f0eb">Anti-Spoof EXIF</text>
+    <text x="714" y="85" font-family="system-ui, sans-serif" font-size="14" fill="#9ba3a7">SHA-256 cryptographic hashing &amp; spatial geofencing preventing fake or duplicate subsidy claims.</text>
+  </g>
+
+  <!-- Bottom Sovereign Tag -->
+  <g transform="translate(80, 560)">
+    <text x="0" y="0" font-family="'JetBrains Mono', monospace" font-size="14" fill="#64748b">
+      National Geospatial Policy (NGP-2022) • Sovereign Data Architecture • Republic of India
+    </text>
+  </g>
+</svg>

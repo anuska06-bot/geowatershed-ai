@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-slate-950 text-slate-100 antialiased selection:bg-forest-500 selection:text-slate-950;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-variation-settings: "opsz" 32;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply tracking-tight;
+  }
+}
+
+@layer components {
+  /* Institutional GIS panel: crisp 1px borders, subtle surface */
+  .panel {
+    @apply bg-slate-900/90 border border-slate-800 rounded-lg;
+  }
+  /* Small section label above panels */
+  .section-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400 font-mono;
+  }
+  /* Titled panel header row */
+  .panel-title {
+    @apply text-sm font-semibold text-slate-100 tracking-tight;
+  }
+  /* Standard input styling */
+  .input {
+    @apply w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-sm text-slate-100
+      placeholder:text-slate-500 transition-colors
+      focus:outline-none focus:border-forest-500 focus:ring-1 focus:ring-forest-500/50;
+  }
+  /* Table cell rhythm */
+  .th {
+    @apply text-[11px] font-semibold uppercase tracking-wider text-slate-400 py-2.5 font-mono;
+  }
+  .td {
+    @apply py-2.5 text-slate-300;
+  }
+}
+
+/* Subtle, crisp render transitions: zero bouncy float */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-up { animation: fade-in 0.2s ease-out both; }
+.animate-fade-in { animation: fade-in 0.2s ease-out both; }
+.animate-scale-in { animation: fade-in 0.2s ease-out both; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #090d16;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Leaflet dark theme map enhancements */
+.leaflet-container {
+  background: #0a0d12 !important;
+  font-family: inherit;
+}
+.leaflet-popup-content-wrapper {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+  border: 1px solid #1e293b !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+}
+.leaflet-popup-tip {
+  background: #0f172a !important;
+}

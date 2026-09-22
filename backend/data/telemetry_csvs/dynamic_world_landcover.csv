@@ -1,0 +1,6 @@
+pixel_id,watershed_id,latitude,longitude,acquisition_date,prob_water,prob_trees,prob_grass,prob_flooded_vegetation,prob_crops,prob_shrub_and_scrub,prob_built,prob_bare,dominant_label,data_source
+DW_PXL_1001,WS_MH_001,18.52043,73.85674,2026-01-28,0.05,0.18,0.12,0.01,0.58,0.04,0.01,0.01,crops,Google Earth Engine Dynamic World
+DW_PXL_1002,WS_MH_001,18.52210,73.85820,2026-01-28,0.72,0.02,0.05,0.15,0.03,0.01,0.01,0.01,water,Google Earth Engine Dynamic World
+DW_PXL_1003,WS_RJ_002,26.91240,75.78730,2026-02-02,0.01,0.02,0.05,0.00,0.10,0.15,0.02,0.65,bare,Google Earth Engine Dynamic World
+DW_PXL_1004,WS_KA_004,12.96800,77.58900,2026-02-10,0.02,0.35,0.25,0.02,0.22,0.08,0.05,0.01,trees,Google Earth Engine Dynamic World
+DW_PXL_1005,WS_MH_042,18.91340,73.32410,2026-02-12,0.08,0.22,0.18,0.03,0.42,0.05,0.01,0.01,crops,Google Earth Engine Dynamic World

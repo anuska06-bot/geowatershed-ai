@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#121619" />
+  <rect x="2" y="2" width="60" height="60" rx="12" stroke="#10b981" stroke-width="2" stroke-opacity="0.4" />
+  <!-- Topographic elevation contours -->
+  <path d="M6 24 C18 16, 42 32, 58 20" stroke="#10b981" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4"/>
+  <path d="M6 36 C22 28, 40 44, 58 32" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <path d="M6 48 C20 40, 44 54, 58 44" stroke="#10b981" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4"/>
+  <!-- Central Water Drop & Stream Intersection -->
+  <path d="M32 14 C32 14, 44 28, 44 37 C44 43.6 38.6 49 32 49 C25.4 49, 20 43.6, 20 37 C20 28, 32 14, 32 14 Z" fill="#10b981" />
+  <circle cx="32" cy="37" r="4" fill="#121619" />
+  <path d="M32 41 V45" stroke="#f1f0eb" stroke-width="2" stroke-linecap="round" />
+</svg>

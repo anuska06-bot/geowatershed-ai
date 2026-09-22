@@ -1,0 +1,5 @@
+well_id,watershed_id,district,state,latitude,longitude,well_type,aquifer_type,measurement_date,depth_to_water_mbgl,seasonal_fluctuation_m,recharge_zone_class,data_source
+CGWB_MH_PUN_012,WS_MH_001,Pune,Maharashtra,18.52100,73.85500,Dug Well,Basaltic Weathered,2026-01-10,6.85,2.4,Moderate Recharge Potential,IN-GRES / CGWB Portal
+CGWB_KA_BLR_045,WS_KA_004,Bengaluru Urban,Karnataka,12.96800,77.58900,Bore Well,Granitic Gneiss Fractured,2026-01-12,18.40,4.1,High Recharge Requirement,IN-GRES / CGWB Portal
+CGWB_RJ_JAI_008,WS_RJ_002,Jaipur,Rajasthan,26.90800,75.78200,Piezometer,Alluvial Alluvium,2026-01-15,24.10,1.2,Critical Over-Exploited Zone,IN-GRES / CGWB Portal
+CGWB_MH_RAI_019,WS_MH_042,Raigad,Maharashtra,18.91500,73.32200,Dug Well,Basaltic Vesicular,2026-01-18,5.40,2.1,Moderate Recharge Potential,IN-GRES / CGWB Portal

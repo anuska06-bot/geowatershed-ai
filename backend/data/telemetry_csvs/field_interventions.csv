@@ -1,0 +1,8 @@
+intervention_id,project_id,user_id,latitude,longitude,coord_source,timestamp_utc,exif_camera_model,category,observation_note,validation_status,image_storage_ref
+INT_2026_001,PRJ_MH_01,USR_FIELD_101,18.52043,73.85674,EXIF_GPS,2026-01-15T09:30:00Z,Samsung Galaxy S22,Check Dam,Constructed masonry check dam with minor silt accumulation,Reviewed,s3://geowatershed-data/photos/2026/01/img_001.jpg
+INT_2026_002,PRJ_MH_01,USR_FIELD_101,18.52210,73.85820,EXIF_GPS,2026-01-15T10:15:00Z,Samsung Galaxy S22,Farm Pond,Excavated farm pond showing 40% water retention level,Reviewed,s3://geowatershed-data/photos/2026/01/img_002.jpg
+INT_2026_003,PRJ_KA_04,USR_FIELD_108,12.97160,77.59460,MANUAL_PIN,2026-02-01T14:10:00Z,iPhone 13,Contour Trench,Staggered contour trenching along eastern ridge line,Needs Verification,s3://geowatershed-data/photos/2026/02/img_003.jpg
+INT_2026_004,PRJ_MH_02,USR_FIELD_103,19.07600,72.87770,EXIF_GPS,2026-02-18T11:45:00Z,Redmi Note 11,Afforestation,Sapling plantation along riparian zone,Preliminary,s3://geowatershed-data/photos/2026/02/img_004.jpg
+INT_2026_005,PRJ_RJ_02,USR_FIELD_112,26.91240,75.78730,EXIF_GPS,2026-03-05T08:20:00Z,Pixel 7,Gully Plug,Loose boulder gully plug installed across seasonal drain,Reviewed,s3://geowatershed-data/photos/2026/03/img_005.jpg
+INT_2026_006,PRJ_MH_01,USR_FIELD_101,18.91420,73.32350,EXIF_GPS,2026-01-20T11:00:00Z,Samsung Galaxy S22,Check Dam,Composite masonry check dam across 3rd order stream,Reviewed,s3://geowatershed-data/photos/2026/01/img_006.jpg
+INT_2026_007,PRJ_MH_01,USR_FIELD_101,18.91180,73.32620,EXIF_GPS,2026-01-22T14:30:00Z,Samsung Galaxy S22,Farm Pond,Community farm pond lined with HDPE membrane,Reviewed,s3://geowatershed-data/photos/2026/01/img_007.jpg

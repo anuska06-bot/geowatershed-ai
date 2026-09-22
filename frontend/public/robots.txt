@@ -1,0 +1,11 @@
+# GeoWatershed AI - Robots.txt
+# Department of Land Resources (DoLR) / WDC-PMKSY 2.0
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /uploads/private/
+
+# XML Sitemap
+Sitemap: https://geowatershed.gov.in/sitemap.xml

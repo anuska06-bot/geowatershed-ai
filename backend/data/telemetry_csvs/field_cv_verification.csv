@@ -1,0 +1,8 @@
+sample_id,intervention_id,img_detected_object,model_confidence_score,erosion_risk_level,recharge_suitability_score,recommended_intervention,expert_review_status
+TRAIN_001,INT_2026_001,Check Dam,0.94,Medium,0.82,Desiltation and Wing Wall Extension,Reviewed
+TRAIN_002,INT_2026_002,Farm Pond,0.91,Low,0.91,Inlet Channel Clearance,Reviewed
+TRAIN_003,INT_2026_003,Contour Trench,0.78,High,0.65,Contour Bunding & Vegetative Barrier,Needs Verification
+TRAIN_004,INT_2026_004,Vegetation,0.85,Low,0.40,Afforestation Expansion,Preliminary
+TRAIN_005,INT_2026_005,Gully Plug,0.89,High,0.58,Loose Boulder Structure Reinforcement,Reviewed
+TRAIN_006,INT_2026_006,Check Dam,0.96,Medium,0.88,Desiltation and Wing Wall Extension,Reviewed
+TRAIN_007,INT_2026_007,Farm Pond,0.93,Low,0.94,Inlet Channel Clearance,Reviewed

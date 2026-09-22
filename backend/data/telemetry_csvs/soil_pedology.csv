@@ -1,0 +1,6 @@
+env_zone_id,watershed_id,soil_type,soil_texture,depth_cm,permeability_mm_hr,annual_rainfall_mm,lulc_category,lulc_code
+ENV_MH_001,WS_MH_001,Black Cotton Soil,Clay Loam,120,8.5,1050.0,Agricultural Land - Crop,201
+ENV_MH_002,WS_MH_001,Alluvial,Sandy Loam,150,22.0,1050.0,Waterbody - Pond,502
+ENV_KA_001,WS_KA_004,Red Soil,Sandy Clay,80,14.5,890.0,Scrub / Wasteland,401
+ENV_RJ_001,WS_RJ_002,Desert Soil,Coarse Sand,200,45.0,520.0,Barren / Rocky,403
+ENV_MH_042,WS_MH_042,Lateritic Red Soil,Clay Loam,110,12.0,2450.0,Agricultural Land - Terrace,202
