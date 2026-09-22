@@ -31,6 +31,7 @@ import { CookieConsentBanner } from './components/common/CookieConsentBanner';
 import { ContactModal } from './components/common/ContactModal';
 import { NotFoundView } from './components/common/NotFoundView';
 import { SubmissionSuccessModal } from './components/common/SubmissionSuccessModal';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { analytics } from './services/analytics';
 
 import { MapPin, CheckCircle2, ChevronRight, AlertCircle } from 'lucide-react';
@@ -294,7 +295,7 @@ export const App: React.FC = () => {
               </button>
             </div>
           ) : watershed ? (
-            <>
+            <ErrorBoundary key={currentTab} onReset={() => setCurrentTab('overview')}>
               {/* View 1: Overview Landing Page */}
               {currentTab === 'overview' && (
                 <LandingView
@@ -464,8 +465,8 @@ export const App: React.FC = () => {
                 onResetWatershed={() => watershedList.length > 0 && handleSwitchWatershed(watershedList[0].id)}
               />
             )}
-          </>
-        ) : !loading && !error ? (
+            </ErrorBoundary>
+          ) : !loading && !error ? (
           <NotFoundView
             invalidEntity="Target Micro-Watershed Catchment"
             onNavigateTab={handleTabChange}

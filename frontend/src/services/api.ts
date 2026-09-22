@@ -471,6 +471,9 @@ Based on multi-spectral Sentinel-2 satellite imagery and historical hydrologic t
     return {
       watershed_id: watershedId,
       overall_health_score: 87.4,
+      category: 'Good Condition (Stage II Sustainable)',
+      data_completeness_pct: 96.5,
+      uncertainty_statement: 'Screening-level criteria compliant with WDC-PMKSY 2.0 evaluation guidelines.',
       vegetative_score: 84.0,
       hydrological_score: 91.2,
       soil_conservation_score: 88.0,
@@ -488,16 +491,95 @@ Based on multi-spectral Sentinel-2 satellite imagery and historical hydrologic t
     }
     return [
       {
-        risk_type: 'Soil Erosion in Upper Slopes',
-        severity: 'Medium',
-        affected_area_ha: 145.0,
-        suggested_action: 'Continuous contour trenches and vetiver grass planting along ridge crest.',
+        id: 'risk-01',
+        zone_name: 'Upper Ridge Drainage Reach (Order 1)',
+        risk_type: 'Soil Erosion & High Runoff Detachment',
+        risk_level: 'Critical',
+        screening_score: 82,
+        recommended_priority_rank: 1,
+        affected_stream_order: 1,
+        summary: 'Steep terrain slope (>14.5%) combined with low vegetative cover triggers high RUSLE soil detachment risk exceeding 18.5 t/ha/yr.',
+        disclaimer: 'Calibrated with CartoDEM slope contours and Sentinel-2 baseline.',
+        centroid_lat: 18.9300,
+        centroid_lon: 73.3180,
+        alert_radius_meters: 450,
+        contributing_factors: [
+          'Terrain slope exceeds 14.8% along upper headwater ridge',
+          'Pre-monsoon dry season NDVI vegetative index below 0.22',
+          'CartoDEM flow accumulation indicates concentrated nala runoff'
+        ],
+        mitigation_interventions: [
+          'Continuous Contour Trenching (CCT) along 250m ridge contour',
+          'Vetiver vegetative grass hedgerows across gully lines',
+          'Loose Boulder Gully Plug (GP-08)'
+        ],
+        triggering_metrics: {
+          'Terrain Slope': '15.4%',
+          'RUSLE Soil Loss': '19.2 t/ha/yr',
+          'TWI Drainage Concavity': '6.4',
+          'Vegetative Cover (NDVI)': '0.21'
+        },
+        suggested_action: 'Deploy Continuous Contour Trenches and vegetative barrier hedges along ridge crest.'
       },
       {
-        risk_type: 'Post-Monsoon Siltation in Low-Order Nala',
-        severity: 'Low',
-        affected_area_ha: 32.0,
-        suggested_action: 'Routine pre-monsoon boulder desilting at Check Dam CD-01.',
+        id: 'risk-02',
+        zone_name: 'North Confluence Gully Corridor (Order 2)',
+        risk_type: 'Channel Bed Scouring & Bank Infill Siltation',
+        risk_level: 'High',
+        screening_score: 68,
+        recommended_priority_rank: 2,
+        affected_stream_order: 2,
+        summary: 'Concentrated velocity from 2nd-order tributary accelerates bank degradation and downstream apron deposition at CD-02.',
+        disclaimer: 'Derived from Sentinel-2 NDWI surface moisture and field verification.',
+        centroid_lat: 18.9182,
+        centroid_lon: 73.3222,
+        alert_radius_meters: 350,
+        contributing_factors: [
+          'Stream convergence increases discharge volume by 42%',
+          'Loose sandy-loam bank pedology without vegetative reinforcement',
+          'Sediment trap efficiency reduced by 15% due to past deposition'
+        ],
+        mitigation_interventions: [
+          'Gabion Check Dam reinforcement with wire-mesh boulder cages',
+          'Riprap stone pitching along outer channel banks',
+          'Periodic desiltation of upstream reservoir bed'
+        ],
+        triggering_metrics: {
+          'Peak Runoff Velocity': '2.4 m/s',
+          'Channel Slope': '6.2%',
+          'Bank Erodibility K-factor': '0.38'
+        },
+        suggested_action: 'Reinforce Gabion Check Dam CD-02 and install riprap stone pitching along vulnerable stream banks.'
+      },
+      {
+        id: 'risk-03',
+        zone_name: 'Valley Agricultural Parcel Basin (Order 4)',
+        risk_type: 'Post-Monsoon Water Table Depletion & Soil Moisture Stress',
+        risk_level: 'Moderate',
+        screening_score: 46,
+        recommended_priority_rank: 3,
+        affected_stream_order: 4,
+        summary: 'Intensive post-monsoon rabi cultivation leads to accelerated groundwater withdrawal in downstream valley parcels.',
+        disclaimer: 'Correlated with CGWB observation well hydrographs.',
+        centroid_lat: 18.9060,
+        centroid_lon: 73.3370,
+        alert_radius_meters: 600,
+        contributing_factors: [
+          'Seasonal water table depth exceeds 8.2 mbgl during summer baseline',
+          'High evapotranspiration deficit during critical crop stages',
+          'Low infiltration rate in compacted sub-soil horizon'
+        ],
+        mitigation_interventions: [
+          'Percolation Tank (PT-01) for deep aquifer recharge',
+          'Community Farm Pond (FP-03) with poly-lining for micro-irrigation',
+          'Sub-surface dykes across permeable valley alluvium'
+        ],
+        triggering_metrics: {
+          'Seasonal Water Table Delta': '3.4 m',
+          'Rabi Soil Moisture Index': '0.28',
+          'Irrigation Pumping Intensity': 'High'
+        },
+        suggested_action: 'Construct dedicated percolation tank and lined farm pond collective for rabi supplemental irrigation.'
       }
     ];
   },
@@ -511,18 +593,49 @@ Based on multi-spectral Sentinel-2 satellite imagery and historical hydrologic t
     }
     return [
       {
-        type: 'Farm Pond Construction',
-        recommended_locations: 3,
-        estimated_cost_inr: 450000,
-        estimated_storage_capacity_m3: 15000,
-        priority: 'High',
+        id: 'rec-01',
+        recommended_intervention: 'Continuous Contour Trenching (CCT-Ridge-04)',
+        stream_order: 1,
+        suitability_score: 0.94,
+        suggested_latitude: 18.9300,
+        suggested_longitude: 73.3180,
+        terrain_slope_pct: 12.5,
+        criteria_rationale: [
+          'Strahler 1st order ridge reach ideal for upstream runoff velocity deceleration',
+          'Soil depth is >45cm with medium clay-loam permeability suitable for infiltration',
+          'Reduces peak siltation into downstream Check Dam CD-01 by an estimated 38%'
+        ],
+        engineering_caveat: 'Ensure trench berms are stabilized with local grass pitching prior to onset of heavy monsoon.'
       },
       {
-        type: 'Ridge-to-Valley Afforestation',
-        recommended_locations: 2,
-        estimated_cost_inr: 320000,
-        estimated_storage_capacity_m3: 0,
-        priority: 'Medium',
+        id: 'rec-02',
+        recommended_intervention: 'Masonry Check Dam (CD-01 Main Stem)',
+        stream_order: 4,
+        suitability_score: 0.91,
+        suggested_latitude: 18.9125,
+        suggested_longitude: 73.3278,
+        terrain_slope_pct: 3.8,
+        criteria_rationale: [
+          'Stable rock foundation on 4th order nala bed minimizes underseepage risk',
+          'Catchment area exceeds 1,200 hectares, providing sustained storage through November',
+          'Directly recharges 8 downstream drinking water dugwells in Karjat village'
+        ],
+        engineering_caveat: 'Design spillway with minimum 1.5m freeboard to accommodate 25-year flood return events.'
+      },
+      {
+        id: 'rec-03',
+        recommended_intervention: 'Earthen Farm Pond (FP-03 Farmer Collective)',
+        stream_order: 2,
+        suitability_score: 0.88,
+        suggested_latitude: 18.9210,
+        suggested_longitude: 73.3310,
+        terrain_slope_pct: 4.2,
+        criteria_rationale: [
+          'Micro-catchment depression naturally collects localized field surface runoff',
+          'Provides 12,000 m³ critical supplemental irrigation during rabi dry spells',
+          'Reduces dependence on deep tube-well pumping across 18 smallholder farms'
+        ],
+        engineering_caveat: 'Install 500-micron HDPE geomembrane lining if subsoil sand fraction exceeds 35%.'
       }
     ];
   }
