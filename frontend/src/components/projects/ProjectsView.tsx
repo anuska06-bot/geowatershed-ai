@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Briefcase, IndianRupee } from 'lucide-react';
+import { api } from '../../services/api';
 
 interface ProjectItem {
   id: string;
@@ -23,8 +24,7 @@ export const ProjectsView: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/v1/projects')
-      .then((res) => res.json())
+    api.getProjects()
       .then((data) => setProjects(data))
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));

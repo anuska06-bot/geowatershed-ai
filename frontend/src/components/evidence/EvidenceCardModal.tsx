@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { EvidenceCard, UserRole } from '../../types';
+import { api } from '../../services/api';
 import { 
   X, AlertTriangle, CheckCircle, MapPin, 
   Compass, Calendar, FileCheck2, User
@@ -35,17 +36,11 @@ export const EvidenceCardModal: React.FC<EvidenceCardModalProps> = ({
     setIsSubmitting(true);
     setErrorMsg(null);
     try {
-      const res = await fetch(`/api/v1/evidence/${card.id}/review`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          review_status: reviewStatus,
-          reviewer_name: reviewerName,
-          reviewer_notes: reviewerNotes,
-        }),
+      const updated = await api.submitReview(card.id, {
+        review_status: reviewStatus,
+        reviewer_name: reviewerName,
+        reviewer_notes: reviewerNotes,
       });
-      if (!res.ok) throw new Error('Failed to update audit review');
-      const updated = await res.json();
       onReviewSubmitted(updated);
     } catch (err: any) {
       setErrorMsg(err.message || 'Error submitting review');

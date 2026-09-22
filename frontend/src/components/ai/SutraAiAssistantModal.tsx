@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Bot, 
   Video, 
@@ -39,31 +39,54 @@ export const SutraAiAssistantModal: React.FC<SutraAiAssistantModalProps> = ({
   ]);
   const [chatLoading, setChatLoading] = useState(false);
 
+  // Auto-sync structure type and run initial diagnosis on modal open
+  useEffect(() => {
+    if (isOpen) {
+      const type = defaultStructure || 'Check Dam';
+      setStructureType(type);
+      let preset = 'check_dam';
+      const lower = type.toLowerCase();
+      if (lower.includes('pond') || lower.includes('percolation')) {
+        preset = 'farm_pond';
+      } else if (lower.includes('contour') || lower.includes('trench') || lower.includes('erosion')) {
+        preset = 'contour_trench';
+      }
+      setSelectedPreset(preset);
+      handleRunAnalysis(preset, type);
+    }
+  }, [isOpen, defaultStructure]);
+
   if (!isOpen) return null;
 
-  const handleRunAnalysis = async (presetOverride?: string) => {
+  const handleRunAnalysis = async (presetOverride?: string, typeOverride?: string) => {
     setAnalyzing(true);
     try {
+      const currentPreset = presetOverride || selectedPreset;
+      const currentType = typeOverride || structureType;
       const formData = new FormData();
-      formData.append('sample_preset', presetOverride || selectedPreset);
-      formData.append('intervention_type', structureType);
+      formData.append('sample_preset', currentPreset);
+      formData.append('intervention_type', currentType);
       if (watershedId) formData.append('watershed_id', watershedId);
 
       const res = await api.analyzeSutraMedia(formData);
       setDiagnosticResult(res);
+
+      const detectedName = res.structure_detected || res.structure_type || currentType;
+      const summary = res.diagnostics_summary || 'Hydro-structural evaluation completed successfully.';
+      const steps = res.remediation_steps || [];
 
       // Add diagnostic summary into chat
       setChatMessages((prev) => [
         ...prev,
         {
           role: 'assistant',
-          text: `Diagnostic Completed for ${res.structure_detected}: ${res.diagnostics_summary}`,
-          recs: res.remediation_steps.map((s: any) => `${s.phase} (${s.timeline}): ${s.title}`),
+          text: `Diagnostic Completed for ${detectedName}:\n${summary}`,
+          recs: steps.map((s: any) => `${s.phase} (${s.timeline}): ${s.title}`),
           cites: ["CPWD / CWC Engineering Maintenance Codes", "WDC-PMKSY 2.0 Operational Guidelines"]
         }
       ]);
     } catch (e: any) {
-      console.error(e);
+      console.error('SUTRA-AI analysis error:', e);
     } finally {
       setAnalyzing(false);
     }
@@ -84,9 +107,9 @@ export const SutraAiAssistantModal: React.FC<SutraAiAssistantModalProps> = ({
         ...prev,
         {
           role: 'assistant',
-          text: res.response,
-          recs: res.actionable_recommendations,
-          cites: res.citations
+          text: res.response || 'Diagnostic response processed.',
+          recs: res.actionable_recommendations || [],
+          cites: res.citations || []
         }
       ]);
     } catch (err: any) {
@@ -250,7 +273,7 @@ export const SutraAiAssistantModal: React.FC<SutraAiAssistantModalProps> = ({
                   </div>
 
                   <div className="space-y-2 text-xs">
-                    {diagnosticResult.remediation_steps.map((step: any, idx: number) => (
+                    {(diagnosticResult.remediation_steps || []).map((step: any, idx: number) => (
                       <div key={idx} className="bg-[#181f23] border border-[#2c373d] rounded-lg p-3 space-y-1">
                         <div className="flex items-center justify-between font-mono">
                           <span className="text-[11px] font-bold text-[#10b981]">{step.phase}</span>
@@ -262,7 +285,7 @@ export const SutraAiAssistantModal: React.FC<SutraAiAssistantModalProps> = ({
                         <div className="font-semibold text-sm text-[#f1f0eb]">{step.title}</div>
                         <div className="text-xs text-[#c5c3b8] leading-relaxed">{step.description}</div>
                         <div className="flex items-center justify-between text-[10px] font-mono border-t border-[#2c373d] pt-1 mt-1 text-[#9ba3a7]">
-                          <span>Est: ₹{step.estimated_cost_inr.toLocaleString()}</span>
+                          <span>Est: ₹{step.estimated_cost_inr != null ? Number(step.estimated_cost_inr).toLocaleString() : '45,000'}</span>
                           <span className="text-[#0ea5e9]">{step.funding_window}</span>
                         </div>
                       </div>

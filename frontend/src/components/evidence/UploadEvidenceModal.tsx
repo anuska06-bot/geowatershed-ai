@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { WatershedDetail, EvidenceCard } from '../../types';
+import { api } from '../../services/api';
 import EXIF from 'exif-js';
 import { X, UploadCloud, Camera, MapPin, CheckCircle, AlertCircle } from 'lucide-react';
 
@@ -103,17 +104,7 @@ export const UploadEvidenceModal: React.FC<UploadEvidenceModalProps> = ({
     }
 
     try {
-      const res = await fetch('/api/v1/evidence/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ detail: 'Upload failed' }));
-        throw new Error(err.detail || 'Upload failed');
-      }
-
-      const card = await res.json();
+      const card = await api.uploadEvidence(formData);
       onEvidenceUploaded(card);
       onClose();
     } catch (err: any) {

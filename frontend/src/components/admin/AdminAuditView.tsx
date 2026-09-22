@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Lock, RefreshCw } from 'lucide-react';
+import { api } from '../../services/api';
 
 interface AuditLog {
   id: string;
@@ -18,8 +19,7 @@ export const AdminAuditView: React.FC = () => {
 
   const fetchLogs = () => {
     setLoading(true);
-    fetch('/api/v1/audit-logs')
-      .then((res) => res.json())
+    api.getAuditLogs()
       .then((data) => setLogs(data))
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));

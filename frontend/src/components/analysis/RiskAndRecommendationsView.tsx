@@ -316,11 +316,18 @@ export const RiskAndRecommendationsView: React.FC<RiskAndRecommendationsViewProp
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
-                        onOpenSutraAi('Check Dam');
+                        const remedyText = `${r.suggested_action || ''} ${r.risk_type || ''} ${(r.mitigation_interventions || []).join(' ')}`.toLowerCase();
+                        let targetStructure = 'Check Dam';
+                        if (remedyText.includes('trench') || remedyText.includes('contour') || remedyText.includes('erosion')) {
+                          targetStructure = 'Continuous Contour Trench';
+                        } else if (remedyText.includes('pond') || remedyText.includes('percolation') || remedyText.includes('water table')) {
+                          targetStructure = 'Farm Pond';
+                        }
+                        onOpenSutraAi(targetStructure);
                       }}
-                      className="w-full py-1 px-2 rounded bg-[#10b981]/20 hover:bg-[#10b981]/30 border border-[#10b981]/50 text-[#10b981] text-[10px] font-mono font-semibold flex items-center justify-center gap-1.5 uppercase transition-colors"
+                      className="w-full py-1.5 px-2 rounded bg-[#10b981]/20 hover:bg-[#10b981]/30 border border-[#10b981]/50 text-[#10b981] text-[10px] font-mono font-semibold flex items-center justify-center gap-1.5 uppercase transition-colors"
                     >
-                      <Bot className="w-3 h-3" />
+                      <Bot className="w-3.5 h-3.5" />
                       <span>Diagnose Zone with SUTRA-AI</span>
                     </button>
                   )}

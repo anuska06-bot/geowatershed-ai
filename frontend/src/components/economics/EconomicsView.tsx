@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calculator } from 'lucide-react';
+import { api } from '../../services/api';
 
 export const EconomicsView: React.FC = () => {
   const [numInterventions, setNumInterventions] = useState(25);
@@ -11,18 +12,13 @@ export const EconomicsView: React.FC = () => {
   const [result, setResult] = useState<any>(null);
 
   const calculate = () => {
-    fetch('/api/v1/economics/calculate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        number_of_interventions: numInterventions,
-        field_visits_per_year: visitsPerYear,
-        cost_per_manual_visit_inr: costPerVisit,
-        digital_review_time_savings_pct: timeSavingsPct,
-        platform_annual_cost_inr: platformCost,
-      }),
+    api.calculateEconomics({
+      number_of_interventions: numInterventions,
+      field_visits_per_year: visitsPerYear,
+      cost_per_manual_visit_inr: costPerVisit,
+      digital_review_time_savings_pct: timeSavingsPct,
+      platform_annual_cost_inr: platformCost,
     })
-      .then((res) => res.json())
       .then((data) => setResult(data))
       .catch((err) => console.error(err));
   };

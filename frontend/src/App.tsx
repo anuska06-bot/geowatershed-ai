@@ -476,38 +476,40 @@ export const App: React.FC = () => {
 
       </main>
 
-      {/* Modals */}
-      {activeEvidenceCard && (
-        <EvidenceCardModal
-          card={activeEvidenceCard}
-          currentRole={currentRole}
-          onClose={() => setActiveEvidenceCard(null)}
-          onReviewSubmitted={handleReviewSubmitted}
-        />
-      )}
+      {/* Modals with ErrorBoundary Protection */}
+      <ErrorBoundary fallbackTitle="Inspection Modal Protocol">
+        {activeEvidenceCard && (
+          <EvidenceCardModal
+            card={activeEvidenceCard}
+            currentRole={currentRole}
+            onClose={() => setActiveEvidenceCard(null)}
+            onReviewSubmitted={handleReviewSubmitted}
+          />
+        )}
 
-      {isUploadOpen && watershed && (
-        <UploadEvidenceModal
-          watershed={watershed}
-          onClose={() => setIsUploadOpen(false)}
-          onEvidenceUploaded={handleEvidenceUploaded}
-        />
-      )}
+        {isUploadOpen && watershed && (
+          <UploadEvidenceModal
+            watershed={watershed}
+            onClose={() => setIsUploadOpen(false)}
+            onEvidenceUploaded={handleEvidenceUploaded}
+          />
+        )}
 
-      {isDossierOpen && watershed && (
-        <DossierModal
-          watershedId={watershed.id}
-          onClose={() => setIsDossierOpen(false)}
-        />
-      )}
+        {isDossierOpen && watershed && (
+          <DossierModal
+            watershedId={watershed.id}
+            onClose={() => setIsDossierOpen(false)}
+          />
+        )}
 
-      {/* SUTRA-AI Field Video & Photo Evaluator Assistant Modal */}
-      <SutraAiAssistantModal
-        isOpen={isSutraAiOpen}
-        onClose={() => setIsSutraAiOpen(false)}
-        watershedId={watershed?.id}
-        defaultStructure={sutraStructureType}
-      />
+        {/* SUTRA-AI Field Video & Photo Evaluator Assistant Modal */}
+        <SutraAiAssistantModal
+          isOpen={isSutraAiOpen}
+          onClose={() => setIsSutraAiOpen(false)}
+          watershedId={watershed?.id}
+          defaultStructure={sutraStructureType}
+        />
+      </ErrorBoundary>
 
       {/* Institutional Terms of Service & Governance Modal */}
       {isTosOpen && (
