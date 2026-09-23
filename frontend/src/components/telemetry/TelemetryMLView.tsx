@@ -380,11 +380,11 @@ export const TelemetryMLView: React.FC = () => {
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-forest-400 font-semibold text-xs uppercase tracking-wider mb-1">
-            <Cpu className="w-4 h-4" /> Multi-Source Hydrological AI Engine • Live Telemetry
+            <Cpu className="w-4 h-4" /> Watershed Hydrology • Live Telemetry
           </div>
-          <h2 className="text-2xl font-bold text-slate-50">Real-Time Telemetry & Machine Learning</h2>
+          <h2 className="text-2xl font-bold text-slate-50">Real-Time Telemetry &amp; Watershed Planning</h2>
           <p className="text-sm text-slate-400 mt-1 max-w-3xl">
-            Trained on 9 multi-source sensor streams: Dynamic World land-cover (10 m), CGWB groundwater wells, IMD weather, HydroSHEDS drainage, Sentinel-2 multi-spectral (NDVI/NDWI/BSI), ICAR soil pedology, and CartoDEM 30 m topography.
+            Monitors watershed health and plans water conservation projects by bringing together live weather forecasts, satellite imagery, groundwater levels, and local soil conditions.
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -420,7 +420,7 @@ export const TelemetryMLView: React.FC = () => {
         <div className="bg-slate-900/95 border border-sky-900/50 rounded-xl p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2 text-xs font-bold text-sky-400 uppercase tracking-wider">
-              <Activity className="w-4 h-4" /> Live Open-Meteo Sensor Stream (Real-Time Watershed Readings)
+              <Activity className="w-4 h-4" /> Live Meteorological Feed (Real-Time Watershed Readings)
             </div>
             <span className="text-[10px] px-2 py-0.5 rounded bg-sky-950 text-sky-300 border border-sky-800 font-mono">
               Live Verified Telemetry
