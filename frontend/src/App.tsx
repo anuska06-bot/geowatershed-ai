@@ -710,16 +710,10 @@ export const App: React.FC = () => {
 
       {/* Login / Auth Gateway Modal */}
       {isLoginModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-          <div className="relative w-full max-w-4xl my-8">
-            <button
-              onClick={() => setIsLoginModalOpen(false)}
-              className="absolute top-4 right-4 z-50 text-slate-400 hover:text-white bg-slate-800/80 p-2 rounded-full border border-slate-700 transition"
-              aria-label="Close"
-            >
-              ✕
-            </button>
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="relative w-full max-w-4xl my-auto rounded-2xl overflow-hidden border border-slate-800 shadow-2xl bg-[#0B1F1A]">
             <LoginView
+              onClose={() => setIsLoginModalOpen(false)}
               onLoginSuccess={(user) => {
                 setCurrentUser(user);
                 setCurrentRole(user.role);

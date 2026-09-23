@@ -17,13 +17,15 @@ import {
   Eye,
   EyeOff,
   Building2,
-  Settings
+  Settings,
+  X
 } from 'lucide-react';
 import { api } from '../../services/api';
 import { AuthUser, UserRole } from '../../types';
 
 interface LoginViewProps {
   onLoginSuccess: (user: AuthUser) => void;
+  onClose?: () => void;
 }
 
 const INDIAN_STATES = [
@@ -49,7 +51,7 @@ const INDIAN_STATES = [
   'National Nodal Agency (All-India)',
 ];
 
-export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
+export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess, onClose }) => {
   // Navigation Tabs: 'signin' or 'register'
   const [activeTab, setActiveTab] = useState<'signin' | 'register'>('signin');
   const [signInMethod, setSignInMethod] = useState<'password' | 'otp'>('password');
@@ -358,186 +360,141 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#121619] flex flex-col lg:flex-row text-[#f1f0eb] selection:bg-[#10b981] selection:text-[#121619]">
+    <div className="w-full bg-[#0B1F1A] flex flex-col lg:flex-row text-[#F4F7F5] selection:bg-[#10b981] selection:text-[#0B1F1A]">
       {/* Left Pane: Geospatial Engine Branding & Institutional Context */}
-      <div className="lg:w-1/2 p-6 sm:p-10 lg:p-14 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#242d32] relative overflow-hidden bg-gradient-to-br from-[#121619] via-[#161c20] to-[#121619]">
+      <div className="lg:w-1/2 p-6 sm:p-8 lg:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-slate-800 relative overflow-hidden bg-gradient-to-br from-[#0B1F1A] via-[#123C35]/30 to-[#0B1F1A]">
         {/* Subtle Topographic Contour SVG Overlay */}
-        <div className="absolute inset-0 pointer-events-none opacity-25">
+        <div className="absolute inset-0 pointer-events-none opacity-20">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="contour-pattern-login" width="220" height="220" patternUnits="userSpaceOnUse">
-                <path d="M0,55 Q55,20 110,65 T220,45" fill="none" stroke="#10b981" strokeWidth="0.6" />
-                <path d="M0,110 Q65,140 130,95 T220,115" fill="none" stroke="#10b981" strokeWidth="0.6" />
-                <path d="M0,165 Q45,120 110,175 T220,150" fill="none" stroke="#10b981" strokeWidth="0.6" />
-                <circle cx="110" cy="110" r="75" fill="none" stroke="#2c373d" strokeWidth="0.5" strokeDasharray="4 4" />
-                <circle cx="110" cy="110" r="45" fill="none" stroke="#10b981" strokeWidth="0.4" />
+                <path d="M0,55 Q55,20 110,65 T220,45" fill="none" stroke="#7DD3A7" strokeWidth="0.6" />
+                <path d="M0,110 Q65,140 130,95 T220,115" fill="none" stroke="#7DD3A7" strokeWidth="0.6" />
+                <path d="M0,165 Q45,120 110,175 T220,150" fill="none" stroke="#7DD3A7" strokeWidth="0.6" />
+                <circle cx="110" cy="110" r="75" fill="none" stroke="#1677FF" strokeWidth="0.5" strokeDasharray="4 4" />
+                <circle cx="110" cy="110" r="45" fill="none" stroke="#7DD3A7" strokeWidth="0.4" />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#contour-pattern-login)" />
           </svg>
         </div>
 
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-11 h-11 rounded-lg bg-[#181f23] border border-[#10b981]/50 flex items-center justify-center text-[#10b981] shadow-inner">
-              <Compass className="w-6 h-6" />
+        <div className="relative z-10 space-y-6">
+          {/* Logo & Agency Badges */}
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[#123C35] border border-[#7DD3A7]/40 flex items-center justify-center text-[#7DD3A7] shadow-sm">
+              <Compass className="w-5 h-5 text-[#7DD3A7]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#10b981] bg-[#10b981]/15 px-2 py-0.5 rounded border border-[#10b981]/30">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7DD3A7] bg-[#123C35] px-2 py-0.5 rounded border border-[#7DD3A7]/30">
                   WDC-PMKSY 2.0
                 </span>
-                <span className="text-[10px] font-mono text-[#9ba3a7]">MoRD • DoLR • SLNA</span>
+                <span className="text-[10px] font-mono text-slate-400">MoRD • DoLR • SLNA</span>
               </div>
-              <h1 className="text-xl font-bold tracking-tight text-[#f1f0eb] font-mono mt-0.5">
-                GeoWatershed<span className="text-[#10b981]"> AI</span>
+              <h1 className="text-lg font-bold tracking-tight text-white font-mono mt-0.5">
+                GeoWatershed<span className="text-[#7DD3A7]"> AI</span>
               </h1>
             </div>
           </div>
 
-          <div className="mt-6 sm:mt-10 space-y-4">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#f1f0eb] leading-snug">
+          <div className="space-y-3">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-white leading-tight">
               Smart Geospatial Intelligence for Watershed Development
             </h2>
-            <p className="text-xs sm:text-sm text-[#9ba3a7] leading-relaxed max-w-lg">
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-lg">
               Empowering field surveyors, GIS analysts, project directors, and citizens with real-time hydrological analytics,
               tamper-proof photo/video verification, Strahler stream conformance, and benefit-cost audit tracking.
             </p>
           </div>
 
           {/* Core Institutional Highlights */}
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3.5 max-w-xl">
-            <div className="bg-[#181f23]/90 border border-[#242d32] rounded-lg p-3.5 backdrop-blur-sm">
-              <div className="flex items-center gap-2 text-[#10b981] mb-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl">
+            <div className="bg-[#07130F] border border-slate-800 rounded-xl p-3.5">
+              <div className="flex items-center gap-2 text-[#7DD3A7] mb-1 font-mono text-xs font-bold uppercase">
                 <Layers className="w-4 h-4" />
-                <span className="text-xs font-semibold uppercase tracking-wider font-mono">Hydrologic Topology</span>
+                <span>Hydrologic Topology</span>
               </div>
-              <p className="text-[11px] text-[#9ba3a7] leading-relaxed">
+              <p className="text-[11px] text-slate-400 leading-relaxed">
                 Automated Strahler stream ordering, DEM flow paths &amp; sub-basin catchment drainage across all Indian states.
               </p>
             </div>
 
-            <div className="bg-[#181f23]/90 border border-[#242d32] rounded-lg p-3.5 backdrop-blur-sm">
-              <div className="flex items-center gap-2 text-[#f59e0b] mb-1">
+            <div className="bg-[#07130F] border border-slate-800 rounded-xl p-3.5">
+              <div className="flex items-center gap-2 text-amber-400 mb-1 font-mono text-xs font-bold uppercase">
                 <ShieldCheck className="w-4 h-4" />
-                <span className="text-xs font-semibold uppercase tracking-wider font-mono">Anti-Spoof Forensics</span>
+                <span>Anti-Spoof Forensics</span>
               </div>
-              <p className="text-[11px] text-[#9ba3a7] leading-relaxed">
-                EXIF GPS timestamp verification, SHA-256 fingerprinting &amp; AI-assisted field video assessment.
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                EXIF GPS timestamp verification, SHA-256 fingerprinting &amp; AI-assisted field evidence validation.
               </p>
             </div>
           </div>
         </div>
 
-        <div className="relative z-10 pt-6 mt-6 border-t border-[#242d32] flex flex-wrap items-center justify-between text-[11px] text-[#9ba3a7] font-mono gap-2">
+        <div className="relative z-10 pt-6 mt-6 border-t border-slate-800/80 flex flex-wrap items-center justify-between text-[10px] text-slate-500 font-mono gap-2">
           <span>SECURE ACCESS GATEWAY</span>
-          <span>COMPLIANCE: WDC-PMKSY / MoRD / DoLR</span>
+          <span>COMPLIANCE: WDC-PMKSY 2.0 / MoRD / DoLR</span>
         </div>
       </div>
 
       {/* Right Pane: Authentication Gateway & Registration */}
-      <div className="lg:w-1/2 p-5 sm:p-8 lg:p-12 flex flex-col justify-center bg-[#121619] overflow-y-auto">
-        <div className="max-w-md w-full mx-auto space-y-5">
+      <div className="lg:w-1/2 p-5 sm:p-7 lg:p-9 flex flex-col justify-center bg-[#0B1F1A] overflow-y-auto">
+        <div className="max-w-md w-full mx-auto space-y-4">
           
-          {/* Main Mode Tab Switcher: Sign In vs Register Account */}
-          <div className="flex bg-[#181f23] p-1 rounded-lg border border-[#242d32]">
-            <button
-              type="button"
-              onClick={() => { setActiveTab('signin'); setError(null); setSuccessMessage(null); }}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-mono font-semibold rounded-md transition-all ${
-                activeTab === 'signin'
-                  ? 'bg-[#10b981] text-[#121619] shadow-sm'
-                  : 'text-[#9ba3a7] hover:text-[#f1f0eb]'
-              }`}
-            >
-              <LogIn className="w-4 h-4" />
-              <span>Sign In</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => { setActiveTab('register'); setError(null); setSuccessMessage(null); }}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-mono font-semibold rounded-md transition-all ${
-                activeTab === 'register'
-                  ? 'bg-[#10b981] text-[#121619] shadow-sm'
-                  : 'text-[#9ba3a7] hover:text-[#f1f0eb]'
-              }`}
-            >
-              <UserPlus className="w-4 h-4" />
-              <span>Register Account</span>
-            </button>
+          {/* Main Mode Tab Switcher + Close Button */}
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex bg-[#07130F] p-1 rounded-lg border border-slate-800 flex-1">
+              <button
+                type="button"
+                onClick={() => { setActiveTab('signin'); setError(null); setSuccessMessage(null); }}
+                className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-mono font-semibold rounded-md transition-all ${
+                  activeTab === 'signin'
+                    ? 'bg-[#10b981] text-[#0B1F1A] shadow-sm font-bold'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <LogIn className="w-3.5 h-3.5" />
+                <span>Sign In</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => { setActiveTab('register'); setError(null); setSuccessMessage(null); }}
+                className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-mono font-semibold rounded-md transition-all ${
+                  activeTab === 'register'
+                    ? 'bg-[#10b981] text-[#0B1F1A] shadow-sm font-bold'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <UserPlus className="w-3.5 h-3.5" />
+                <span>Register</span>
+              </button>
+            </div>
+
+            {onClose && (
+              <button
+                type="button"
+                onClick={onClose}
+                className="h-8 px-2.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs font-mono transition flex items-center gap-1 shrink-0"
+                title="Close"
+              >
+                <X className="w-3.5 h-3.5" />
+                <span>Close</span>
+              </button>
+            )}
           </div>
 
           {/* Header Title */}
           <div>
-            <h3 className="text-xl sm:text-2xl font-bold text-[#f1f0eb] tracking-tight font-mono">
+            <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight font-mono">
               {activeTab === 'signin' ? 'Portal Authentication' : 'Create Official Account'}
             </h3>
-            <p className="text-xs text-[#9ba3a7] mt-1">
+            <p className="text-xs text-slate-400 mt-0.5">
               {activeTab === 'signin'
                 ? 'Sign in using your password credentials or verified mobile/email OTP.'
                 : 'Register your details to access the national watershed intelligence repository.'}
             </p>
           </div>
-
-          {/* Quick Account Selection for Verified Personnel */}
-          {activeTab === 'signin' && (
-            <div className="bg-[#181f23] border border-[#2c373d] rounded-xl p-3 shadow-sm">
-              <div className="text-[11px] font-semibold text-[#9ba3a7] font-mono mb-2 flex items-center justify-between">
-                <span>Official Department Accounts (Quick Fill):</span>
-                <span className="text-[10px] text-[#10b981] font-normal">Department Directory</span>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 font-mono">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setLoginIdentifier('admin@geowatershed.gov.in');
-                    setLoginPassword('Admin@2026');
-                    setSignInMethod('password');
-                  }}
-                  className="p-2 bg-[#121619] hover:bg-[#20292e] border border-[#242d32] hover:border-[#10b981]/60 rounded-lg text-center transition-all group"
-                >
-                  <div className="text-[11px] font-semibold text-[#f1f0eb] group-hover:text-[#10b981] truncate">Administrator</div>
-                  <div className="text-[9px] text-[#9ba3a7] truncate">National Lead</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setLoginIdentifier('surveyor@geowatershed.gov.in');
-                    setLoginPassword('Survey@2026');
-                    setSignInMethod('password');
-                  }}
-                  className="p-2 bg-[#121619] hover:bg-[#20292e] border border-[#242d32] hover:border-[#10b981]/60 rounded-lg text-center transition-all group"
-                >
-                  <div className="text-[11px] font-semibold text-[#f1f0eb] group-hover:text-[#10b981] truncate">Field Surveyor</div>
-                  <div className="text-[9px] text-[#9ba3a7] truncate">Field Inspector</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setLoginIdentifier('analyst@geowatershed.gov.in');
-                    setLoginPassword('Hydro@2026');
-                    setSignInMethod('password');
-                  }}
-                  className="p-2 bg-[#121619] hover:bg-[#20292e] border border-[#242d32] hover:border-cyan-500/60 rounded-lg text-center transition-all group"
-                >
-                  <div className="text-[11px] font-semibold text-[#f1f0eb] group-hover:text-cyan-400 truncate">GIS Hydrologist</div>
-                  <div className="text-[9px] text-[#9ba3a7] truncate">Remote Sensing</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setLoginIdentifier('panchayat@geowatershed.gov.in');
-                    setLoginPassword('Village@2026');
-                    setSignInMethod('password');
-                  }}
-                  className="p-2 bg-[#121619] hover:bg-[#20292e] border border-[#242d32] hover:border-amber-500/60 rounded-lg text-center transition-all group"
-                >
-                  <div className="text-[11px] font-semibold text-[#f1f0eb] group-hover:text-amber-400 truncate">Gram Panchayat</div>
-                  <div className="text-[9px] text-[#9ba3a7] truncate">Local Community</div>
-                </button>
-              </div>
-            </div>
-          )}
 
           {/* Status Banners */}
           {error && (
@@ -558,28 +515,30 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
           {activeTab === 'signin' && (
             <div className="space-y-4">
               {/* Sign In Method Toggle */}
-              <div className="flex gap-2 text-xs font-mono border-b border-[#242d32] pb-2">
+              <div className="flex gap-4 text-xs font-mono border-b border-slate-800 pb-2">
                 <button
                   type="button"
                   onClick={() => { setSignInMethod('password'); setError(null); }}
-                  className={`pb-1 px-1 transition-colors ${
+                  className={`pb-1 px-1 transition-colors flex items-center gap-1.5 ${
                     signInMethod === 'password'
-                      ? 'text-[#10b981] border-b-2 border-[#10b981] font-semibold'
-                      : 'text-[#9ba3a7] hover:text-[#f1f0eb]'
+                      ? 'text-[#7DD3A7] border-b-2 border-[#7DD3A7] font-semibold'
+                      : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  Password Login
+                  <KeyRound className="w-3.5 h-3.5" />
+                  <span>Password Login</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => { setSignInMethod('otp'); setError(null); }}
-                  className={`pb-1 px-1 transition-colors ${
+                  className={`pb-1 px-1 transition-colors flex items-center gap-1.5 ${
                     signInMethod === 'otp'
-                      ? 'text-[#10b981] border-b-2 border-[#10b981] font-semibold'
-                      : 'text-[#9ba3a7] hover:text-[#f1f0eb]'
+                      ? 'text-[#7DD3A7] border-b-2 border-[#7DD3A7] font-semibold'
+                      : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  Instant OTP Verification
+                  <Phone className="w-3.5 h-3.5" />
+                  <span>Instant OTP Verification</span>
                 </button>
               </div>
 
@@ -587,11 +546,23 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
               {signInMethod === 'password' && (
                 <form onSubmit={handlePasswordLogin} className="space-y-3.5">
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#9ba3a7] uppercase tracking-wider font-mono mb-1.5">
-                      Email or Mobile Number
-                    </label>
+                    <div className="flex justify-between items-center mb-1.5">
+                      <label className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider font-mono">
+                        Email or Mobile Number
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setLoginIdentifier('admin@geowatershed.gov.in');
+                          setLoginPassword('Admin#PMKSY2026');
+                        }}
+                        className="text-[11px] font-mono text-[#7DD3A7] hover:underline"
+                      >
+                        Fill Admin Demo
+                      </button>
+                    </div>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#9ba3a7]">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
                         <Mail className="w-4 h-4" />
                       </div>
                       <input
@@ -599,7 +570,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                         value={loginIdentifier}
                         onChange={(e) => setLoginIdentifier(e.target.value)}
                         placeholder="officer.sharma@wdc-pmksy.gov.in"
-                        className="w-full pl-9 pr-4 py-2.5 bg-[#181f23] border border-[#2c373d] rounded-lg text-xs sm:text-sm text-[#f1f0eb] placeholder-[#9ba3a7]/50 focus:outline-none focus:border-[#10b981] focus:ring-1 focus:ring-[#10b981] font-mono min-h-[44px]"
+                        className="w-full pl-9 pr-4 py-2.5 bg-[#07130F] border border-slate-800 rounded-lg text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-[#7DD3A7] focus:ring-1 focus:ring-[#7DD3A7] font-mono min-h-[44px]"
                         disabled={loading}
                         required
                       />
@@ -608,19 +579,19 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
 
                   <div>
                     <div className="flex justify-between items-center mb-1.5">
-                      <label className="text-[11px] font-semibold text-[#9ba3a7] uppercase tracking-wider font-mono">
+                      <label className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider font-mono">
                         Password
                       </label>
                       <button
                         type="button"
                         onClick={() => setSignInMethod('otp')}
-                        className="text-[11px] font-mono text-[#10b981] hover:underline"
+                        className="text-[11px] font-mono text-[#7DD3A7] hover:underline"
                       >
                         Forgot Password?
                       </button>
                     </div>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#9ba3a7]">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
                         <KeyRound className="w-4 h-4" />
                       </div>
                       <input
@@ -628,14 +599,14 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                         value={loginPassword}
                         onChange={(e) => setLoginPassword(e.target.value)}
                         placeholder="••••••••••••"
-                        className="w-full pl-9 pr-10 py-2.5 bg-[#181f23] border border-[#2c373d] rounded-lg text-xs sm:text-sm text-[#f1f0eb] placeholder-[#9ba3a7]/50 focus:outline-none focus:border-[#10b981] focus:ring-1 focus:ring-[#10b981] font-mono min-h-[44px]"
+                        className="w-full pl-9 pr-10 py-2.5 bg-[#07130F] border border-slate-800 rounded-lg text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-[#7DD3A7] focus:ring-1 focus:ring-[#7DD3A7] font-mono min-h-[44px]"
                         disabled={loading}
                         required
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#9ba3a7] hover:text-[#f1f0eb]"
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-white"
                       >
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
@@ -645,7 +616,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-2.5 px-4 bg-[#10b981] hover:bg-[#059669] disabled:opacity-50 text-[#121619] text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-colors flex items-center justify-center gap-2 min-h-[44px] shadow-sm"
+                    className="w-full py-2.5 px-4 bg-[#7DD3A7] hover:bg-[#6ec297] disabled:opacity-50 text-[#0B1F1A] text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-colors flex items-center justify-center gap-2 min-h-[44px] shadow-sm"
                   >
                     {loading ? (
                       <>
@@ -665,17 +636,19 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
               {/* OTP Login Form */}
               {signInMethod === 'otp' && (
                 <div className="space-y-3.5">
-                  <div className="flex bg-[#181f23] p-1 rounded-lg border border-[#2c373d]">
+                  <div className="flex bg-[#07130F] p-1 rounded-lg border border-slate-800">
                     <button
                       type="button"
                       onClick={() => { setOtpChannel('email'); setOtpSent(false); setDebugOtp(null); setError(null); }}
                       className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-mono rounded transition-all ${
-                        otpChannel === 'email' ? 'bg-[#242d32] text-[#10b981] font-semibold' : 'text-[#9ba3a7]'
+                        otpChannel === 'email'
+                          ? 'bg-[#123C35] text-[#7DD3A7] font-semibold border border-[#7DD3A7]/30'
+                          : 'text-slate-400 hover:text-white'
                       }`}
                     >
                       <Mail className="w-3.5 h-3.5" />
                       <span>Email OTP</span>
-                      <span className="text-[9px] bg-[#10b981]/20 text-[#10b981] px-1 rounded border border-[#10b981]/40 font-mono">
+                      <span className="text-[9px] bg-[#7DD3A7]/20 text-[#7DD3A7] px-1 rounded border border-[#7DD3A7]/40 font-mono">
                         Instant
                       </span>
                     </button>
@@ -683,7 +656,9 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                       type="button"
                       onClick={() => { setOtpChannel('sms'); setOtpSent(false); setDebugOtp(null); setError(null); }}
                       className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-mono rounded transition-all ${
-                        otpChannel === 'sms' ? 'bg-[#242d32] text-[#10b981] font-semibold' : 'text-[#9ba3a7]'
+                        otpChannel === 'sms'
+                          ? 'bg-[#123C35] text-[#7DD3A7] font-semibold border border-[#7DD3A7]/30'
+                          : 'text-slate-400 hover:text-white'
                       }`}
                     >
                       <Phone className="w-3.5 h-3.5" />
@@ -692,9 +667,9 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                   </div>
 
                   {debugOtp && otpSent && (
-                    <div className="p-2.5 bg-[#181f23] border border-[#10b981]/50 rounded-lg flex items-center justify-between text-xs text-[#10b981] font-mono">
+                    <div className="p-2.5 bg-[#07130F] border border-[#7DD3A7]/50 rounded-lg flex items-center justify-between text-xs text-[#7DD3A7] font-mono">
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] bg-[#10b981]/20 text-[#10b981] px-1.5 py-0.5 rounded border border-[#10b981]/40">
+                        <span className="text-[10px] bg-[#7DD3A7]/20 text-[#7DD3A7] px-1.5 py-0.5 rounded border border-[#7DD3A7]/40">
                           OTP CODE
                         </span>
                         <span className="font-bold tracking-widest">{debugOtp}</span>
@@ -702,7 +677,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                       <button
                         type="button"
                         onClick={() => setOtpCode(debugOtp)}
-                        className="text-[11px] underline text-[#10b981] hover:text-[#34d399]"
+                        className="text-[11px] underline text-[#7DD3A7] hover:text-[#9fe3bf]"
                       >
                         Auto-fill
                       </button>
@@ -712,11 +687,11 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                   {!otpSent ? (
                     <form onSubmit={handleRequestOtp} className="space-y-3.5">
                       <div>
-                        <label className="block text-[11px] font-semibold text-[#9ba3a7] uppercase tracking-wider font-mono mb-1.5">
+                        <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider font-mono mb-1.5">
                           {otpChannel === 'email' ? 'Registered Email Address' : '10-Digit Mobile Number'}
                         </label>
                         <div className="relative">
-                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#9ba3a7]">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
                             {otpChannel === 'email' ? <Mail className="w-4 h-4" /> : <Phone className="w-4 h-4" />}
                           </div>
                           <input
@@ -724,7 +699,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                             value={otpIdentifier}
                             onChange={(e) => setOtpIdentifier(e.target.value)}
                             placeholder={otpChannel === 'email' ? 'officer.sharma@wdc-pmksy.gov.in' : '9876543210'}
-                            className="w-full pl-9 pr-4 py-2.5 bg-[#181f23] border border-[#2c373d] rounded-lg text-xs sm:text-sm text-[#f1f0eb] placeholder-[#9ba3a7]/50 focus:outline-none focus:border-[#10b981] focus:ring-1 focus:ring-[#10b981] font-mono min-h-[44px]"
+                            className="w-full pl-9 pr-4 py-2.5 bg-[#07130F] border border-slate-800 rounded-lg text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-[#7DD3A7] focus:ring-1 focus:ring-[#7DD3A7] font-mono min-h-[44px]"
                             disabled={loading}
                             required
                           />
@@ -734,7 +709,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                       <button
                         type="submit"
                         disabled={loading}
-                        className="w-full py-2.5 px-4 bg-[#10b981] hover:bg-[#059669] disabled:opacity-50 text-[#121619] text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-colors flex items-center justify-center gap-2 min-h-[44px] shadow-sm"
+                        className="w-full py-2.5 px-4 bg-[#7DD3A7] hover:bg-[#6ec297] disabled:opacity-50 text-[#0B1F1A] text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-colors flex items-center justify-center gap-2 min-h-[44px] shadow-sm"
                       >
                         {loading ? (
                           <>
@@ -753,13 +728,13 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                     <form onSubmit={handleVerifyOtp} className="space-y-3.5">
                       <div>
                         <div className="flex justify-between items-center mb-1.5">
-                          <label className="text-[11px] font-semibold text-[#9ba3a7] uppercase tracking-wider font-mono">
+                          <label className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider font-mono">
                             Enter 6-Digit Code
                           </label>
                           <button
                             type="button"
                             onClick={() => { setOtpSent(false); setOtpCode(''); }}
-                            className="text-[11px] text-[#10b981] hover:underline font-mono"
+                            className="text-[11px] text-[#7DD3A7] hover:underline font-mono"
                           >
                             Change {otpChannel === 'email' ? 'Email' : 'Mobile'}
                           </button>
@@ -770,7 +745,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                           value={otpCode}
                           onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ''))}
                           placeholder="123456"
-                          className="w-full py-2.5 bg-[#181f23] border border-[#2c373d] rounded-lg text-lg font-mono tracking-widest text-center text-[#f1f0eb] placeholder-[#9ba3a7]/50 focus:outline-none focus:border-[#10b981] focus:ring-1 focus:ring-[#10b981] min-h-[44px]"
+                          className="w-full py-2.5 bg-[#07130F] border border-slate-800 rounded-lg text-lg font-mono tracking-widest text-center text-slate-100 placeholder-slate-500 focus:outline-none focus:border-[#7DD3A7] focus:ring-1 focus:ring-[#7DD3A7] min-h-[44px]"
                           disabled={loading}
                           autoFocus
                           required
@@ -780,7 +755,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                       <button
                         type="submit"
                         disabled={loading || otpCode.length < 6}
-                        className="w-full py-2.5 px-4 bg-[#10b981] hover:bg-[#059669] disabled:opacity-50 text-[#121619] text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-colors flex items-center justify-center gap-2 min-h-[44px] shadow-sm"
+                        className="w-full py-2.5 px-4 bg-[#7DD3A7] hover:bg-[#6ec297] disabled:opacity-50 text-[#0B1F1A] text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-colors flex items-center justify-center gap-2 min-h-[44px] shadow-sm"
                       >
                         {loading ? (
                           <>
@@ -795,7 +770,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                         )}
                       </button>
 
-                      <div className="flex items-center justify-between text-xs text-[#9ba3a7] font-mono pt-1">
+                      <div className="flex items-center justify-between text-xs text-slate-400 font-mono pt-1">
                         <span>
                           {countdown > 0 ? (
                             `Resend in ${countdown}s`
@@ -803,13 +778,13 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                             <button
                               type="button"
                               onClick={() => handleRequestOtp()}
-                              className="text-[#10b981] hover:underline font-semibold"
+                              className="text-[#7DD3A7] hover:underline font-semibold"
                             >
                               Resend OTP Now
                             </button>
                           )}
                         </span>
-                        <span>Master test code: 123456</span>
+                        <span className="text-slate-500">Master test code: 123456</span>
                       </div>
                     </form>
                   )}
@@ -822,7 +797,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
           {activeTab === 'register' && (
             <form onSubmit={handleRegister} className="space-y-3">
               <div>
-                <label className="block text-[11px] font-semibold text-[#9ba3a7] uppercase tracking-wider font-mono mb-1">
+                <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider font-mono mb-1">
                   Full Legal / Official Name
                 </label>
                 <input
@@ -830,14 +805,14 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                   value={regName}
                   onChange={(e) => setRegName(e.target.value)}
                   placeholder="e.g. Rajesh Sharma, IAS"
-                  className="w-full px-3 py-2 bg-[#181f23] border border-[#2c373d] rounded-lg text-xs sm:text-sm text-[#f1f0eb] placeholder-[#9ba3a7]/50 focus:outline-none focus:border-[#10b981] focus:ring-1 focus:ring-[#10b981] font-mono min-h-[42px]"
+                  className="w-full px-3 py-2 bg-[#07130F] border border-slate-800 rounded-lg text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-[#7DD3A7] focus:ring-1 focus:ring-[#7DD3A7] font-mono min-h-[42px]"
                   disabled={loading}
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-[#9ba3a7] uppercase tracking-wider font-mono mb-1">
+                <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider font-mono mb-1">
                   Official Email or 10-Digit Mobile
                 </label>
                 <input
@@ -845,7 +820,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                   value={regIdentifier}
                   onChange={(e) => setRegIdentifier(e.target.value)}
                   placeholder="surveyor@mord.gov.in or 9876543210"
-                  className="w-full px-3 py-2 bg-[#181f23] border border-[#2c373d] rounded-lg text-xs sm:text-sm text-[#f1f0eb] placeholder-[#9ba3a7]/50 focus:outline-none focus:border-[#10b981] focus:ring-1 focus:ring-[#10b981] font-mono min-h-[42px]"
+                  className="w-full px-3 py-2 bg-[#07130F] border border-slate-800 rounded-lg text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-[#7DD3A7] focus:ring-1 focus:ring-[#7DD3A7] font-mono min-h-[42px]"
                   disabled={loading}
                   required
                 />
@@ -853,13 +828,13 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <div>
-                  <label className="block text-[11px] font-semibold text-[#9ba3a7] uppercase tracking-wider font-mono mb-1">
+                  <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider font-mono mb-1">
                     System Role
                   </label>
                   <select
                     value={regRole}
                     onChange={(e) => setRegRole(e.target.value as UserRole)}
-                    className="w-full px-2.5 py-2 bg-[#181f23] border border-[#2c373d] rounded-lg text-xs text-[#f1f0eb] focus:outline-none focus:border-[#10b981] font-mono min-h-[42px]"
+                    className="w-full px-2.5 py-2 bg-[#07130F] border border-slate-800 rounded-lg text-xs text-slate-100 focus:outline-none focus:border-[#7DD3A7] font-mono min-h-[42px]"
                     disabled={loading}
                   >
                     <option value="ROLE_FIELD_OFFICER">Field Surveyor</option>
@@ -870,13 +845,13 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-semibold text-[#9ba3a7] uppercase tracking-wider font-mono mb-1">
+                  <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider font-mono mb-1">
                     State / Jurisdiction
                   </label>
                   <select
                     value={regJurisdiction}
                     onChange={(e) => setRegJurisdiction(e.target.value)}
-                    className="w-full px-2.5 py-2 bg-[#181f23] border border-[#2c373d] rounded-lg text-xs text-[#f1f0eb] focus:outline-none focus:border-[#10b981] font-mono min-h-[42px]"
+                    className="w-full px-2.5 py-2 bg-[#07130F] border border-slate-800 rounded-lg text-xs text-slate-100 focus:outline-none focus:border-[#7DD3A7] font-mono min-h-[42px]"
                     disabled={loading}
                   >
                     {INDIAN_STATES.map((st) => (
@@ -889,7 +864,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-[#9ba3a7] uppercase tracking-wider font-mono mb-1">
+                <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider font-mono mb-1">
                   Department / Organization
                 </label>
                 <input
@@ -897,14 +872,14 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                   value={regOrganization}
                   onChange={(e) => setRegOrganization(e.target.value)}
                   placeholder="e.g. State Watershed Cell, Dept. of Land Resources"
-                  className="w-full px-3 py-2 bg-[#181f23] border border-[#2c373d] rounded-lg text-xs text-[#f1f0eb] placeholder-[#9ba3a7]/50 focus:outline-none focus:border-[#10b981] font-mono min-h-[42px]"
+                  className="w-full px-3 py-2 bg-[#07130F] border border-slate-800 rounded-lg text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-[#7DD3A7] font-mono min-h-[42px]"
                   disabled={loading}
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <div>
-                  <label className="block text-[11px] font-semibold text-[#9ba3a7] uppercase tracking-wider font-mono mb-1">
+                  <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider font-mono mb-1">
                     Password (min 6 chars)
                   </label>
                   <div className="relative">
@@ -913,14 +888,14 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                       value={regPassword}
                       onChange={(e) => setRegPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full px-3 py-2 pr-8 bg-[#181f23] border border-[#2c373d] rounded-lg text-xs text-[#f1f0eb] placeholder-[#9ba3a7]/50 focus:outline-none focus:border-[#10b981] font-mono min-h-[42px]"
+                      className="w-full px-3 py-2 pr-8 bg-[#07130F] border border-slate-800 rounded-lg text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-[#7DD3A7] font-mono min-h-[42px]"
                       disabled={loading}
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowRegPassword(!showRegPassword)}
-                      className="absolute inset-y-0 right-0 pr-2.5 flex items-center text-[#9ba3a7] hover:text-[#f1f0eb]"
+                      className="absolute inset-y-0 right-0 pr-2.5 flex items-center text-slate-400 hover:text-white"
                     >
                       {showRegPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                     </button>
@@ -928,7 +903,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-semibold text-[#9ba3a7] uppercase tracking-wider font-mono mb-1">
+                  <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider font-mono mb-1">
                     Confirm Password
                   </label>
                   <input
@@ -936,7 +911,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                     value={regConfirmPassword}
                     onChange={(e) => setRegConfirmPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full px-3 py-2 bg-[#181f23] border border-[#2c373d] rounded-lg text-xs text-[#f1f0eb] placeholder-[#9ba3a7]/50 focus:outline-none focus:border-[#10b981] font-mono min-h-[42px]"
+                    className="w-full px-3 py-2 bg-[#07130F] border border-slate-800 rounded-lg text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-[#7DD3A7] font-mono min-h-[42px]"
                     disabled={loading}
                     required
                   />
@@ -946,7 +921,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full mt-2 py-2.5 px-4 bg-[#10b981] hover:bg-[#059669] disabled:opacity-50 text-[#121619] text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-colors flex items-center justify-center gap-2 min-h-[44px] shadow-sm"
+                className="w-full mt-2 py-2.5 px-4 bg-[#7DD3A7] hover:bg-[#6ec297] disabled:opacity-50 text-[#0B1F1A] text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-colors flex items-center justify-center gap-2 min-h-[44px] shadow-sm"
               >
                 {loading ? (
                   <>
@@ -963,94 +938,114 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
             </form>
           )}
 
-          {/* Quick Evaluation / Demo Roles (For instantaneous feature testing) */}
-          <div className="pt-5 border-t border-[#242d32] space-y-2.5">
+          {/* Quick Evaluation / Demo Roles (1-Click Instant Access) */}
+          <div className="pt-4 border-t border-slate-800 space-y-2.5">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-[#9ba3a7]">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
                 Instant Evaluator Access
               </span>
-              <span className="text-[9px] text-[#10b981] font-mono bg-[#10b981]/15 px-1.5 py-0.5 rounded border border-[#10b981]/30">
+              <span className="text-[9px] text-[#7DD3A7] font-mono bg-[#123C35] px-2 py-0.5 rounded border border-[#7DD3A7]/30">
                 1-CLICK EXPLORER
               </span>
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <button
                 type="button"
                 onClick={() => handleQuickDemoLogin('ROLE_FIELD_OFFICER')}
                 disabled={loading}
-                className="p-2 bg-[#181f23] hover:bg-[#20292e] border border-[#242d32] hover:border-[#10b981]/50 rounded-lg text-left transition-all group font-mono"
+                className="p-3 bg-[#07130F] hover:bg-[#123C35]/50 border border-slate-800 hover:border-[#7DD3A7]/50 rounded-xl text-left transition-all group font-mono"
               >
-                <div className="flex items-center justify-between mb-0.5">
-                  <span className="text-xs font-semibold text-[#f1f0eb] group-hover:text-[#10b981]">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-bold text-slate-100 group-hover:text-[#7DD3A7] transition-colors">
                     Field Surveyor
                   </span>
-                  <MapPin className="w-3.5 h-3.5 text-[#10b981]" />
+                  <div className="w-6 h-6 rounded-md bg-[#123C35] flex items-center justify-center text-[#7DD3A7]">
+                    <MapPin className="w-3.5 h-3.5" />
+                  </div>
                 </div>
-                <div className="text-[10px] text-[#9ba3a7]">Rajesh Sharma • DoLR</div>
+                <div className="text-[11px] text-slate-400">Rajesh Sharma • DoLR</div>
+                <div className="text-[10px] text-[#7DD3A7]/80 mt-1 font-semibold flex items-center gap-1">
+                  <span>1-Click Access</span> &rarr;
+                </div>
               </button>
 
               <button
                 type="button"
                 onClick={() => handleQuickDemoLogin('ROLE_ANALYST')}
                 disabled={loading}
-                className="p-2 bg-[#181f23] hover:bg-[#20292e] border border-[#242d32] hover:border-[#10b981]/50 rounded-lg text-left transition-all group font-mono"
+                className="p-3 bg-[#07130F] hover:bg-[#123C35]/50 border border-slate-800 hover:border-[#7DD3A7]/50 rounded-xl text-left transition-all group font-mono"
               >
-                <div className="flex items-center justify-between mb-0.5">
-                  <span className="text-xs font-semibold text-[#f1f0eb] group-hover:text-[#10b981]">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-bold text-slate-100 group-hover:text-[#7DD3A7] transition-colors">
                     GIS Analyst
                   </span>
-                  <Layers className="w-3.5 h-3.5 text-[#10b981]" />
+                  <div className="w-6 h-6 rounded-md bg-[#123C35] flex items-center justify-center text-[#7DD3A7]">
+                    <Layers className="w-3.5 h-3.5" />
+                  </div>
                 </div>
-                <div className="text-[10px] text-[#9ba3a7]">Anushka Sen • SLNA</div>
+                <div className="text-[11px] text-slate-400">Dr. Ananya Sengupta • NRSC</div>
+                <div className="text-[10px] text-[#7DD3A7]/80 mt-1 font-semibold flex items-center gap-1">
+                  <span>1-Click Access</span> &rarr;
+                </div>
               </button>
 
               <button
                 type="button"
                 onClick={() => handleQuickDemoLogin('ROLE_MANAGER')}
                 disabled={loading}
-                className="p-2 bg-[#181f23] hover:bg-[#20292e] border border-[#242d32] hover:border-[#f59e0b]/50 rounded-lg text-left transition-all group font-mono"
+                className="p-3 bg-[#07130F] hover:bg-[#123C35]/50 border border-slate-800 hover:border-amber-400/50 rounded-xl text-left transition-all group font-mono"
               >
-                <div className="flex items-center justify-between mb-0.5">
-                  <span className="text-xs font-semibold text-[#f1f0eb] group-hover:text-[#f59e0b]">
-                    Project Director
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-bold text-slate-100 group-hover:text-amber-400 transition-colors">
+                    Project Director / Admin
                   </span>
-                  <Building2 className="w-3.5 h-3.5 text-[#f59e0b]" />
+                  <div className="w-6 h-6 rounded-md bg-amber-950/60 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                    <Building2 className="w-3.5 h-3.5" />
+                  </div>
                 </div>
-                <div className="text-[10px] text-[#9ba3a7]">Vikramaditya • MoRD</div>
+                <div className="text-[11px] text-slate-400">Shri R. K. Sharma • MoRD</div>
+                <div className="text-[10px] text-amber-400/90 mt-1 font-semibold flex items-center gap-1">
+                  <span>1-Click Access</span> &rarr;
+                </div>
               </button>
 
               <button
                 type="button"
                 onClick={() => handleQuickDemoLogin('ROLE_CITIZEN')}
                 disabled={loading}
-                className="p-2 bg-[#181f23] hover:bg-[#20292e] border border-[#242d32] hover:border-[#9ba3a7]/70 rounded-lg text-left transition-all group font-mono"
+                className="p-3 bg-[#07130F] hover:bg-[#123C35]/50 border border-slate-800 hover:border-slate-500/50 rounded-xl text-left transition-all group font-mono"
               >
-                <div className="flex items-center justify-between mb-0.5">
-                  <span className="text-xs font-semibold text-[#f1f0eb] group-hover:text-white">
-                    Citizen / Public
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-bold text-slate-100 group-hover:text-white transition-colors">
+                    Gram Panchayat / Citizen
                   </span>
-                  <UserCheck className="w-3.5 h-3.5 text-[#9ba3a7]" />
+                  <div className="w-6 h-6 rounded-md bg-slate-800 flex items-center justify-center text-slate-300">
+                    <UserCheck className="w-3.5 h-3.5" />
+                  </div>
                 </div>
-                <div className="text-[10px] text-[#9ba3a7]">Pooja Patil • Gram Panchayat</div>
+                <div className="text-[11px] text-slate-400">Kisan R. Patil • VWDC</div>
+                <div className="text-[10px] text-slate-400 mt-1 font-semibold flex items-center gap-1">
+                  <span>1-Click Access</span> &rarr;
+                </div>
               </button>
             </div>
           </div>
 
           {/* Backend URL Settings Link & Drawer */}
-          <div className="pt-3 border-t border-[#242d32]/60 text-center">
+          <div className="pt-3 border-t border-slate-800/80 text-center">
             <button
               type="button"
               onClick={() => setShowApiSettings(!showApiSettings)}
-              className="text-[11px] font-mono text-[#9ba3a7] hover:text-[#10b981] flex items-center justify-center gap-1.5 mx-auto transition-colors"
+              className="text-[11px] font-mono text-slate-400 hover:text-[#7DD3A7] flex items-center justify-center gap-1.5 mx-auto transition-colors"
             >
               <Settings className="w-3.5 h-3.5" />
               <span>Backend API Connection Settings</span>
             </button>
 
             {showApiSettings && (
-              <form onSubmit={handleSaveBackendUrl} className="mt-3 p-3 bg-[#181f23] border border-[#2c373d] rounded-lg text-left space-y-2 animate-fadeIn">
-                <label className="block text-[10px] font-mono uppercase tracking-wider text-[#9ba3a7]">
+              <form onSubmit={handleSaveBackendUrl} className="mt-3 p-3 bg-[#07130F] border border-slate-800 rounded-lg text-left space-y-2 animate-fadeIn">
+                <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400">
                   Live Backend URL (Railway / Production)
                 </label>
                 <input
@@ -1058,15 +1053,15 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
                   value={customBackendUrl}
                   onChange={(e) => setCustomBackendUrl(e.target.value)}
                   placeholder="https://geowatershed-ai-production.up.railway.app"
-                  className="w-full px-3 py-1.5 bg-[#121619] border border-[#2c373d] rounded text-xs text-[#f1f0eb] font-mono focus:outline-none focus:border-[#10b981]"
+                  className="w-full px-3 py-1.5 bg-[#0B1F1A] border border-slate-800 rounded text-xs text-slate-100 font-mono focus:outline-none focus:border-[#7DD3A7]"
                 />
                 {urlSaveNotice && (
-                  <div className="text-[11px] text-[#10b981] font-mono">{urlSaveNotice}</div>
+                  <div className="text-[11px] text-[#7DD3A7] font-mono">{urlSaveNotice}</div>
                 )}
                 <div className="flex justify-end gap-2 pt-1">
                   <button
                     type="submit"
-                    className="px-3 py-1 bg-[#10b981] text-[#121619] text-[11px] font-mono font-bold rounded hover:bg-[#059669]"
+                    className="px-3 py-1 bg-[#7DD3A7] text-[#0B1F1A] text-[11px] font-mono font-bold rounded hover:bg-[#6ec297]"
                   >
                     Save &amp; Connect
                   </button>
