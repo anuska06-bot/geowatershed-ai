@@ -362,7 +362,10 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess, onClose })
   return (
     <div className="w-full bg-[#0B1F1A] flex flex-col lg:flex-row text-[#F4F7F5] selection:bg-[#10b981] selection:text-[#0B1F1A]">
       {/* Left Pane: Geospatial Engine Branding & Institutional Context */}
-      <div className="lg:w-1/2 p-6 sm:p-8 lg:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-slate-800 relative overflow-hidden bg-gradient-to-br from-[#0B1F1A] via-[#123C35]/30 to-[#0B1F1A]">
+      <div 
+        className="lg:w-1/2 p-6 sm:p-8 lg:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-slate-800 relative overflow-hidden bg-cover bg-center"
+        style={{ backgroundImage: `linear-gradient(to bottom, rgba(11, 31, 26, 0.90), rgba(18, 60, 53, 0.82), rgba(11, 31, 26, 0.94)), url('/istockphoto-950777136-612x612.jpg')` }}
+      >
         {/* Subtle Topographic Contour SVG Overlay */}
         <div className="absolute inset-0 pointer-events-none opacity-20">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
