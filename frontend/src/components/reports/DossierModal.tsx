@@ -24,25 +24,25 @@ export const DossierModal: React.FC<DossierModalProps> = ({ watershedId, onClose
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 overflow-y-auto print:p-0 print:bg-white">
-      <div className="relative w-full max-w-3xl bg-[#0c121e] border border-slate-700 rounded-lg shadow-2xl overflow-hidden my-8 print:border-none print:shadow-none print:bg-white print:text-black">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto print:p-0 print:bg-white">
+      <div className="relative w-full max-w-3xl bg-[#0B1F1A] border border-[#7DD3A7]/25 rounded-2xl shadow-2xl overflow-hidden my-8 print:border-none print:shadow-none print:bg-white print:text-black">
         
         {/* Header Bar */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-[#090d14] print:hidden">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-[#07130F] print:hidden">
           <div className="flex items-center gap-2">
-            <FileText className="w-5 h-5 text-emerald-400" />
+            <FileText className="w-5 h-5 text-[#7DD3A7]" />
             <h3 className="font-bold text-slate-100 text-sm font-mono">Official Watershed Evidence Dossier</h3>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrint}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md bg-emerald-600 hover:bg-emerald-500 text-slate-950 transition-colors font-mono"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md bg-[#10b981] hover:bg-[#10b981]/90 text-[#0B1F1A] transition-colors font-mono shadow-sm"
             >
               <Printer className="w-3.5 h-3.5" /> Print / Save PDF
             </button>
             <button
               onClick={onClose}
-              className="p-1 rounded text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors"
+              className="p-1 rounded text-slate-400 hover:text-slate-100 hover:bg-[#123C35] transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -50,19 +50,48 @@ export const DossierModal: React.FC<DossierModalProps> = ({ watershedId, onClose
         </div>
 
         {/* Dossier Content */}
-        <div className="p-8 space-y-6 text-xs text-slate-300 print:text-black font-sans">
+        <div className="p-6 sm:p-8 space-y-6 text-xs text-slate-300 print:text-black font-sans">
           
-          {/* Document Header */}
-          <div className="border-b border-slate-800 pb-4 text-center">
-            <div className="text-[10px] tracking-widest uppercase font-bold text-emerald-400 mb-1 font-mono">
-              Government of India • Ministry of Rural Development • DoLR (WDC-PMKSY 2.0)
+          {/* Front Part: Official Document Header Banner with High-Quality Watershed Image */}
+          <div 
+            className="relative w-full rounded-xl overflow-hidden border border-[#7DD3A7]/30 shadow-xl bg-cover bg-center text-center print:border-slate-300 print:bg-none"
+            style={{
+              backgroundImage: `linear-gradient(to bottom, rgba(7, 19, 15, 0.25), rgba(7, 19, 15, 0.60)), url('/istockphoto-950777136-612x612.jpg')`
+            }}
+          >
+            {/* Subtle contour SVG overlay for institutional authenticity */}
+            <div className="absolute inset-0 pointer-events-none opacity-20">
+              <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <pattern id="dossier-contour" width="180" height="180" patternUnits="userSpaceOnUse">
+                    <path d="M0,45 Q45,15 90,55 T180,35" fill="none" stroke="#7DD3A7" strokeWidth="0.7" />
+                    <path d="M0,90 Q55,115 110,75 T180,95" fill="none" stroke="#7DD3A7" strokeWidth="0.7" />
+                    <path d="M0,135 Q35,100 90,145 T180,120" fill="none" stroke="#7DD3A7" strokeWidth="0.7" />
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#dossier-contour)" />
+              </svg>
             </div>
-            <h2 className="text-lg font-bold text-slate-100 print:text-black font-mono">
-              WATERSHED INTERVENTION EVIDENCE & OUTCOME DOSSIER
-            </h2>
-            <p className="text-[11px] text-slate-400 print:text-slate-600 mt-1 font-mono">
-              Document Ref: GW-DOSSIER-{dossier?.watershed.code || 'MH-WDC-042'}-{new Date().getFullYear()}
-            </p>
+
+            <div className="relative z-10 px-6 py-8 sm:px-8 sm:py-10 flex flex-col items-center">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#07130F]/85 backdrop-blur-md border border-[#7DD3A7]/40 text-[#7DD3A7] text-[10px] font-mono tracking-widest uppercase font-bold mb-3 shadow-md">
+                <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse" />
+                Government of India • Ministry of Rural Development • DoLR (WDC-PMKSY 2.0)
+              </div>
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-wide font-mono drop-shadow-md print:text-black">
+                WATERSHED INTERVENTION EVIDENCE &amp; OUTCOME DOSSIER
+              </h2>
+              <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-xs font-mono">
+                <span className="px-3 py-1 rounded-md bg-[#07130F]/85 backdrop-blur-md border border-slate-700/80 text-slate-200 shadow-sm print:bg-none print:text-slate-700 print:border-none">
+                  Document Ref: GW-DOSSIER-{dossier?.watershed.code || 'MH-WDC-042'}-{new Date().getFullYear()}
+                </span>
+                {dossier && (
+                  <span className="px-3 py-1 rounded-md bg-[#123C35]/90 backdrop-blur-md border border-[#7DD3A7]/50 text-[#7DD3A7] font-semibold shadow-sm print:bg-none print:text-emerald-800 print:border-none">
+                    {dossier.watershed.name} Catchment • {dossier.watershed.state}
+                  </span>
+                )}
+              </div>
+            </div>
           </div>
 
           {loading ? (
