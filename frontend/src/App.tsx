@@ -205,7 +205,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B1F1A] text-[#F4F7F5] flex flex-col font-sans relative">
+    <div className="min-h-screen bg-[#0B1F1A] text-[#F4F7F5] flex flex-col font-sans relative overflow-x-hidden">
       {/* Subtle topographic contour overlay */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-0">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -221,7 +221,7 @@ export const App: React.FC = () => {
         </svg>
       </div>
 
-      <div className="relative z-10 flex flex-col min-h-screen">
+      <div className="relative z-10 flex flex-col min-h-screen overflow-x-hidden">
         {/* Master Navbar with Multi-Tab Navigation & User Profile */}
         <Navbar
           currentRole={currentRole}

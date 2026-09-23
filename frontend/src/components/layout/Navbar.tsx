@@ -113,7 +113,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Left: Brand Identity */}
           <div 
-            className="flex items-center gap-3 cursor-pointer group flex-shrink-0"
+            className="flex items-center gap-2.5 cursor-pointer group flex-shrink-0"
             onClick={() => {
               onTabChange('overview');
               window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -122,53 +122,48 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-[#123C35] to-[#0B1F1A] border border-[#7DD3A7]/30 flex items-center justify-center shadow-md group-hover:border-[#7DD3A7]/60 transition-colors">
               <Layers className="w-5 h-5 text-[#7DD3A7]" />
             </div>
-            <div className="flex flex-col">
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-base sm:text-lg tracking-tight text-white font-sans">
-                  GeoWatershed <span className="text-[#7DD3A7]">AI</span>
-                </span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#1677FF]/15 text-[#38bdf8] border border-[#1677FF]/30 hidden md:inline-block uppercase tracking-wider">
-                  WDC-PMKSY 2.0
-                </span>
-              </div>
-              <p className="text-[11px] text-[#94a3b8] hidden xl:block leading-none mt-0.5 font-sans">
-                Intelligent Watershed Planning Platform
-              </p>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-base sm:text-lg tracking-tight text-white font-sans whitespace-nowrap">
+                GeoWatershed <span className="text-[#7DD3A7]">AI</span>
+              </span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#1677FF]/15 text-[#38bdf8] border border-[#1677FF]/30 hidden sm:inline-block uppercase tracking-wider whitespace-nowrap">
+                WDC-PMKSY 2.0
+              </span>
             </div>
           </div>
 
-          {/* Center: Story Navigation Links (Desktop) */}
-          <nav className="hidden lg:flex items-center gap-5 text-xs font-mono uppercase tracking-wider font-semibold text-slate-300">
+          {/* Center: Story Navigation Links (Desktop Widescreen) */}
+          <nav className="hidden xl:flex items-center gap-6 text-xs font-mono uppercase tracking-wider font-semibold text-slate-300 whitespace-nowrap">
             <button
               onClick={() => scrollToSection('land-topography')}
               className="hover:text-[#7DD3A7] transition-colors"
             >
-              1. Land
+              Terrain
             </button>
             <button
               onClick={() => scrollToSection('water-hydrology')}
               className="hover:text-[#1677FF] transition-colors"
             >
-              2. Water
+              Hydrology
             </button>
             <button
               onClick={() => scrollToSection('satellite-groundtruth')}
               className="hover:text-cyan-400 transition-colors"
             >
-              3. Satellite
+              Satellite Truth
             </button>
             <button
               onClick={() => scrollToSection('ai-analysis')}
               className="hover:text-emerald-400 transition-colors"
             >
-              4. AI Siting
+              AI Siting
             </button>
             <button
               onClick={() => scrollToSection('decision-gis')}
               className="hover:text-amber-400 transition-colors flex items-center gap-1.5"
             >
               <Compass className="w-3.5 h-3.5 text-amber-400" />
-              <span>5. GIS Map</span>
+              <span>Interactive GIS</span>
             </button>
             <button
               onClick={() => scrollToSection('methodology')}
@@ -179,16 +174,16 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
 
           {/* Right: Actions, Platform Workstation Selector & User */}
-          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <div className="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
 
             {/* Pan-India Watershed Selector */}
             {watersheds.length > 0 && onSelectWatershed && (
-              <div className="hidden sm:inline-flex items-center gap-1.5 h-9 bg-[#123C35]/60 hover:bg-[#123C35] border border-[#7DD3A7]/25 rounded-lg px-2.5 text-xs transition">
+              <div className="hidden md:inline-flex items-center gap-1.5 h-9 bg-[#123C35]/60 hover:bg-[#123C35] border border-[#7DD3A7]/25 rounded-lg px-2.5 text-xs transition">
                 <MapPin className="w-3.5 h-3.5 text-[#7DD3A7] flex-shrink-0" />
                 <select
                   value={selectedWatershedId || ''}
                   onChange={(e) => onSelectWatershed(e.target.value)}
-                  className="bg-transparent text-xs text-white focus:outline-none cursor-pointer font-medium max-w-[140px] md:max-w-[180px] truncate"
+                  className="bg-transparent text-xs text-white focus:outline-none cursor-pointer font-medium max-w-[130px] lg:max-w-[170px] truncate"
                 >
                   {watersheds.map((ws) => (
                     <option key={ws.id} value={ws.id} className="bg-[#0B1F1A] text-white">
@@ -204,11 +199,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 type="button"
                 onClick={() => setWorkstationMenuOpen(!workstationMenuOpen)}
-                className="h-9 px-3.5 rounded-lg bg-[#123C35] hover:bg-[#1b564c] border border-[#7DD3A7]/30 text-white text-xs font-semibold inline-flex items-center gap-1.5 transition shadow-sm"
+                className="h-9 px-3 rounded-lg bg-[#123C35] hover:bg-[#1b564c] border border-[#7DD3A7]/30 text-white text-xs font-semibold inline-flex items-center gap-1.5 transition shadow-sm whitespace-nowrap"
               >
                 <Layers className="w-3.5 h-3.5 text-[#7DD3A7]" />
-                <span className="hidden sm:inline">Platform Views</span>
-                <span className="sm:hidden">Views</span>
+                <span>Platform Views</span>
                 <ChevronDown className={`w-3.5 h-3.5 text-slate-300 transition-transform ${workstationMenuOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -218,7 +212,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   className="absolute right-0 mt-2 w-72 sm:w-80 bg-[#0B1F1A] border border-[#7DD3A7]/25 rounded-xl shadow-2xl p-2 z-50 animate-fade-in"
                   onMouseLeave={() => setWorkstationMenuOpen(false)}
                 >
-                  <div className="px-3 py-2 border-b border-slate-800 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                  <div className="px-3 py-2 border-b border-slate-800 text-[11px] font-semibold text-slate-400 uppercase tracking-wider font-mono">
                     Specialized Workstation Views
                   </div>
                   <div className="max-h-80 overflow-y-auto py-1 space-y-0.5">
@@ -256,62 +250,74 @@ export const Navbar: React.FC<NavbarProps> = ({
                         </div>
                       </button>
                     ))}
+
+                    {/* Integrated Tools & Reports */}
+                    <div className="px-3 pt-2.5 pb-1 border-t border-slate-800 text-[10px] font-semibold text-slate-400 uppercase tracking-wider font-mono">
+                      Integrated Tools &amp; Reports
+                    </div>
+                    {onOpenSutraAi && (
+                      <button
+                        onClick={() => {
+                          onOpenSutraAi();
+                          setWorkstationMenuOpen(false);
+                        }}
+                        className="w-full text-left p-2 rounded-lg text-xs flex items-center gap-2.5 text-slate-300 hover:bg-[#123C35]/60 hover:text-white transition"
+                      >
+                        <Bot className="w-4 h-4 text-[#38bdf8] shrink-0" />
+                        <div>
+                          <div className="font-medium text-white">SUTRA-AI Diagnostics</div>
+                          <div className="text-[10px] text-slate-400">Computer vision erosion &amp; check dam analysis</div>
+                        </div>
+                      </button>
+                    )}
+                    {onOpenDossier && (
+                      <button
+                        onClick={() => {
+                          onOpenDossier();
+                          setWorkstationMenuOpen(false);
+                        }}
+                        className="w-full text-left p-2 rounded-lg text-xs flex items-center gap-2.5 text-slate-300 hover:bg-[#123C35]/60 hover:text-white transition"
+                      >
+                        <FileText className="w-4 h-4 text-[#7DD3A7] shrink-0" />
+                        <div>
+                          <div className="font-medium text-white">Watershed Dossier</div>
+                          <div className="text-[10px] text-slate-400">Automated DPR briefing dossier (PDF)</div>
+                        </div>
+                      </button>
+                    )}
+                    {onDownloadCsv && (
+                      <button
+                        onClick={() => {
+                          onDownloadCsv();
+                          setWorkstationMenuOpen(false);
+                        }}
+                        className="w-full text-left p-2 rounded-lg text-xs flex items-center gap-2.5 text-slate-300 hover:bg-[#123C35]/60 hover:text-white transition"
+                      >
+                        <Download className="w-4 h-4 text-[#38bdf8] shrink-0" />
+                        <div>
+                          <div className="font-medium text-white">Works Ledger (CSV)</div>
+                          <div className="text-[10px] text-slate-400">Download complete telemetry &amp; evidence data</div>
+                        </div>
+                      </button>
+                    )}
                   </div>
                 </div>
               )}
             </div>
 
-            {/* SUTRA-AI Diagnostic Assistant Button */}
-            {onOpenSutraAi && (
-              <button
-                type="button"
-                onClick={onOpenSutraAi}
-                className="h-9 px-3 rounded-lg bg-[#1677FF]/15 hover:bg-[#1677FF]/25 border border-[#1677FF]/40 text-[#38bdf8] text-xs font-semibold hidden md:inline-flex items-center gap-1.5 transition"
-                title="Launch SUTRA-AI Video Diagnostics"
-              >
-                <Bot className="w-3.5 h-3.5 text-[#38bdf8]" />
-                <span>SUTRA-AI</span>
-              </button>
-            )}
-
-            {/* Dossier Briefing */}
-            {onOpenDossier && (
-              <button
-                type="button"
-                onClick={onOpenDossier}
-                className="h-9 px-2.5 rounded-lg bg-[#123C35]/60 hover:bg-[#123C35] border border-slate-700/60 text-slate-300 hover:text-white text-xs font-medium hidden xl:inline-flex items-center gap-1.5 transition"
-                title="Open Watershed Dossier (PDF Briefing)"
-              >
-                <FileText className="w-3.5 h-3.5 text-[#7DD3A7]" />
-                <span>Dossier</span>
-              </button>
-            )}
-
-            {/* Works Ledger CSV Export */}
-            {onDownloadCsv && (
-              <button
-                type="button"
-                onClick={onDownloadCsv}
-                className="h-9 px-2.5 rounded-lg bg-[#123C35]/60 hover:bg-[#123C35] border border-slate-700/60 text-slate-300 hover:text-white text-xs font-medium hidden xl:inline-flex items-center gap-1.5 transition"
-                title="Download Works Ledger CSV"
-              >
-                <Download className="w-3.5 h-3.5 text-[#38bdf8]" />
-                <span>Export</span>
-              </button>
-            )}
-
             {/* Primary Action / Launch CTA */}
             {currentTab === 'overview' ? (
               <button
                 onClick={() => onTabChange('explorer')}
-                className="h-9 px-4 rounded-lg bg-[#10b981] hover:bg-[#059669] text-[#0B1F1A] font-bold text-xs inline-flex items-center gap-1.5 transition shadow"
+                className="h-9 px-3.5 rounded-lg bg-[#10b981] hover:bg-[#059669] text-[#0B1F1A] font-bold text-xs inline-flex items-center gap-1.5 transition shadow whitespace-nowrap"
               >
+                <Compass className="w-3.5 h-3.5" />
                 <span>Launch GIS</span>
               </button>
             ) : (
               <button
                 onClick={() => onTabChange('overview')}
-                className="h-9 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium inline-flex items-center gap-1.5 transition border border-slate-700"
+                className="h-9 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium inline-flex items-center gap-1.5 transition border border-slate-700 whitespace-nowrap"
               >
                 <span>Showcase</span>
               </button>
@@ -319,7 +325,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* User Profile or Sign In */}
             {user ? (
-              <div className="hidden xl:flex items-center gap-2">
+              <div className="hidden lg:flex items-center gap-2">
                 <div className="h-9 px-2.5 rounded-lg bg-[#123C35]/40 border border-[#7DD3A7]/20 text-xs text-slate-300 flex items-center gap-1.5">
                   <User className="w-3.5 h-3.5 text-[#7DD3A7]" />
                   <span className="font-semibold text-white max-w-[100px] truncate">{user.name || user.identifier}</span>
@@ -354,17 +360,17 @@ export const Navbar: React.FC<NavbarProps> = ({
             ) : onOpenLogin ? (
               <button
                 onClick={onOpenLogin}
-                className="h-9 px-3 rounded-lg bg-[#123C35]/50 hover:bg-[#123C35] text-xs font-medium text-slate-200 border border-slate-700 transition"
+                className="h-9 px-3 rounded-lg bg-[#123C35]/50 hover:bg-[#123C35] text-xs font-medium text-slate-200 border border-slate-700 transition whitespace-nowrap"
               >
                 Sign In
               </button>
             ) : null}
 
-            {/* Mobile Hamburger Toggle Button */}
+            {/* Mobile / Tablet Hamburger Toggle Button */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden h-9 w-9 rounded-lg bg-[#123C35] border border-[#7DD3A7]/30 text-white flex items-center justify-center"
+              className="xl:hidden h-9 w-9 rounded-lg bg-[#123C35] border border-[#7DD3A7]/30 text-white flex items-center justify-center shrink-0"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
@@ -403,50 +409,68 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
         )}
 
-        {/* Mobile Navigation Drawer */}
+        {/* Mobile / Tablet Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-[#7DD3A7]/20 py-4 px-2 space-y-3 bg-[#0B1F1A] animate-fade-in">
+          <div className="xl:hidden border-t border-[#7DD3A7]/20 py-4 px-2 space-y-3 bg-[#0B1F1A] animate-fade-in">
             <div className="space-y-1 text-sm font-medium font-mono">
               <button
-                onClick={() => scrollToSection('land-topography')}
+                onClick={() => {
+                  scrollToSection('land-topography');
+                  setMobileMenuOpen(false);
+                }}
                 className="w-full text-left py-2 px-3 rounded-lg text-slate-200 hover:bg-[#123C35] transition flex items-center justify-between"
               >
-                <span>1. Land (Terrain &amp; DEM)</span>
+                <span>Terrain &amp; Topography (DEM)</span>
                 <span className="text-[10px] text-[#7DD3A7]">Phase 01</span>
               </button>
               <button
-                onClick={() => scrollToSection('water-hydrology')}
+                onClick={() => {
+                  scrollToSection('water-hydrology');
+                  setMobileMenuOpen(false);
+                }}
                 className="w-full text-left py-2 px-3 rounded-lg text-slate-200 hover:bg-[#123C35] transition flex items-center justify-between"
               >
-                <span>2. Water (D8 &amp; Streams)</span>
+                <span>Hydrological Flow &amp; D8 Streams</span>
                 <span className="text-[10px] text-[#1677FF]">Phase 02</span>
               </button>
               <button
-                onClick={() => scrollToSection('satellite-groundtruth')}
+                onClick={() => {
+                  scrollToSection('satellite-groundtruth');
+                  setMobileMenuOpen(false);
+                }}
                 className="w-full text-left py-2 px-3 rounded-lg text-slate-200 hover:bg-[#123C35] transition flex items-center justify-between"
               >
-                <span>3. Satellite (Sentinel-2 &amp; EXIF)</span>
+                <span>Earth Observation &amp; Ground Truth</span>
                 <span className="text-[10px] text-cyan-400">Phase 03</span>
               </button>
               <button
-                onClick={() => scrollToSection('ai-analysis')}
+                onClick={() => {
+                  scrollToSection('ai-analysis');
+                  setMobileMenuOpen(false);
+                }}
                 className="w-full text-left py-2 px-3 rounded-lg text-slate-200 hover:bg-[#123C35] transition flex items-center justify-between"
               >
-                <span>4. AI Siting Simulator</span>
+                <span>AI Intervention Siting Model</span>
                 <span className="text-[10px] text-emerald-400">Phase 04</span>
               </button>
               <button
-                onClick={() => scrollToSection('decision-gis')}
+                onClick={() => {
+                  scrollToSection('decision-gis');
+                  setMobileMenuOpen(false);
+                }}
                 className="w-full text-left py-2 px-3 rounded-lg text-slate-200 hover:bg-[#123C35] transition flex items-center justify-between"
               >
-                <span>5. Interactive GIS Map</span>
-                <span className="text-[10px] text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded">Live Map</span>
+                <span>Interactive Catchment GIS Map</span>
+                <span className="text-[10px] text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded font-mono">Live Map</span>
               </button>
               <button
-                onClick={() => scrollToSection('methodology')}
+                onClick={() => {
+                  scrollToSection('methodology');
+                  setMobileMenuOpen(false);
+                }}
                 className="w-full text-left py-2 px-3 rounded-lg text-slate-400 hover:text-white hover:bg-[#123C35] transition"
               >
-                <span>Standards &amp; Compliance</span>
+                <span>Standards &amp; Scientific Methodology</span>
               </button>
             </div>
 
