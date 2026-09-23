@@ -198,31 +198,6 @@ export const AdminAuditView: React.FC<AdminAuditViewProps> = ({ currentUser: _cu
           <h2 className="text-lg font-bold text-[#f1f0eb] tracking-tight">
             Central Administrative Portal
           </h2>
-          <p className="text-xs text-[#9ba3a7] leading-relaxed">
-            This portal tracks confidential data: raw camera EXIF metadata, surveyor IP addresses, cryptographic hashes, and quarantined fake photos. Authorization is required.
-          </p>
-        </div>
-
-        {/* Quick Autofill Helper for Authorized Personnel */}
-        <div className="bg-[#121619] border border-[#242d32] rounded-xl p-3 mb-4 space-y-2">
-          <div className="flex items-center justify-between text-[11px] font-mono">
-            <span className="text-[#9ba3a7]">Authorized Director Credentials:</span>
-            <button
-              type="button"
-              onClick={() => {
-                setAdminUsername('admin@geowatershed.gov.in');
-                setAdminPassword('Admin@2026');
-                setAuthError(null);
-              }}
-              className="text-emerald-400 hover:underline font-semibold"
-            >
-              Fill Credentials
-            </button>
-          </div>
-          <div className="text-[10px] font-mono text-[#6f7980] bg-[#181f23] p-1.5 rounded">
-            <div>User: <span className="text-[#d1d5db]">admin@geowatershed.gov.in</span></div>
-            <div>Key: <span className="text-[#d1d5db]">Admin@2026</span></div>
-          </div>
         </div>
 
         {/* Security Challenge Form */}

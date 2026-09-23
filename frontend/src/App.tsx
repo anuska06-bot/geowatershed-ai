@@ -699,15 +699,23 @@ export const App: React.FC = () => {
       />
 
       {/* Institutional Workstation Footer */}
-      <footer className="border-t border-[#2c373d] bg-[#101416] py-5 text-xs text-[#9ba3a7] font-mono pb-20 md:pb-5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-3">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
+      <footer className="border-t border-[#2c373d] bg-[#101416] py-3.5 text-xs text-[#9ba3a7] font-mono pb-20 md:pb-3.5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-3 text-[11px]">
+            {/* Left: Brand & Ministry Identification */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
               <span className="font-bold text-[#f1f0eb]">GeoWatershed AI</span>
               <span className="text-[#4a555c]">|</span>
-              <span className="text-[#9ba3a7] text-[11px]">Smart Geospatial Intelligence for Watershed Development</span>
+              <span className="text-[#10b981] bg-[#10b981]/10 px-2 py-0.5 rounded border border-[#10b981]/30 text-[10px]">
+                WDC-PMKSY 2.0 • NGP-2022
+              </span>
+              <span className="text-[#4a555c]">•</span>
+              <span className="text-[#64748b] text-[10px]">
+                DoLR, Ministry of Rural Development, New Delhi
+              </span>
             </div>
 
+            {/* Right: Institutional Modals & Helpdesk */}
             <div className="flex flex-wrap items-center justify-center gap-3 text-[11px]">
               <button
                 onClick={() => setIsTosOpen(true)}
@@ -727,20 +735,9 @@ export const App: React.FC = () => {
                 onClick={() => setIsContactOpen(true)}
                 className="text-[#9ba3a7] hover:text-[#10b981] transition-colors underline underline-offset-4"
               >
-                National Helpdesk &amp; Directory
+                Helpdesk (1800-11-5555)
               </button>
-              <span className="text-[#4a555c]">•</span>
-              <span className="text-[#10b981] bg-[#10b981]/10 px-2 py-0.5 rounded border border-[#10b981]/30">
-                WDC-PMKSY 2.0 • NGP-2022
-              </span>
             </div>
-          </div>
-
-          <div className="pt-2 border-t border-[#1c2427] text-[10px] text-[#64748b] text-center md:text-left flex flex-col md:flex-row justify-between gap-1">
-            <span>
-              Department of Land Resources (DoLR), Ministry of Rural Development, NBO Building, Nirman Bhawan, New Delhi - 110011
-            </span>
-            <span>NIC Spatial Portal Support: 1800-11-5555 | support-wdc@nic.in</span>
           </div>
         </div>
       </footer>
