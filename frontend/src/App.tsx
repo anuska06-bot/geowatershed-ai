@@ -41,15 +41,7 @@ export const App: React.FC = () => {
     try {
       const saved = localStorage.getItem('srishti_drishti_user');
       if (saved) return JSON.parse(saved);
-      return {
-        identifier: 'officer@geowatershed.gov.in',
-        name: 'Technical Officer',
-        role: 'ROLE_FIELD_OFFICER',
-        designation: 'Senior Hydrological Surveyor',
-        department: 'WDC-PMKSY 2.0 / MoRD',
-        jurisdiction: 'National Nodal Agency (All-India)',
-        session_token: 'auth_token_initial',
-      };
+      return null;
     } catch {
       return null;
     }
@@ -196,13 +188,44 @@ export const App: React.FC = () => {
 
   const handleSignOut = () => {
     localStorage.removeItem('srishti_drishti_user');
-    setIsLoginModalOpen(true);
+    setCurrentUser(null);
   };
 
   const handleDownloadCsv = () => {
     if (!watershed) return;
     window.open(api.getEvidenceCsvUrl(watershed.id), '_blank');
   };
+
+  // If unauthenticated, render the full-screen Portal Authentication Gateway directly as the first page
+  if (!currentUser) {
+    return (
+      <div className="min-h-screen w-full bg-[#07130F] flex items-center justify-center p-3 sm:p-6 lg:p-10 relative overflow-hidden font-sans">
+        {/* Subtle contour lines */}
+        <div className="absolute inset-0 pointer-events-none opacity-20">
+          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="bg-contour-auth" width="220" height="220" patternUnits="userSpaceOnUse">
+                <path d="M0,55 Q55,20 110,65 T220,45" fill="none" stroke="#7DD3A7" strokeWidth="0.6" />
+                <path d="M0,110 Q65,140 130,95 T220,115" fill="none" stroke="#7DD3A7" strokeWidth="0.6" />
+                <path d="M0,165 Q45,120 110,175 T220,150" fill="none" stroke="#7DD3A7" strokeWidth="0.6" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#bg-contour-auth)" />
+          </svg>
+        </div>
+
+        <div className="relative z-10 w-full max-w-5xl rounded-2xl overflow-hidden border border-[#7DD3A7]/25 shadow-2xl bg-[#0B1F1A]">
+          <LoginView
+            onLoginSuccess={(user) => {
+              setCurrentUser(user);
+              setCurrentRole(user.role);
+              localStorage.setItem('srishti_drishti_user', JSON.stringify(user));
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#0B1F1A] text-[#F4F7F5] flex flex-col font-sans relative overflow-x-hidden">
@@ -362,15 +385,15 @@ export const App: React.FC = () => {
                   {/* Right Column: Structure Register & Evidence Feed (4 cols) */}
                   <div className="lg:col-span-4 flex flex-col gap-3">
                     <div className="flex items-center justify-between">
-                      <h3 className="font-bold text-[#f1f0eb] text-sm tracking-wide font-mono">
+                      <h3 className="font-bold text-white text-sm tracking-wide font-mono">
                         Intervention Register
                       </h3>
-                      <span className="text-[11px] px-2 py-0.5 rounded-md bg-[#181f23] border border-[#2c373d] text-[#10b981] font-mono">
+                      <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#123C35] border border-[#7DD3A7]/30 text-[#7DD3A7] font-mono">
                         {watershed.interventions.length} Sites
                       </span>
                     </div>
 
-                    <div className="flex-1 bg-[#181f23] border border-[#2c373d] rounded-lg p-2.5 flex flex-col gap-2 max-h-[520px] overflow-y-auto">
+                    <div className="flex-1 bg-[#07130F] border border-slate-800 rounded-xl p-2.5 flex flex-col gap-2 max-h-[520px] overflow-y-auto">
                       {watershed.interventions.map((item) => {
                         const isSelected = item.id === selectedInterventionId;
                         const hasEvidence = item.evidence_count > 0;
@@ -379,35 +402,35 @@ export const App: React.FC = () => {
                           <div
                             key={item.id}
                             onClick={() => handleSelectIntervention(item.id)}
-                            className={`p-2.5 rounded-md border transition-colors cursor-pointer flex flex-col gap-1.5 ${
+                            className={`p-3 rounded-lg border transition-all cursor-pointer flex flex-col gap-1.5 ${
                               isSelected
-                                ? 'bg-[#10b981]/20 border-[#10b981]'
-                                : 'bg-[#121619] border-[#2c373d] hover:border-[#3d4b52] hover:bg-[#1a2227]'
+                                ? 'bg-[#123C35] border-[#7DD3A7] shadow-sm'
+                                : 'bg-[#0B1F1A] border-slate-800/80 hover:border-[#7DD3A7]/40 hover:bg-[#123C35]/30'
                             }`}
                           >
                             <div className="flex items-start justify-between gap-2">
                               <div>
-                                <h4 className="font-semibold text-xs text-[#f1f0eb]">{item.name}</h4>
-                                <p className="text-[11px] text-[#9ba3a7]">
+                                <h4 className="font-semibold text-xs text-white">{item.name}</h4>
+                                <p className="text-[11px] text-slate-400">
                                   {item.intervention_type} • Stream Order {item.stream_order}
                                 </p>
                               </div>
                               
-                              <ChevronRight className="w-4 h-4 text-[#9ba3a7] flex-shrink-0 mt-1" />
+                              <ChevronRight className={`w-4 h-4 flex-shrink-0 mt-1 ${isSelected ? 'text-[#7DD3A7]' : 'text-slate-500'}`} />
                             </div>
 
-                            <div className="flex items-center justify-between text-[10px] pt-1 border-t border-[#2c373d]">
-                              <span className="font-mono text-[#9ba3a7]">
+                            <div className="flex items-center justify-between text-[10px] pt-1.5 border-t border-slate-800/80">
+                              <span className="font-mono text-slate-400">
                                 {item.target_latitude.toFixed(4)}°, {item.target_longitude.toFixed(4)}°
                               </span>
 
                               {hasEvidence ? (
-                                <span className="inline-flex items-center gap-1 font-semibold text-[#10b981]">
-                                  <CheckCircle2 className="w-3 h-3" />
+                                <span className="inline-flex items-center gap-1 font-semibold text-[#7DD3A7]">
+                                  <CheckCircle2 className="w-3 h-3 text-[#7DD3A7]" />
                                   {item.latest_consistency_status || 'Consistent'}
                                 </span>
                               ) : (
-                                <span className="text-[#9ba3a7] italic">
+                                <span className="text-slate-500 italic">
                                   Click to inspect / upload
                                 </span>
                               )}
