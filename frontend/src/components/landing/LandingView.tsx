@@ -92,7 +92,12 @@ export const LandingView: React.FC<LandingViewProps> = ({
       {/* ========================================================================= */}
       {/* 1. HERO SECTION: RESTRAINED, TECHNICAL & CREDIBLE                         */}
       {/* ========================================================================= */}
-      <section className="relative w-full pt-16 sm:pt-24 pb-16 px-4 sm:px-6 lg:px-8 border-b border-slate-800/80 bg-[#0B1F1A]">
+      <section 
+        className="relative w-full pt-16 sm:pt-24 pb-16 px-4 sm:px-6 lg:px-8 border-b border-slate-800/80 bg-cover bg-center overflow-hidden"
+        style={{
+          backgroundImage: `linear-gradient(to bottom, rgba(11, 31, 26, 0.72), rgba(11, 31, 26, 0.85)), url('/istockphoto-950777136-612x612.jpg')`
+        }}
+      >
         {/* Subtle, Crisp Topographic Vector Relief (No Heavy Noisy Imagery) */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.07] overflow-hidden">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1200 800">

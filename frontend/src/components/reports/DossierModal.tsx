@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { DossierSummary } from '../../types';
 import { api } from '../../services/api';
-import { X, Printer, FileText, Camera, CheckCircle2, MapPin } from 'lucide-react';
+import { X, Printer, FileText } from 'lucide-react';
 
 interface DossierModalProps {
   watershedId: string;
@@ -106,71 +106,6 @@ export const DossierModal: React.FC<DossierModalProps> = ({ watershedId, onClose
                 <div className="border border-slate-800 p-3 rounded-lg print:border-slate-300">
                   <span className="text-[10px] uppercase text-slate-400">Human Expert Audited</span>
                   <p className="text-base font-bold font-mono text-cyan-400 print:text-blue-700">{dossier.telemetry.human_reviewed_count} records</p>
-                </div>
-              </div>
-
-              {/* Attached Ground-Truth Photographic Evidence (WDC-PMKSY 2.0 In-Situ Audit) */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-slate-100 print:text-black uppercase text-[11px] tracking-wider font-mono flex items-center gap-2">
-                    <Camera className="w-4 h-4 text-[#7DD3A7]" />
-                    <span>Verified Photographic Field Evidence</span>
-                  </h4>
-                  <span className="text-[10px] font-mono text-[#7DD3A7] bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700 flex items-center gap-1">
-                    <CheckCircle2 className="w-3 h-3 text-[#7DD3A7]" />
-                    <span>GPS EXIF Verified</span>
-                  </span>
-                </div>
-
-                {/* Primary Field Evidence: Catchment Headwater Drainage Basin & Natural Spillway */}
-                <div className="border border-slate-800 rounded-xl overflow-hidden bg-slate-900/60 print:bg-white print:border-slate-300">
-                  <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 items-center">
-                    <div className="md:col-span-6 relative group overflow-hidden rounded-lg border border-slate-700/80">
-                      <img
-                        src="/istockphoto-950777136-612x612.jpg"
-                        alt="Catchment Headwater Drainage Basin & Natural Spillway"
-                        className="w-full h-56 sm:h-60 object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                      <div className="absolute bottom-2 left-2 right-2 bg-slate-950/80 backdrop-blur-sm px-2.5 py-1 rounded text-[10px] font-mono text-slate-200 flex items-center justify-between">
-                        <span className="text-[#7DD3A7] font-bold">WDC-BASIN-HEADWATER-01</span>
-                        <span className="flex items-center gap-1">
-                          <MapPin className="w-3 h-3 text-[#7DD3A7]" />
-                          19.1620° N, 74.2640° E
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="md:col-span-6 space-y-2.5 text-[11px] font-mono">
-                      <div className="p-3 bg-slate-900/80 rounded-lg border border-slate-800 print:bg-slate-50 space-y-1">
-                        <div className="text-slate-400 text-[10px] uppercase">Catchment Feature Specification</div>
-                        <div className="text-white font-bold text-xs font-sans">Headwater Drainage Basin &amp; Natural Spillway Morphology</div>
-                        <div className="text-[#7DD3A7]">Strahler Stream Orders 1–3 • Peak Run-off Velocity Buffer</div>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-2 text-[10px]">
-                        <div className="p-2 bg-slate-900/80 rounded border border-slate-800 print:bg-slate-50">
-                          <span className="text-slate-500 block">Basin Relief</span>
-                          <span className="text-white font-bold">High Gradient Gorge</span>
-                        </div>
-                        <div className="p-2 bg-slate-900/80 rounded border border-slate-800 print:bg-slate-50">
-                          <span className="text-slate-500 block">Vegetative Cover</span>
-                          <span className="text-emerald-400 font-bold">Dense Forest Riparian</span>
-                        </div>
-                        <div className="p-2 bg-slate-900/80 rounded border border-slate-800 print:bg-slate-50">
-                          <span className="text-slate-500 block">EXIF Seal</span>
-                          <span className="text-emerald-400 font-bold">✓ Geo-fence Verified</span>
-                        </div>
-                        <div className="p-2 bg-slate-900/80 rounded border border-slate-800 print:bg-slate-50">
-                          <span className="text-slate-500 block">SHA-256 Checksum</span>
-                          <span className="text-slate-300 font-bold truncate block">950777136e3b0c...</span>
-                        </div>
-                      </div>
-
-                      <p className="text-[10px] text-slate-400 leading-normal italic font-sans">
-                        Optical terrain validation establishes primary run-off source zones, structural stream buffers, and downstream sediment interception corridors under WDC-PMKSY 2.0 guidelines.
-                      </p>
-                    </div>
-                  </div>
                 </div>
               </div>
 
