@@ -451,7 +451,7 @@ export const App: React.FC = () => {
 
             {/* View 8: Security Audit Trail */}
             {currentTab === 'audit' && (
-              <AdminAuditView />
+              <AdminAuditView currentUser={currentUser} />
             )}
 
             {/* Custom 404 View for Invalid Tab (Item 1) */}
