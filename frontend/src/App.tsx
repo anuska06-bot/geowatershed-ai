@@ -40,11 +40,21 @@ export const App: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(() => {
     try {
       const saved = localStorage.getItem('srishti_drishti_user');
-      return saved ? JSON.parse(saved) : null;
+      if (saved) return JSON.parse(saved);
+      return {
+        identifier: 'officer@geowatershed.gov.in',
+        name: 'Technical Officer',
+        role: 'ROLE_FIELD_OFFICER',
+        designation: 'Senior Hydrological Surveyor',
+        department: 'WDC-PMKSY 2.0 / MoRD',
+        jurisdiction: 'National Nodal Agency (All-India)',
+        session_token: 'auth_token_initial',
+      };
     } catch {
       return null;
     }
   });
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [currentRole, setCurrentRole] = useState<UserRole>(currentUser?.role || 'ROLE_FIELD_OFFICER');
   const [currentTab, setCurrentTab] = useState<AppTab>('overview');
 
@@ -186,7 +196,7 @@ export const App: React.FC = () => {
 
   const handleSignOut = () => {
     localStorage.removeItem('srishti_drishti_user');
-    setCurrentUser(null);
+    setIsLoginModalOpen(true);
   };
 
   const handleDownloadCsv = () => {
@@ -194,29 +204,17 @@ export const App: React.FC = () => {
     window.open(api.getEvidenceCsvUrl(watershed.id), '_blank');
   };
 
-  if (!currentUser) {
-    return (
-      <LoginView
-        onLoginSuccess={(user) => {
-          setCurrentUser(user);
-          setCurrentRole(user.role);
-          localStorage.setItem('srishti_drishti_user', JSON.stringify(user));
-        }}
-      />
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-[#121619] text-[#f1f0eb] flex flex-col font-sans relative">
+    <div className="min-h-screen bg-[#0B1F1A] text-[#F4F7F5] flex flex-col font-sans relative">
       {/* Subtle topographic contour overlay */}
-      <div className="fixed inset-0 pointer-events-none opacity-[0.04] z-0">
+      <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-0">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="app-contour" width="300" height="300" patternUnits="userSpaceOnUse">
-              <path d="M0,75 Q75,30 150,90 T300,60" fill="none" stroke="#9ba3a7" strokeWidth="1" />
-              <path d="M0,150 Q90,195 180,135 T300,165" fill="none" stroke="#9ba3a7" strokeWidth="1" />
-              <path d="M0,225 Q60,165 150,240 T300,210" fill="none" stroke="#9ba3a7" strokeWidth="1" />
-              <circle cx="150" cy="150" r="105" fill="none" stroke="#10b981" strokeWidth="0.8" strokeDasharray="4 4" />
+              <path d="M0,75 Q75,30 150,90 T300,60" fill="none" stroke="#7DD3A7" strokeWidth="1" />
+              <path d="M0,150 Q90,195 180,135 T300,165" fill="none" stroke="#7DD3A7" strokeWidth="1" />
+              <path d="M0,225 Q60,165 150,240 T300,210" fill="none" stroke="#7DD3A7" strokeWidth="1" />
+              <circle cx="150" cy="150" r="105" fill="none" stroke="#1677FF" strokeWidth="0.8" strokeDasharray="4 4" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#app-contour)" />
@@ -237,6 +235,7 @@ export const App: React.FC = () => {
             setIsSutraAiOpen(true);
           }}
           onSignOut={handleSignOut}
+          onOpenLogin={() => setIsLoginModalOpen(true)}
           onTabChange={handleTabChange}
           onRoleChange={(r) => {
             setCurrentRole(r);
@@ -252,7 +251,7 @@ export const App: React.FC = () => {
         />
 
         {/* Main App Container */}
-        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <main className={`flex-1 w-full ${currentTab === 'overview' ? 'w-full' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'}`}>
           
           {loading ? (
             <div className="py-10 px-2 max-w-5xl mx-auto w-full space-y-6">
@@ -299,8 +298,19 @@ export const App: React.FC = () => {
               {/* View 1: Overview Landing Page */}
               {currentTab === 'overview' && (
                 <LandingView
+                  watershed={watershed}
+                  evidenceList={evidenceList}
+                  selectedInterventionId={selectedInterventionId}
+                  onSelectIntervention={handleSelectIntervention}
+                  onSelectEvidence={(card) => setActiveEvidenceCard(card)}
+                  onOpenSutraAi={(structType) => {
+                    if (structType) setSutraStructureType(structType);
+                    setIsSutraAiOpen(true);
+                  }}
                   onLaunchExplorer={() => setCurrentTab('explorer')}
                   onSelectTab={(tab) => setCurrentTab(tab as any)}
+                  onSwitchWatershed={handleSwitchWatershed}
+                  watershedList={watershedList}
                 />
               )}
 
@@ -698,42 +708,65 @@ export const App: React.FC = () => {
         details={submissionSuccess.details}
       />
 
+      {/* Login / Auth Gateway Modal */}
+      {isLoginModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+          <div className="relative w-full max-w-4xl my-8">
+            <button
+              onClick={() => setIsLoginModalOpen(false)}
+              className="absolute top-4 right-4 z-50 text-slate-400 hover:text-white bg-slate-800/80 p-2 rounded-full border border-slate-700 transition"
+              aria-label="Close"
+            >
+              ✕
+            </button>
+            <LoginView
+              onLoginSuccess={(user) => {
+                setCurrentUser(user);
+                setCurrentRole(user.role);
+                localStorage.setItem('srishti_drishti_user', JSON.stringify(user));
+                setIsLoginModalOpen(false);
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Institutional Workstation Footer */}
-      <footer className="border-t border-[#2c373d] bg-[#101416] py-3.5 text-xs text-[#9ba3a7] font-mono pb-20 md:pb-3.5">
+      <footer className="border-t border-[#7DD3A7]/15 bg-[#07130F] py-4 text-xs text-slate-400 font-sans pb-20 md:pb-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-3 text-[11px]">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-3 text-xs">
             {/* Left: Brand & Ministry Identification */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
-              <span className="font-bold text-[#f1f0eb]">GeoWatershed AI</span>
-              <span className="text-[#4a555c]">|</span>
-              <span className="text-[#10b981] bg-[#10b981]/10 px-2 py-0.5 rounded border border-[#10b981]/30 text-[10px]">
+              <span className="font-bold text-white">GeoWatershed AI</span>
+              <span className="text-slate-600">|</span>
+              <span className="text-[#7DD3A7] bg-[#123C35] px-2 py-0.5 rounded border border-[#7DD3A7]/30 text-[10px] font-mono">
                 WDC-PMKSY 2.0 • NGP-2022
               </span>
-              <span className="text-[#4a555c]">•</span>
-              <span className="text-[#64748b] text-[10px]">
-                DoLR, Ministry of Rural Development, New Delhi
+              <span className="text-slate-600">•</span>
+              <span className="text-slate-400 text-[11px]">
+                Department of Land Resources (DoLR), Ministry of Rural Development, New Delhi
               </span>
             </div>
 
             {/* Right: Institutional Modals & Helpdesk */}
-            <div className="flex flex-wrap items-center justify-center gap-3 text-[11px]">
+            <div className="flex flex-wrap items-center justify-center gap-3 text-xs">
               <button
                 onClick={() => setIsTosOpen(true)}
-                className="text-[#9ba3a7] hover:text-[#10b981] transition-colors underline underline-offset-4"
+                className="text-slate-300 hover:text-[#7DD3A7] transition-colors underline underline-offset-4"
               >
                 Terms of Governance
               </button>
-              <span className="text-[#4a555c]">•</span>
+              <span className="text-slate-600">•</span>
               <button
                 onClick={() => setIsPrivacyOpen(true)}
-                className="text-[#9ba3a7] hover:text-[#10b981] transition-colors underline underline-offset-4"
+                className="text-slate-300 hover:text-[#7DD3A7] transition-colors underline underline-offset-4"
               >
                 Data Sovereignty &amp; Privacy
               </button>
-              <span className="text-[#4a555c]">•</span>
+              <span className="text-slate-600">•</span>
               <button
                 onClick={() => setIsContactOpen(true)}
-                className="text-[#9ba3a7] hover:text-[#10b981] transition-colors underline underline-offset-4"
+                className="text-slate-300 hover:text-[#7DD3A7] transition-colors underline underline-offset-4"
               >
                 Helpdesk (1800-11-5555)
               </button>

@@ -43,6 +43,19 @@
   .td {
     @apply py-2.5 text-slate-300;
   }
+  /* Climate-tech glassmorphism classes */
+  .glass-card {
+    @apply bg-[#0B1F1A]/85 backdrop-blur-md border border-[#7DD3A7]/15 rounded-2xl shadow-glass transition-all duration-300;
+  }
+  .glass-card-hover {
+    @apply hover:border-[#7DD3A7]/35 hover:bg-[#123C35]/70 hover:-translate-y-0.5 transition-all duration-300;
+  }
+  .glass-panel {
+    @apply bg-[#0B1F1A]/90 backdrop-blur-lg border border-[#7DD3A7]/20 rounded-xl shadow-lg;
+  }
+  .glass-nav {
+    @apply bg-[#0B1F1A]/85 backdrop-blur-md border-b border-[#7DD3A7]/15 shadow-sm;
+  }
 }
 
 /* Subtle, crisp render transitions: zero bouncy float */

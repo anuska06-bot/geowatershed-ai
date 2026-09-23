@@ -31,6 +31,14 @@ export default {
         ochre: {
           500: '#d97706',
           400: '#f59e0b',
+        },
+        brand: {
+          primary: '#0B1F1A',
+          secondary: '#123C35',
+          water: '#1677FF',
+          green: '#7DD3A7',
+          light: '#F4F7F5',
+          dark: '#10201C',
         }
       },
       fontFamily: {
@@ -39,6 +47,21 @@ export default {
       },
       boxShadow: {
         glow: '0 0 0 1px rgba(16,185,129,0.15), 0 10px 40px -10px rgba(16,185,129,0.25)',
+        glass: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+      },
+      keyframes: {
+        'hero-zoom': {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(1.06)' },
+        },
+        'water-flow': {
+          '0%': { strokeDashoffset: '100' },
+          '100%': { strokeDashoffset: '0' }
+        }
+      },
+      animation: {
+        'hero-zoom': 'hero-zoom 15s ease-in-out infinite alternate',
+        'water-flow': 'water-flow 3s linear infinite',
       }
     },
   },
