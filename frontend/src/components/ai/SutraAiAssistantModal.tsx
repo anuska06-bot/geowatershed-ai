@@ -34,7 +34,7 @@ export const SutraAiAssistantModal: React.FC<SutraAiAssistantModalProps> = ({
   const [chatMessages, setChatMessages] = useState<Array<{ role: 'user' | 'assistant'; text: string; recs?: string[]; cites?: string[] }>>([
     {
       role: 'assistant',
-      text: 'Greetings. I am SUTRA-AI, the National Hydrologic Diagnostic Assistant. Upload field video or photo evidence to diagnose siltation, seepage, and structural stability, or ask me any question regarding engineering standards, SoR costings, and WDC-PMKSY 2.0 norms.'
+      text: 'Hello! I am your Watershed Engineering & Drainage Assistant. Ask me how to improve local drainage, design emergency flood bypasses to safely move excess water, or select durable low-cost materials like flexible stone gabions and vetiver grass bio-fencing.'
     }
   ]);
   const [chatLoading, setChatLoading] = useState(false);

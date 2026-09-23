@@ -2,9 +2,9 @@ import React from 'react';
 import { UserRole, AuthUser, WatershedSummary } from '../../types';
 import {
   Shield, Camera, FileText, Download, Layers,
-  Map, Radar, GitCompare, AlertTriangle, Briefcase,
-  Calculator, Smartphone, Lock, Home, LogOut, User,
-  Building2, Bot, MapPin
+  Map, Radar, Waves, AlertTriangle, Briefcase,
+  Calculator, Smartphone, Home, LogOut, User,
+  Building2, Bot, MapPin, ShieldCheck
 } from 'lucide-react';
 
 export type AppTab =
@@ -12,7 +12,7 @@ export type AppTab =
   | 'minister'
   | 'explorer'
   | 'telemetry-ml'
-  | 'before-after'
+  | 'flood-bypass'
   | 'analysis'
   | 'projects'
   | 'economics'
@@ -40,19 +40,20 @@ const ROLES: { key: UserRole; label: string; badge: string }[] = [
   { key: 'ROLE_FIELD_OFFICER', label: 'Field Officer', badge: 'Surveyor Mode' },
   { key: 'ROLE_MANAGER', label: 'Project Manager', badge: 'Approval Authority' },
   { key: 'ROLE_ANALYST', label: 'GIS Analyst', badge: 'Technical Audit' },
+  { key: 'ROLE_ADMIN', label: 'Administrator', badge: 'Admin Portal' },
 ];
 
 const TABS: { key: AppTab; label: string; icon: React.FC<any> }[] = [
-  { key: 'overview', label: 'Dossier Overview', icon: Home },
+  { key: 'overview', label: 'Overview', icon: Home },
   { key: 'minister', label: 'Ministerial Command', icon: Building2 },
-  { key: 'explorer', label: 'GIS Workstation & Evidence', icon: Map },
-  { key: 'telemetry-ml', label: 'ML Telemetry & Models', icon: Radar },
-  { key: 'before-after', label: 'Temporal Differential', icon: GitCompare },
-  { key: 'analysis', label: 'Hydrologic Risk Alerts', icon: AlertTriangle },
-  { key: 'projects', label: 'Interventions & Budget', icon: Briefcase },
-  { key: 'economics', label: 'Benefit-Cost Analysis', icon: Calculator },
-  { key: 'survey', label: 'Field Surveyor PWA', icon: Smartphone },
-  { key: 'audit', label: 'Audit Trail & Compliance', icon: Lock },
+  { key: 'explorer', label: 'GIS Map & Streams', icon: Map },
+  { key: 'telemetry-ml', label: 'Watershed Telemetry', icon: Radar },
+  { key: 'flood-bypass', label: 'Flood Bypass & Dam Tracker', icon: Waves },
+  { key: 'analysis', label: 'Flood Risk Alerts', icon: AlertTriangle },
+  { key: 'projects', label: 'Conservation Budget', icon: Briefcase },
+  { key: 'economics', label: 'Cost Analysis', icon: Calculator },
+  { key: 'survey', label: 'Field Surveyor Mobile', icon: Smartphone },
+  { key: 'audit', label: 'Admin Portal & Reports', icon: ShieldCheck },
 ];
 
 export const Navbar: React.FC<NavbarProps> = ({

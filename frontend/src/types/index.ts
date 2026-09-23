@@ -1,4 +1,4 @@
-export type UserRole = 'ROLE_CITIZEN' | 'ROLE_FIELD_OFFICER' | 'ROLE_MANAGER' | 'ROLE_ANALYST';
+export type UserRole = 'ROLE_CITIZEN' | 'ROLE_FIELD_OFFICER' | 'ROLE_MANAGER' | 'ROLE_ANALYST' | 'ROLE_ADMIN';
 
 export interface AuthUser {
   identifier: string;
@@ -129,4 +129,70 @@ export interface DossierSummary {
     status: string;
   }>;
   disclaimers: string[];
+}
+
+export interface DamRecord {
+  id: string;
+  name: string;
+  basin: string;
+  river: string;
+  state: string;
+  district: string;
+  latitude: number;
+  longitude: number;
+  dam_type: string;
+  capacity_mcm: number;
+  current_water_level_pct: number;
+  spillway_type: string;
+  siltation_level_pct: number;
+  flood_risk_score: number;
+  nearest_bypass_corridor: string;
+}
+
+export interface CostEffectiveMaterial {
+  material_name: string;
+  cost_savings_vs_rcc: string;
+  durability_years: number;
+  application: string;
+}
+
+export interface FloodBypassPlan {
+  watershed_code: string;
+  data_status: 'REAL_SATELLITE_API' | 'CALIBRATED_SYNTHETIC_MODEL';
+  flood_risk_level: 'HIGH' | 'MODERATE' | 'LOW';
+  flood_risk_score: number;
+  recommended_structure_type: string;
+  drainage_bypass_design: {
+    main_channel_capacity_m3s: number;
+    bypass_channel_type: string;
+    energy_dissipation_apron_length_m: number;
+    side_wall_freeboard_m: number;
+    shortest_bypass_route_km: number;
+    alternate_safe_route_description: string;
+  };
+  cost_effective_materials: CostEffectiveMaterial[];
+  engineering_execution_summary: string;
+  estimated_cost_inr: number;
+}
+
+export interface FieldSurveySubmission {
+  id: string;
+  surveyor_name: string;
+  surveyor_email: string;
+  intervention_id: string;
+  intervention_name: string;
+  watershed_code: string;
+  watershed_name: string;
+  latitude: number;
+  longitude: number;
+  has_exif_gps: boolean;
+  image_url: string;
+  authenticity_status: 'VERIFIED_AUTHENTIC' | 'REJECTED_FAKE' | 'FLAGGED_UNVERIFIED';
+  authenticity_details: string;
+  structural_condition: string;
+  water_storage_level: string;
+  notes: string;
+  drainage_action: string;
+  estimated_cost_inr: number;
+  submitted_at: string;
 }

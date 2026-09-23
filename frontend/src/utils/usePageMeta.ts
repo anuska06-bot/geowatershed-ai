@@ -18,9 +18,9 @@ export const TAB_META: Record<AppTab, { title: string; description: string }> = 
     title: 'ML Telemetry & Predictive Models | GeoWatershed AI',
     description: 'Real-time soil moisture sensors, Sentinel-2 NDVI vegetative indices, and groundwater recharge suitability modeling.'
   },
-  'before-after': {
-    title: 'Temporal Differential & Impact Forensics | GeoWatershed AI',
-    description: 'Pre and post-monsoon comparative satellite imagery verifying physical recharge structure interventions.'
+  'flood-bypass': {
+    title: 'Flood Bypass & Dam Tracker | GeoWatershed AI',
+    description: 'Terrain flood risk evaluation, dual-channel drainage routing, and cost-effective local material recommendations.'
   },
   analysis: {
     title: 'Hydrologic Risk Alerts & Rainfall Stress | GeoWatershed AI',

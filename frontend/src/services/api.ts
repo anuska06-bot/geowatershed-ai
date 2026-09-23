@@ -585,13 +585,49 @@ export const api = {
     } catch (e) {
       console.warn('API askSutraAi failed, using fallback AI reasoning', e);
     }
+    const q = query.toLowerCase();
+    if (q.includes('drainage') || q.includes('bypass') || q.includes('flood') || q.includes('gujarat') || q.includes('route')) {
+      return {
+        query,
+        response: `Drainage & Flood Bypass Recommendation for ${structureType || 'Watershed'}:\n• Dual-Channel Safety Design: The main stream handles normal Q50 flood discharge, while an emergency side-channel spillway diverts excess flash floods.\n• Bypass Routing: Excess water can be diverted through the shortest natural valley saddle (approx 3.2 km) or guided along an inter-basin storage corridor into nearby agricultural percolation ponds and irrigation networks (similar to the Gujarat inter-basin bypass canal design).\n• Materials: Use flexible galvanized stone gabion mattresses (45% cheaper than RCC) and deep-root Vetiver bio-fencing along the channel banks to lock the soil without costly concrete walls.`,
+        actionable_recommendations: [
+          'Excavate a vegetated side spillway with 1.5m freeboard to prevent reservoir overtopping',
+          'Line the spillway bed with geotextile fabric and stone pitching to stop erosion',
+          'Plant Vetiver hedgerows along flank banks for natural root-based stabilization (saves 60% vs masonry)'
+        ],
+        citations: [
+          'CWC Guidelines for Design of Flood Bypass Channels',
+          'WDC-PMKSY 2.0 Drainage & Soil Conservation Norms',
+          'BIS 15351:2015 Geosynthetics & Natural Bio-Drainage'
+        ],
+        timestamp: new Date().toISOString()
+      };
+    }
+
+    if (q.includes('material') || q.includes('cost') || q.includes('gabion') || q.includes('concrete')) {
+      return {
+        query,
+        response: `Cost-Effective Construction Materials for High Flood / Runoff Zones:\n1. Galvanized Double-Twisted Gabion Wire Mattresses: 45% cheaper than RCC, flexible under heavy water pressure without cracking.\n2. Non-Woven Geotextile Liners: Placed under stones to let groundwater recharge while preventing silt washout.\n3. Vetiver Grass (Vetiveria zizanioides): Deep 3-4m roots replace expensive concrete side-walls (saves up to 60%).\n4. Cyclopean Concrete & Local Boulders: Uses locally quarried basalt/granite stones for the downstream stilling basin.`,
+        actionable_recommendations: [
+          'Replace solid concrete with flexible wire gabions in stream orders 2 and 3',
+          'Lay geotextile filter fabric underneath all stone revetments to stop soil piping',
+          'Combine local quarry boulders with Vetiver planting along channel edges'
+        ],
+        citations: [
+          'Central Ground Water Board (CGWB) Low-Cost Recharge Handbook',
+          'CPWD Schedule of Rates (SoR) Bio-Engineering Guidelines'
+        ],
+        timestamp: new Date().toISOString()
+      };
+    }
+
     return {
       query,
-      response: `GeoWatershed AI Diagnostic for ${structureType || 'Watershed Intervention'}:\nBased on multi-spectral Sentinel-2 satellite imagery and historical hydrologic telemetry for MH-WDC-042 (Karjat), this structure demonstrates 88.5% operational efficiency. Soil moisture index indicates positive vegetative recovery across adjacent downstream parcels with no critical erosion flags.`,
+      response: `GeoWatershed Diagnostic for ${structureType || 'Watershed Intervention'}:\nBased on elevation terrain and multi-spectral satellite baselines, this location is suitable for water harvesting and drainage improvement. Upstream stream order conforms to hydrologic flow, and soil moisture shows positive vegetative recharge with no critical bank breach flags.`,
       actionable_recommendations: [
-        'Inspect crest wing walls and downstream apron riprap annually before June 15',
-        'Deploy community MGNREGS labor for inlet desiltation and vegetative hedge maintenance',
-        'Anchor EXIF geotagged photo evidence to WDC-PMKSY 2.0 digital verification ledger'
+        'Inspect crest wing walls and downstream apron stone pitching annually before monsoon',
+        'Carry out routine desiltation of the inlet basin to maintain full water storage capacity',
+        'Verify in-situ field photos with camera GPS geotags in the Admin Portal'
       ],
       citations: [
         'WDC-PMKSY 2.0 Technical Operational Guidelines (DoLR)',
@@ -781,14 +817,135 @@ export const api = {
     ];
   },
 
+  recordAuditLog(entry: { user_name: string; role: string; action: string; resource_type: string; resource_id: string; details: any }) {
+    try {
+      const existing = localStorage.getItem('geowatershed_audit_logs');
+      const list = existing ? JSON.parse(existing) : [];
+      const newEntry = {
+        id: `log-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+        timestamp: new Date().toISOString(),
+        ...entry
+      };
+      list.unshift(newEntry);
+      localStorage.setItem('geowatershed_audit_logs', JSON.stringify(list.slice(0, 100)));
+    } catch (e) {
+      console.warn('Failed to record audit log', e);
+    }
+  },
+
+  getFieldSurveySubmissions(): any[] {
+    try {
+      const raw = localStorage.getItem('geowatershed_field_surveys');
+      if (raw) return JSON.parse(raw);
+    } catch {}
+    return [
+      {
+        id: 'fs-001',
+        surveyor_name: 'Anushka Saha (Senior Technical Officer)',
+        surveyor_email: 'surveyor@geowatershed.gov.in',
+        intervention_id: '1-1',
+        intervention_name: 'Karjat Main Masonry Check Dam (CD-01)',
+        watershed_code: 'MH-WDC-042',
+        watershed_name: 'Karjat Micro-Watershed',
+        latitude: 18.9142,
+        longitude: 73.3281,
+        has_exif_gps: true,
+        image_url: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
+        authenticity_status: 'VERIFIED_AUTHENTIC',
+        authenticity_details: 'EXIF camera telemetry verified against CartoDEM flow coordinates. Soil moisture matches Sentinel-2 NDWI baseline.',
+        structural_condition: 'Moderate Siltation (35%)',
+        water_storage_level: 'Full (>75% Capacity)',
+        notes: 'Inlet silt accumulation observed. Recommend bypass side-spillway desiltation before peak monsoon.',
+        drainage_action: 'Excavate 1.2m inlet basin and install flexible gabion mattress side revetment.',
+        estimated_cost_inr: 85000,
+        submitted_at: new Date(Date.now() - 14400000).toISOString()
+      },
+      {
+        id: 'fs-002',
+        surveyor_name: 'Er. R. Shinde (WDT Field Inspector)',
+        surveyor_email: 'shinde.wdt@mord.gov.in',
+        intervention_id: '1-2',
+        intervention_name: 'Upper Nala Loose Boulder Bund (LBB-02)',
+        watershed_code: 'MH-WDC-042',
+        watershed_name: 'Karjat Micro-Watershed',
+        latitude: 18.9185,
+        longitude: 73.3320,
+        has_exif_gps: true,
+        image_url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80',
+        authenticity_status: 'VERIFIED_AUTHENTIC',
+        authenticity_details: 'GPS geotag confirmed inside Order 2 drainage reach. No photo duplication or digital manipulation detected.',
+        structural_condition: 'Good / Operational',
+        water_storage_level: 'Moderate (25-75%)',
+        notes: 'Boulders stabilized. Infiltration downstream active into local open dugwells.',
+        drainage_action: 'Add vegetative Vetiver bio-fencing along flank borders.',
+        estimated_cost_inr: 22000,
+        submitted_at: new Date(Date.now() - 86400000).toISOString()
+      },
+      {
+        id: 'fs-003',
+        surveyor_name: 'P. Verma (Junior Field Assistant)',
+        surveyor_email: 'verma.survey@gmail.com',
+        intervention_id: '1-3',
+        intervention_name: 'Contour Bund CB-03',
+        watershed_code: 'MH-WDC-042',
+        watershed_name: 'Karjat Micro-Watershed',
+        latitude: 18.9100,
+        longitude: 73.3250,
+        has_exif_gps: false,
+        image_url: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80',
+        authenticity_status: 'REJECTED_FAKE',
+        authenticity_details: 'Image Rejected: Missing embedded camera GPS geotags. Web image similarity detected with stock photo library. Not taken on-site.',
+        structural_condition: 'Unverified',
+        water_storage_level: 'Unverified',
+        notes: 'Stock image detected. Re-survey ordered with camera geotagging enabled.',
+        drainage_action: 'Re-inspection mandatory.',
+        estimated_cost_inr: 0,
+        submitted_at: new Date(Date.now() - 172800000).toISOString()
+      }
+    ];
+  },
+
+  submitFieldSurveyReport(submission: any) {
+    try {
+      const list = this.getFieldSurveySubmissions();
+      list.unshift(submission);
+      localStorage.setItem('geowatershed_field_surveys', JSON.stringify(list));
+      this.recordAuditLog({
+        user_name: submission.surveyor_name,
+        role: 'ROLE_FIELD_OFFICER',
+        action: submission.authenticity_status === 'REJECTED_FAKE' ? 'EVIDENCE_REJECTED_FAKE' : 'EVIDENCE_VERIFIED_AUTHENTIC',
+        resource_type: 'FieldSurvey',
+        resource_id: submission.id,
+        details: {
+          structure: submission.intervention_name,
+          status: submission.authenticity_status,
+          geotag_lat: submission.latitude,
+          geotag_lon: submission.longitude,
+          notes: submission.authenticity_details
+        }
+      });
+    } catch (e) {
+      console.warn('Failed to save survey submission', e);
+    }
+  },
+
   async getAuditLogs(limit: number = 50): Promise<any[]> {
+    let localLogs: any[] = [];
+    try {
+      const existing = localStorage.getItem('geowatershed_audit_logs');
+      if (existing) localLogs = JSON.parse(existing);
+    } catch {}
+
     try {
       const res = await fetch(`${getApiBase()}/audit-logs?limit=${limit}`);
-      if (res.ok) return await res.json();
+      if (res.ok) {
+        const serverLogs = await res.json();
+        return [...localLogs, ...serverLogs].slice(0, limit);
+      }
     } catch (e) {
-      console.warn('API getAuditLogs failed, using fallback audit log register', e);
+      console.warn('API getAuditLogs failed, using combined audit log register', e);
     }
-    return [
+    const defaultLogs = [
       {
         id: 'log-001',
         user_name: 'Anushka Saha (Surveyor)',
@@ -830,6 +987,7 @@ export const api = {
         timestamp: new Date(Date.now() - 172800000).toISOString(),
       },
     ];
+    return [...localLogs, ...defaultLogs].slice(0, limit);
   },
 
   async getProjects(): Promise<any[]> {

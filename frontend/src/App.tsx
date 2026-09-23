@@ -13,7 +13,7 @@ import { LoginView } from './components/auth/LoginView';
 // Views
 import { LandingView } from './components/landing/LandingView';
 import { MinisterCommandView } from './components/minister/MinisterCommandView';
-import { BeforeAfterView } from './components/temporal/BeforeAfterView';
+import { FloodBypassDamView } from './components/flood/FloodBypassDamView';
 import { RiskAndRecommendationsView } from './components/analysis/RiskAndRecommendationsView';
 import { ProjectsView } from './components/projects/ProjectsView';
 import { EconomicsView } from './components/economics/EconomicsView';
@@ -418,9 +418,9 @@ export const App: React.FC = () => {
               <TelemetryMLView />
             )}
 
-            {/* View 3: Temporal Before/After */}
-            {currentTab === 'before-after' && (
-              <BeforeAfterView watershed={watershed} />
+            {/* View 3: Flood Bypass & Dam Tracker */}
+            {currentTab === 'flood-bypass' && (
+              <FloodBypassDamView watershed={watershed} />
             )}
 
             {/* View 4: Risk & Recommendations */}
@@ -456,7 +456,7 @@ export const App: React.FC = () => {
 
             {/* Custom 404 View for Invalid Tab (Item 1) */}
             {![
-              'overview', 'minister', 'explorer', 'telemetry-ml', 'before-after',
+              'overview', 'minister', 'explorer', 'telemetry-ml', 'flood-bypass',
               'analysis', 'projects', 'economics', 'survey', 'audit'
             ].includes(currentTab) && (
               <NotFoundView

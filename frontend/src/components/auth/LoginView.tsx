@@ -17,7 +17,6 @@ import {
   Eye,
   EyeOff,
   Building2,
-  Sparkles,
   Settings
 } from 'lucide-react';
 import { api } from '../../services/api';
@@ -125,6 +124,14 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
     try {
       const res = await api.loginWithPassword(loginIdentifier.trim(), loginPassword.trim());
       if (res.success && res.user) {
+        api.recordAuditLog({
+          user_name: res.user.name,
+          role: res.user.role,
+          action: 'USER_LOGIN',
+          resource_type: 'AuthGateway',
+          resource_id: res.user.identifier,
+          details: { method: 'Password Authentication', jurisdiction: res.user.jurisdiction }
+        });
         onLoginSuccess(res.user);
       } else {
         setError(res.message || 'Login failed. Please verify credentials.');
@@ -145,6 +152,14 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
         jurisdiction: 'National Nodal Agency (All-India)',
         session_token: `srishti_token_${Date.now()}`,
       };
+      api.recordAuditLog({
+        user_name: fallbackUser.name,
+        role: fallbackUser.role,
+        action: 'USER_LOGIN',
+        resource_type: 'AuthGateway',
+        resource_id: fallbackUser.identifier,
+        details: { method: 'Resilient Offline Login', jurisdiction: fallbackUser.jurisdiction }
+      });
       setSuccessMessage(`Welcome! Authenticated via resilient login mode.`);
       setTimeout(() => onLoginSuccess(fallbackUser), 300);
     } finally {
@@ -247,6 +262,14 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
         organization: regOrganization.trim(),
       });
       if (res.success && res.user) {
+        api.recordAuditLog({
+          user_name: res.user.name,
+          role: res.user.role,
+          action: 'USER_REGISTERED',
+          resource_type: 'AuthGateway',
+          resource_id: res.user.identifier,
+          details: { organization: res.user.department, jurisdiction: res.user.jurisdiction }
+        });
         setSuccessMessage(`Registration approved! Welcome, ${res.user.name}.`);
         setTimeout(() => {
           onLoginSuccess(res.user);
@@ -265,6 +288,14 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
         jurisdiction: regJurisdiction,
         session_token: `srishti_token_${Date.now()}`,
       };
+      api.recordAuditLog({
+        user_name: fallbackUser.name,
+        role: fallbackUser.role,
+        action: 'USER_REGISTERED',
+        resource_type: 'AuthGateway',
+        resource_id: fallbackUser.identifier,
+        details: { organization: fallbackUser.department, jurisdiction: fallbackUser.jurisdiction }
+      });
       setSuccessMessage(`Official credentials verified! Welcome, ${fallbackUser.name}.`);
       setTimeout(() => {
         onLoginSuccess(fallbackUser);
@@ -448,59 +479,65 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess }) => {
             </p>
           </div>
 
-          {/* Instant Direct Access: 100% Zero-Block Evaluation Gateway */}
-          <div className="bg-[#10b981]/10 border border-[#10b981]/30 rounded-xl p-3 sm:p-4 shadow-sm">
-            <div className="flex items-center justify-between mb-1.5">
-              <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-[#10b981]">
-                <Sparkles className="w-4 h-4 text-[#10b981]" />
-                <span>INSTANT EVALUATOR ACCESS</span>
+          {/* Quick Account Selection for Verified Personnel */}
+          {activeTab === 'signin' && (
+            <div className="bg-[#181f23] border border-[#2c373d] rounded-xl p-3 shadow-sm">
+              <div className="text-[11px] font-semibold text-[#9ba3a7] font-mono mb-2 flex items-center justify-between">
+                <span>Official Department Accounts (Quick Fill):</span>
+                <span className="text-[10px] text-[#10b981] font-normal">Department Directory</span>
               </div>
-              <span className="text-[9px] font-mono font-bold text-[#10b981] bg-[#10b981]/20 px-2 py-0.5 rounded border border-[#10b981]/30">
-                NO REGISTRATION NEEDED
-              </span>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 font-mono">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLoginIdentifier('admin@geowatershed.gov.in');
+                    setLoginPassword('Admin@2026');
+                    setSignInMethod('password');
+                  }}
+                  className="p-2 bg-[#121619] hover:bg-[#20292e] border border-[#242d32] hover:border-[#10b981]/60 rounded-lg text-center transition-all group"
+                >
+                  <div className="text-[11px] font-semibold text-[#f1f0eb] group-hover:text-[#10b981] truncate">Administrator</div>
+                  <div className="text-[9px] text-[#9ba3a7] truncate">National Lead</div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLoginIdentifier('surveyor@geowatershed.gov.in');
+                    setLoginPassword('Survey@2026');
+                    setSignInMethod('password');
+                  }}
+                  className="p-2 bg-[#121619] hover:bg-[#20292e] border border-[#242d32] hover:border-[#10b981]/60 rounded-lg text-center transition-all group"
+                >
+                  <div className="text-[11px] font-semibold text-[#f1f0eb] group-hover:text-[#10b981] truncate">Field Surveyor</div>
+                  <div className="text-[9px] text-[#9ba3a7] truncate">Field Inspector</div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLoginIdentifier('analyst@geowatershed.gov.in');
+                    setLoginPassword('Hydro@2026');
+                    setSignInMethod('password');
+                  }}
+                  className="p-2 bg-[#121619] hover:bg-[#20292e] border border-[#242d32] hover:border-cyan-500/60 rounded-lg text-center transition-all group"
+                >
+                  <div className="text-[11px] font-semibold text-[#f1f0eb] group-hover:text-cyan-400 truncate">GIS Hydrologist</div>
+                  <div className="text-[9px] text-[#9ba3a7] truncate">Remote Sensing</div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLoginIdentifier('panchayat@geowatershed.gov.in');
+                    setLoginPassword('Village@2026');
+                    setSignInMethod('password');
+                  }}
+                  className="p-2 bg-[#121619] hover:bg-[#20292e] border border-[#242d32] hover:border-amber-500/60 rounded-lg text-center transition-all group"
+                >
+                  <div className="text-[11px] font-semibold text-[#f1f0eb] group-hover:text-amber-400 truncate">Gram Panchayat</div>
+                  <div className="text-[9px] text-[#9ba3a7] truncate">Local Community</div>
+                </button>
+              </div>
             </div>
-            <p className="text-[11px] text-[#9ba3a7] mb-2.5">
-              SIH Judge, Evaluator, or Guest? Click any role to enter the portal immediately without email verification:
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 font-mono">
-              <button
-                type="button"
-                onClick={() => handleQuickDemoLogin('ROLE_FIELD_OFFICER')}
-                disabled={loading}
-                className="p-2 bg-[#181f23] hover:bg-[#20292e] border border-[#242d32] hover:border-[#10b981]/60 rounded-lg text-center transition-all group"
-              >
-                <div className="text-[11px] font-semibold text-[#f1f0eb] group-hover:text-[#10b981] truncate">Field Officer</div>
-                <div className="text-[9px] text-[#9ba3a7] truncate">Inspector</div>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleQuickDemoLogin('ROLE_MANAGER')}
-                disabled={loading}
-                className="p-2 bg-[#181f23] hover:bg-[#20292e] border border-[#242d32] hover:border-[#f59e0b]/60 rounded-lg text-center transition-all group"
-              >
-                <div className="text-[11px] font-semibold text-[#f1f0eb] group-hover:text-[#f59e0b] truncate">Director</div>
-                <div className="text-[9px] text-[#9ba3a7] truncate">National Lead</div>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleQuickDemoLogin('ROLE_ANALYST')}
-                disabled={loading}
-                className="p-2 bg-[#181f23] hover:bg-[#20292e] border border-[#242d32] hover:border-[#10b981]/60 rounded-lg text-center transition-all group"
-              >
-                <div className="text-[11px] font-semibold text-[#f1f0eb] group-hover:text-[#10b981] truncate">GIS Analyst</div>
-                <div className="text-[9px] text-[#9ba3a7] truncate">Remote Sensing</div>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleQuickDemoLogin('ROLE_CITIZEN')}
-                disabled={loading}
-                className="p-2 bg-[#181f23] hover:bg-[#20292e] border border-[#242d32] hover:border-[#9ba3a7] rounded-lg text-center transition-all group"
-              >
-                <div className="text-[11px] font-semibold text-[#f1f0eb] group-hover:text-white truncate">Citizen</div>
-                <div className="text-[9px] text-[#9ba3a7] truncate">Panchayat</div>
-              </button>
-            </div>
-          </div>
+          )}
 
           {/* Status Banners */}
           {error && (
