@@ -203,7 +203,10 @@ export const App: React.FC = () => {
         className="min-h-screen w-full flex items-center justify-center p-3 sm:p-6 lg:p-10 relative overflow-hidden font-sans bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url('/istockphoto-950777136-612x612.jpg')` }}
       >
-        <div className="relative z-10 w-full max-w-5xl rounded-2xl overflow-hidden border border-slate-700/80 shadow-2xl bg-[#0B1F1A]">
+        {/* Slight neutral color overlay: picture at the front is clearly visible with a see-through neutral tone */}
+        <div className="absolute inset-0 bg-slate-950/40 pointer-events-none" />
+
+        <div className="relative z-10 w-full max-w-5xl rounded-2xl overflow-hidden border border-slate-700/80 shadow-2xl bg-slate-900/90 backdrop-blur-md">
           <LoginView
             onLoginSuccess={(user) => {
               setCurrentUser(user);
@@ -219,8 +222,10 @@ export const App: React.FC = () => {
   return (
     <div 
       className="min-h-screen text-[#F4F7F5] flex flex-col font-sans relative overflow-x-hidden bg-cover bg-center bg-fixed bg-no-repeat"
-      style={{ backgroundImage: `url('/ultratech-rainwater-new.jpeg')` }}
+      style={{ backgroundImage: `url('/istockphoto-950777136-612x612.jpg')` }}
     >
+      {/* Slight neutral color overlay: picture at the front is visible with a see-through neutral tone */}
+      <div className="fixed inset-0 pointer-events-none bg-gradient-to-b from-slate-950/45 via-slate-950/60 to-slate-950/75 z-0" />
 
       {/* Subtle topographic contour overlay */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-0">
