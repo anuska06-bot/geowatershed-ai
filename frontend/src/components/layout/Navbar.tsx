@@ -138,37 +138,43 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Center: Story Navigation Links (Desktop) */}
-          <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-300">
+          <nav className="hidden lg:flex items-center gap-5 text-xs font-mono uppercase tracking-wider font-semibold text-slate-300">
             <button
-              onClick={() => scrollToSection('why-geowatershed')}
+              onClick={() => scrollToSection('land-topography')}
               className="hover:text-[#7DD3A7] transition-colors"
             >
-              Why GeoWatershed
+              1. Land
             </button>
             <button
-              onClick={() => scrollToSection('interactive-map')}
-              className="hover:text-[#7DD3A7] transition-colors flex items-center gap-1.5"
+              onClick={() => scrollToSection('water-hydrology')}
+              className="hover:text-[#1677FF] transition-colors"
             >
-              <Compass className="w-3.5 h-3.5 text-[#1677FF]" />
-              <span>Explore Map</span>
+              2. Water
+            </button>
+            <button
+              onClick={() => scrollToSection('satellite-groundtruth')}
+              className="hover:text-cyan-400 transition-colors"
+            >
+              3. Satellite
             </button>
             <button
               onClick={() => scrollToSection('ai-analysis')}
-              className="hover:text-[#7DD3A7] transition-colors"
+              className="hover:text-emerald-400 transition-colors"
             >
-              AI Analysis
+              4. AI Siting
+            </button>
+            <button
+              onClick={() => scrollToSection('decision-gis')}
+              className="hover:text-amber-400 transition-colors flex items-center gap-1.5"
+            >
+              <Compass className="w-3.5 h-3.5 text-amber-400" />
+              <span>5. GIS Map</span>
             </button>
             <button
               onClick={() => scrollToSection('methodology')}
-              className="hover:text-[#7DD3A7] transition-colors"
+              className="hover:text-slate-100 transition-colors text-slate-400"
             >
-              Methodology
-            </button>
-            <button
-              onClick={() => scrollToSection('impact')}
-              className="hover:text-[#7DD3A7] transition-colors"
-            >
-              Impact
+              Standards
             </button>
           </nav>
 
@@ -400,37 +406,47 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
           <div className="lg:hidden border-t border-[#7DD3A7]/20 py-4 px-2 space-y-3 bg-[#0B1F1A] animate-fade-in">
-            <div className="space-y-1 text-sm font-medium">
+            <div className="space-y-1 text-sm font-medium font-mono">
               <button
-                onClick={() => scrollToSection('why-geowatershed')}
-                className="w-full text-left py-2 px-3 rounded-lg text-slate-200 hover:bg-[#123C35] transition"
-              >
-                Why GeoWatershed
-              </button>
-              <button
-                onClick={() => scrollToSection('interactive-map')}
+                onClick={() => scrollToSection('land-topography')}
                 className="w-full text-left py-2 px-3 rounded-lg text-slate-200 hover:bg-[#123C35] transition flex items-center justify-between"
               >
-                <span>Interactive Map</span>
-                <span className="text-[10px] text-[#7DD3A7] bg-[#7DD3A7]/15 px-2 py-0.5 rounded">Live Leaflet</span>
+                <span>1. Land (Terrain &amp; DEM)</span>
+                <span className="text-[10px] text-[#7DD3A7]">Phase 01</span>
+              </button>
+              <button
+                onClick={() => scrollToSection('water-hydrology')}
+                className="w-full text-left py-2 px-3 rounded-lg text-slate-200 hover:bg-[#123C35] transition flex items-center justify-between"
+              >
+                <span>2. Water (D8 &amp; Streams)</span>
+                <span className="text-[10px] text-[#1677FF]">Phase 02</span>
+              </button>
+              <button
+                onClick={() => scrollToSection('satellite-groundtruth')}
+                className="w-full text-left py-2 px-3 rounded-lg text-slate-200 hover:bg-[#123C35] transition flex items-center justify-between"
+              >
+                <span>3. Satellite (Sentinel-2 &amp; EXIF)</span>
+                <span className="text-[10px] text-cyan-400">Phase 03</span>
               </button>
               <button
                 onClick={() => scrollToSection('ai-analysis')}
-                className="w-full text-left py-2 px-3 rounded-lg text-slate-200 hover:bg-[#123C35] transition"
+                className="w-full text-left py-2 px-3 rounded-lg text-slate-200 hover:bg-[#123C35] transition flex items-center justify-between"
               >
-                AI Analysis &amp; Siting
+                <span>4. AI Siting Simulator</span>
+                <span className="text-[10px] text-emerald-400">Phase 04</span>
+              </button>
+              <button
+                onClick={() => scrollToSection('decision-gis')}
+                className="w-full text-left py-2 px-3 rounded-lg text-slate-200 hover:bg-[#123C35] transition flex items-center justify-between"
+              >
+                <span>5. Interactive GIS Map</span>
+                <span className="text-[10px] text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded">Live Map</span>
               </button>
               <button
                 onClick={() => scrollToSection('methodology')}
-                className="w-full text-left py-2 px-3 rounded-lg text-slate-200 hover:bg-[#123C35] transition"
+                className="w-full text-left py-2 px-3 rounded-lg text-slate-400 hover:text-white hover:bg-[#123C35] transition"
               >
-                Methodology &amp; Standards
-              </button>
-              <button
-                onClick={() => scrollToSection('impact')}
-                className="w-full text-left py-2 px-3 rounded-lg text-slate-200 hover:bg-[#123C35] transition"
-              >
-                Project Impact Metrics
+                <span>Standards &amp; Compliance</span>
               </button>
             </div>
 
