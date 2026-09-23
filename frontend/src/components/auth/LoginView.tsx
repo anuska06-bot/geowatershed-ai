@@ -360,9 +360,9 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess, onClose })
   };
 
   return (
-    <div className="w-full bg-[#0B1F1A] flex flex-col lg:flex-row text-[#F4F7F5] selection:bg-[#10b981] selection:text-[#0B1F1A]">
+    <div className="w-full bg-[#0B1F1A]/80 backdrop-blur-md flex flex-col lg:flex-row text-[#F4F7F5] selection:bg-[#10b981] selection:text-[#0B1F1A]">
       {/* Left Pane: Geospatial Engine Branding & Institutional Context */}
-      <div className="lg:w-1/2 p-6 sm:p-8 lg:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-slate-800 relative overflow-hidden bg-[#0B1F1A]">
+      <div className="lg:w-1/2 p-6 sm:p-8 lg:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-slate-800/80 relative overflow-hidden bg-[#0B1F1A]/40">
         {/* Subtle Topographic Contour SVG Overlay */}
         <div className="absolute inset-0 pointer-events-none opacity-20">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -439,7 +439,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess, onClose })
       </div>
 
       {/* Right Pane: Authentication Gateway & Registration */}
-      <div className="lg:w-1/2 p-5 sm:p-7 lg:p-9 flex flex-col justify-center bg-[#0B1F1A] overflow-y-auto">
+      <div className="lg:w-1/2 p-5 sm:p-7 lg:p-9 flex flex-col justify-center bg-[#07130F]/70 backdrop-blur-sm overflow-y-auto">
         <div className="max-w-md w-full mx-auto space-y-4">
           
           {/* Main Mode Tab Switcher + Close Button */}
