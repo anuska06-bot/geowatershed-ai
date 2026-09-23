@@ -89,10 +89,12 @@ export const LandingView: React.FC<LandingViewProps> = ({
   return (
     <div className="w-full text-[#F4F7F5] space-y-20 md:space-y-28 pb-20 overflow-hidden font-sans">
 
-      {/* ========================================================================= */}
-      {/* 1. HERO SECTION: RESTRAINED, TECHNICAL & CREDIBLE                         */}
-      {/* ========================================================================= */}
-      <section className="relative w-full pt-16 sm:pt-24 pb-16 px-4 sm:px-6 lg:px-8 border-b border-slate-800/80 bg-[#0B1F1A] overflow-hidden">
+      <section 
+        className="relative w-full pt-16 sm:pt-24 pb-16 px-4 sm:px-6 lg:px-8 border-b border-slate-800/80 bg-cover bg-center overflow-hidden"
+        style={{
+          backgroundImage: `linear-gradient(to bottom, rgba(11, 31, 26, 0.60), rgba(7, 19, 15, 0.82)), url('/watershed-hero-hd.jpg')`
+        }}
+      >
         {/* Subtle, Crisp Topographic Vector Relief (No Heavy Noisy Imagery) */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.07] overflow-hidden">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1200 800">
