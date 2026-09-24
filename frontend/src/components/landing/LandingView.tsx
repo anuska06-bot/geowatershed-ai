@@ -117,7 +117,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
           {/* Institutional Status Badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#123C35]/90 border border-[#7DD3A7]/30 text-[#7DD3A7] text-[11px] font-mono mb-6">
             <span className="w-2 h-2 rounded-full bg-[#10b981]" />
-            <span className="font-semibold tracking-wide">WDC-PMKSY 2.0 • GEOSPATIAL DECISION SUPPORT SYSTEM</span>
+            <span className="font-semibold tracking-wide">GEOSPATIAL DECISION SUPPORT SYSTEM</span>
           </div>
 
           {/* Main Title with Strict Technical Hierarchy */}
@@ -134,7 +134,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
           </p>
 
           {/* Clean, Uniform Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto mb-14">
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
             <button
               type="button"
               onClick={() => scrollToSection('decision-gis')}
@@ -152,30 +152,6 @@ export const LandingView: React.FC<LandingViewProps> = ({
               <Bot className="w-4 h-4 text-[#7DD3A7]" />
               <span>Run AI Siting Model</span>
             </button>
-          </div>
-
-          {/* Grounded Technical Metrics Strip */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full max-w-4xl text-left font-mono">
-            <div className="bg-[#07130F]/90 p-3.5 rounded-xl border border-slate-800">
-              <span className="text-[10px] text-slate-400 block uppercase">Spatial Resolution</span>
-              <span className="text-lg font-bold text-white mt-0.5 block">10m / 30m</span>
-              <span className="text-[10px] text-[#7DD3A7] mt-0.5 block">Sentinel-2 &amp; CartoDEM</span>
-            </div>
-            <div className="bg-[#07130F]/90 p-3.5 rounded-xl border border-slate-800">
-              <span className="text-[10px] text-slate-400 block uppercase">Hydrologic Engine</span>
-              <span className="text-lg font-bold text-[#1677FF] mt-0.5 block">D8 Routing</span>
-              <span className="text-[10px] text-slate-400 mt-0.5 block">Strahler Orders 1–4</span>
-            </div>
-            <div className="bg-[#07130F]/90 p-3.5 rounded-xl border border-slate-800">
-              <span className="text-[10px] text-slate-400 block uppercase">Field Geofence</span>
-              <span className="text-lg font-bold text-white mt-0.5 block">100% EXIF</span>
-              <span className="text-[10px] text-emerald-400 mt-0.5 block">Cryptographic Seals</span>
-            </div>
-            <div className="bg-[#07130F]/90 p-3.5 rounded-xl border border-slate-800">
-              <span className="text-[10px] text-slate-400 block uppercase">Economic Model</span>
-              <span className="text-lg font-bold text-amber-400 mt-0.5 block">BCR &gt; 1.5</span>
-              <span className="text-[10px] text-slate-400 mt-0.5 block">WDC-PMKSY 2.0 SoR</span>
-            </div>
           </div>
 
         </div>

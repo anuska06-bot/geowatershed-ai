@@ -3,7 +3,7 @@ import { UserRole, AuthUser, WatershedSummary } from '../../types';
 import {
   Shield, Camera, FileText, Download, Layers,
   Map, Smartphone, Home, LogOut, User,
-  Bot, MapPin, ShieldCheck, Menu, X, Play, Sparkles, Mountain, TrendingUp
+  Bot, MapPin, ShieldCheck, Menu, X, Sparkles, Mountain, TrendingUp
 } from 'lucide-react';
 
 export type AppTab =
@@ -34,7 +34,6 @@ interface NavbarProps {
   onSelectWatershed?: (id: string) => void;
   onOpenSutraAi?: () => void;
   onOpenAskAi?: () => void;
-  onOpenSihDemo?: () => void;
   onSignOut?: () => void;
   onOpenLogin?: () => void;
   onTabChange: (tab: AppTab) => void;
@@ -74,7 +73,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSelectWatershed,
   onOpenSutraAi,
   onOpenAskAi,
-  onOpenSihDemo,
   onSignOut,
   onOpenLogin,
   onTabChange,
@@ -109,27 +107,22 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Left: Brand Identity */}
           <div 
-            className="flex items-center gap-2.5 cursor-pointer group flex-shrink-0"
+            className="flex items-center gap-3 cursor-pointer group flex-shrink-0"
             onClick={() => {
               onTabChange('overview');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-[#123C35] to-[#0B1F1A] border border-[#7DD3A7]/40 flex items-center justify-center shadow-md group-hover:border-[#7DD3A7] transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#123C35] to-[#0B1F1A] border border-[#7DD3A7]/40 flex items-center justify-center shadow-md group-hover:border-[#7DD3A7] transition-colors shrink-0">
               <Layers className="w-5 h-5 text-[#7DD3A7]" />
             </div>
             <div className="flex flex-col justify-center">
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-base sm:text-lg tracking-tight text-white font-sans whitespace-nowrap">
-                  GeoWatershed <span className="text-[#7DD3A7]">AI</span>
-                </span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#1677FF]/15 text-[#38bdf8] border border-[#1677FF]/30 hidden sm:inline-block uppercase tracking-wider whitespace-nowrap">
-                  WDC-PMKSY 2.0
-                </span>
-              </div>
-              <p className="text-[10px] text-slate-400 font-mono hidden xl:block leading-none mt-0.5 whitespace-nowrap">
-                Smart Geospatial Decision Support System
-              </p>
+              <span className="font-bold text-lg tracking-tight text-white font-sans whitespace-nowrap leading-tight">
+                GeoWatershed <span className="text-[#7DD3A7]">AI</span>
+              </span>
+              <span className="text-xs text-slate-300 font-sans tracking-tight whitespace-nowrap leading-tight mt-0.5">
+                Geospatial Decision Support System
+              </span>
             </div>
           </div>
 
@@ -154,19 +147,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Right: Quick Action Buttons & User Controls */}
           <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-
-            {/* SIH 2-to-3 Minute Guided Demo Mode */}
-            {onOpenSihDemo && (
-              <button
-                type="button"
-                onClick={onOpenSihDemo}
-                className="h-8.5 px-3 rounded-lg bg-[#10b981] hover:bg-[#059669] text-[#0B1F1A] text-xs font-mono font-bold inline-flex items-center gap-1.5 transition shadow-sm whitespace-nowrap"
-                title="Launch 2-to-3 Minute Guided SIH Judge Walkthrough"
-              >
-                <Play className="w-3.5 h-3.5 fill-current text-[#0B1F1A]" />
-                <span className="font-extrabold tracking-wide">SIH Demo</span>
-              </button>
-            )}
 
             {/* Ask GeoWatershed AI Assistant */}
             {onOpenAskAi && (

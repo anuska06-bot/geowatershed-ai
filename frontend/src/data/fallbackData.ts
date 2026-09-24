@@ -1168,7 +1168,7 @@ export const FALLBACK_EVIDENCE: EvidenceCard[] = [
       status: 'Consistent',
       reasons: ['Image coordinates align within 3.2m of target stream alignment.'],
     },
-    surveyor_name: 'Anushka Saha',
+    surveyor_name: 'Anuska Shah',
     structure_condition: 'Good',
     water_storage_level: 'High (80%)',
     review_status: 'Reviewed',
@@ -1207,7 +1207,7 @@ export const FALLBACK_EVIDENCE: EvidenceCard[] = [
     structure_condition: 'Fair',
     water_storage_level: 'Medium (50%)',
     review_status: 'Needs Verification',
-    reviewer_name: 'Anushka Saha (Field Surveyor)',
+    reviewer_name: 'Anuska Shah (Field Surveyor)',
     reviewer_notes: 'Apron scouring requires downstream reinforcement post-monsoon.',
     reviewed_at: '2026-03-18T10:00:00Z',
   }

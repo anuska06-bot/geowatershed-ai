@@ -33,7 +33,6 @@ import { DataMethodologyView } from './components/methodology/DataMethodologyVie
 // AI Diagnostics & Modals
 import { SutraAiAssistantModal } from './components/ai/SutraAiAssistantModal';
 import { AskGeoWatershedAiModal } from './components/ai/AskGeoWatershedAiModal';
-import { SihDemoModeModal } from './components/demo/SihDemoModeModal';
 
 // Production Readiness Components (20-Point Checklist)
 import { usePageMeta } from './utils/usePageMeta';
@@ -50,7 +49,9 @@ import { MapPin, CheckCircle2, ChevronRight, AlertCircle } from 'lucide-react';
 export const App: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(() => {
     try {
-      const saved = localStorage.getItem('srishti_drishti_user');
+      // Clear legacy permanent cache so the first page every session is the Sign-In / Registration gateway
+      localStorage.removeItem('srishti_drishti_user');
+      const saved = sessionStorage.getItem('geowatershed_session_user');
       if (saved) return JSON.parse(saved);
       return null;
     } catch {
@@ -73,7 +74,6 @@ export const App: React.FC = () => {
   const [isSutraAiOpen, setIsSutraAiOpen] = useState(false);
   const [sutraStructureType, setSutraStructureType] = useState<string>('Check Dam');
   const [isAskAiOpen, setIsAskAiOpen] = useState(false);
-  const [isSihDemoOpen, setIsSihDemoOpen] = useState(false);
   const [isTosOpen, setIsTosOpen] = useState(false);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
@@ -200,6 +200,7 @@ export const App: React.FC = () => {
   };
 
   const handleSignOut = () => {
+    sessionStorage.removeItem('geowatershed_session_user');
     localStorage.removeItem('srishti_drishti_user');
     setCurrentUser(null);
   };
@@ -237,7 +238,7 @@ export const App: React.FC = () => {
             onLoginSuccess={(user) => {
               setCurrentUser(user);
               setCurrentRole(user.role);
-              localStorage.setItem('srishti_drishti_user', JSON.stringify(user));
+              sessionStorage.setItem('geowatershed_session_user', JSON.stringify(user));
             }}
           />
         </div>
@@ -291,7 +292,6 @@ export const App: React.FC = () => {
           onOpenDossier={() => setIsDossierOpen(true)}
           onDownloadCsv={handleDownloadCsv}
           onOpenAskAi={() => setIsAskAiOpen(true)}
-          onOpenSihDemo={() => setIsSihDemoOpen(true)}
         />
 
         {/* Main App Container */}
@@ -627,15 +627,6 @@ export const App: React.FC = () => {
           onClose={() => setIsAskAiOpen(false)}
           watershed={watershed}
           onNavigateTab={handleTabChange}
-        />
-
-        {/* SIH PS 26015 Guided 2-Minute Judge Walkthrough */}
-        <SihDemoModeModal
-          isOpen={isSihDemoOpen}
-          onClose={() => setIsSihDemoOpen(false)}
-          watershed={watershed}
-          onNavigateTab={handleTabChange}
-          currentTab={currentTab}
         />
       </ErrorBoundary>
 

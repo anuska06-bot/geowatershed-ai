@@ -49,7 +49,7 @@ def test_verify_otp_success():
     assert data["success"] is True
     assert "token" in data
     assert data["user"]["role"] == "ROLE_ANALYST"
-    assert "Anushka" in data["user"]["name"]
+    assert "Anuska" in data["user"]["name"]
 
 def test_verify_otp_invalid():
     # 1. Request OTP

@@ -34,7 +34,7 @@ ROLE_PROFILES = {
         "organization": "Department of Land Resources (DoLR)",
     },
     "ROLE_ANALYST": {
-        "name": "Anushka Sen",
+        "name": "Anuska Shah",
         "designation": "GIS & Remote Sensing Specialist",
         "badge": "Spatial Analytics Lead",
         "jurisdiction": "State Nodal Agency (SLNA), Maharashtra",
@@ -71,7 +71,7 @@ REGISTERED_USERS: Dict[str, dict] = {
     },
     "analyst.sen@wdc-pmksy.gov.in": {
         "id": "usr_seed_analyst",
-        "name": "Anushka Sen",
+        "name": "Anuska Shah",
         "identifier": "analyst.sen@wdc-pmksy.gov.in",
         "password_hash": hash_password("Analyst@123"),
         "role": "ROLE_ANALYST",

@@ -128,7 +128,7 @@ export const api = {
         status: 'Consistent',
         reasons: ['Local GIS validation: Coordinates align within drainage corridor stream buffer.'],
       },
-      surveyor_name: 'Anushka Saha',
+      surveyor_name: 'Anuska Shah',
       structure_condition: 'Good',
       water_storage_level: 'Operational',
       review_status: 'Preliminary',
@@ -370,7 +370,7 @@ export const api = {
         jurisdiction: 'Karjat Block, Raigad, Maharashtra',
       },
       ROLE_FIELD_OFFICER: {
-        name: 'Anushka Saha',
+        name: 'Anuska Shah',
         designation: 'Senior Technical Officer / Field Inspector',
         department: 'State Level Nodal Agency (SLNA) - Soil & Water Conservation',
         jurisdiction: 'Maharashtra (Konkan & Western Ghats Division)',
@@ -841,7 +841,7 @@ export const api = {
     return [
       {
         id: 'fs-001',
-        surveyor_name: 'Anushka Saha (Senior Technical Officer)',
+        surveyor_name: 'Anuska Shah (Senior Technical Officer)',
         surveyor_email: 'surveyor@geowatershed.gov.in',
         intervention_id: '1-1',
         intervention_name: 'Karjat Main Masonry Check Dam (CD-01)',
@@ -948,7 +948,7 @@ export const api = {
     const defaultLogs = [
       {
         id: 'log-001',
-        user_name: 'Anushka Saha (Surveyor)',
+        user_name: 'Anuska Shah (Surveyor)',
         role: 'ROLE_FIELD_OFFICER',
         action: 'EVIDENCE_SUBMISSION',
         resource_type: 'FieldEvidence',
