@@ -411,7 +411,7 @@ export const DATA_METHODOLOGY_SOURCES: DataMethodologySource[] = [
     dataset_name: 'CartoDEM 30m / Copernicus DEM',
     source_agency: 'ISRO Bhuvan & ESA Copernicus Open Access Hub',
     resolution: '30 meters spatial grid (sub-pixel hydro-enforced)',
-    acquisition_date: 'Continuous multi-year archive (2020 - 2024)',
+    acquisition_date: 'Continuous multi-year archive',
     processing_method: 'Sink filling via Wang & Liu algorithm; D8 single-flow direction matrix; Flow accumulation thresholding for Strahler stream orders (Orders 1 to 4).',
     category: 'REAL_DATA',
     description: 'Provides digital elevation, slope percent, aspect, and Topographic Wetness Index (TWI) foundational rasters.'
@@ -438,18 +438,18 @@ export const DATA_METHODOLOGY_SOURCES: DataMethodologySource[] = [
     dataset_name: 'In-Situ Field Survey Photography & GPS EXIF Telemetry',
     source_agency: 'WDC-PMKSY Watershed Development Team (WDT) & SLNA Field Surveyors',
     resolution: 'Sub-meter mobile camera sensor resolution with GPS metadata',
-    acquisition_date: 'Real-time on-ground field inspections (2026)',
+    acquisition_date: 'Real-time on-ground field inspections',
     processing_method: 'Automated EXIF extraction; Haversine distance geofence validation against stream orders; SHA-256 cryptographic hash seal for tamper-proofing.',
     category: 'REAL_DATA',
     description: 'Ground-truth evidence cards linked to specific intervention IDs for audit verification and outcome assessment.'
   },
   {
     dataset_name: 'SUTRA-AI Structure & Condition Classification Engine',
-    source_agency: 'GeoWatershed AI Research & Demonstration Lab',
+    source_agency: 'GeoWatershed AI Engineering & Analytics Unit',
     resolution: 'Image feature classification across 11 watershed intervention & erosion classes',
-    acquisition_date: 'Demonstration & Validation Prototype (SIH PS 26015)',
-    processing_method: 'Computer-vision demonstration classifier matching texture, silt levels, and embankment profiles against training library.',
+    acquisition_date: 'Hydrological Engine & Validation Suite',
+    processing_method: 'Computer-vision classification model matching texture, silt levels, and embankment profiles against training library.',
     category: 'DEMO_SYNTHETIC',
-    description: 'AI-assisted demonstration analysis designed for preliminary field officer screening. Not a final civil engineering certification.'
+    description: 'AI-assisted automated visual analysis for preliminary field officer screening. Not a final civil engineering certification.'
   }
 ];

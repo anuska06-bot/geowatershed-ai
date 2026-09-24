@@ -64,7 +64,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <div className="space-y-2 max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#123C35] border border-[#7DD3A7]/30 text-[#7DD3A7] text-xs font-mono">
               <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse" />
-              <span>SIH PS 26015 • GEOSPATIAL DECISION SUPPORT PLATFORM</span>
+              <span>GEOSPATIAL DECISION SUPPORT PLATFORM</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white font-sans">
               Watershed Development, Monitoring &amp; Outcome Assessment

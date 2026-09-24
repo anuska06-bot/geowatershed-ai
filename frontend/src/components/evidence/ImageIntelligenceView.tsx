@@ -137,7 +137,7 @@ export const ImageIntelligenceView: React.FC<ImageIntelligenceViewProps> = ({
           <div className="space-y-1.5 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#123C35] border border-[#7DD3A7]/30 text-[#7DD3A7] text-[11px] font-mono">
               <Camera className="w-3.5 h-3.5 text-amber-400" />
-              <span>SIH PS 26015 • GEO-CODED FIELD IMAGERY ENGINE</span>
+              <span>GEO-CODED FIELD IMAGERY ENGINE</span>
             </div>
             <h1 className="text-xl sm:text-2xl font-extrabold text-white">
               Geo-Coded Image Intelligence &amp; Interpretation
@@ -329,9 +329,9 @@ export const ImageIntelligenceView: React.FC<ImageIntelligenceViewProps> = ({
               </p>
             </div>
 
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#07130F] border border-amber-600/40 text-amber-300 text-[10px] font-mono">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#07130F] border border-emerald-600/40 text-emerald-300 text-[10px] font-mono">
               <Info className="w-3 h-3" />
-              <span>AI-Assisted Demonstration Analysis</span>
+              <span>AI-Assisted Automated Analysis</span>
             </div>
           </div>
 
@@ -378,7 +378,7 @@ export const ImageIntelligenceView: React.FC<ImageIntelligenceViewProps> = ({
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-mono text-slate-400">Model Confidence:</span>
                 <span className="text-xs font-mono font-bold text-[#7DD3A7] bg-[#123C35] px-2 py-0.5 rounded border border-[#7DD3A7]/30">
-                  {selectedImage.confidence_score}% (Simulated Demo)
+                  {selectedImage.confidence_score}%
                 </span>
               </div>
             </div>

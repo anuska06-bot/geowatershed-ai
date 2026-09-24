@@ -71,7 +71,7 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ watershed }) => {
             </h2>
             <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-mono pt-1">
               <span className="px-3 py-1 rounded bg-[#07130F]/90 backdrop-blur-md text-slate-200 border border-slate-700 print:text-slate-800 print:bg-none print:border-none">
-                Ref: GW-SIH-26015-{watershed.code}-{new Date().getFullYear()}
+                Ref: GW-DSS-{watershed.code}
               </span>
               <span className="px-3 py-1 rounded bg-[#123C35]/90 backdrop-blur-md text-[#7DD3A7] border border-[#7DD3A7]/40 font-semibold print:text-emerald-800 print:bg-none print:border-none">
                 {watershed.name} Catchment ({watershed.area_hectares} ha)

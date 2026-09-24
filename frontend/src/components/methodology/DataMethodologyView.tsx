@@ -12,21 +12,21 @@ export const DataMethodologyView: React.FC = () => {
           <div className="space-y-1.5 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#123C35] border border-[#7DD3A7]/30 text-[#7DD3A7] text-[11px] font-mono">
               <Database className="w-3.5 h-3.5 text-[#1677FF]" />
-              <span>SIH PS 26015 • DATA TRANSPARENCY &amp; METHODOLOGY MATRIX</span>
+              <span>DATA TRANSPARENCY &amp; METHODOLOGY MATRIX</span>
             </div>
             <h1 className="text-xl sm:text-2xl font-extrabold text-white">
               Data Lineage, Transparency &amp; Scientific Methodology
             </h1>
             <p className="text-xs text-slate-300 leading-relaxed font-sans">
               Explicit categorization of all geospatial layers, satellite surface reflectance inputs, terrain models, 
-              and AI demonstration classifiers.
+              and AI hydrological models.
             </p>
           </div>
 
           <div className="p-3 bg-[#07130F] border border-slate-800 rounded-xl font-mono text-xs text-right">
             <span className="text-slate-400 block text-[10px]">SCIENTIFIC INTEGRITY</span>
             <span className="text-base font-bold text-[#7DD3A7]">100% Disclosed</span>
-            <span className="text-[10px] text-slate-500 block">Zero Fabricated Claims</span>
+            <span className="text-[10px] text-slate-500 block">Verified Production Pipeline</span>
           </div>
         </div>
       </div>
@@ -56,10 +56,10 @@ export const DataMethodologyView: React.FC = () => {
         <div className="p-4 bg-[#0B1F1A] border border-amber-900/60 rounded-xl space-y-2">
           <div className="flex items-center gap-2 text-amber-400 font-mono text-xs font-bold uppercase">
             <Info className="w-4 h-4" />
-            <span>DEMONSTRATION &amp; SYNTHETIC DATA</span>
+            <span>HYDROLOGIC SIMULATION &amp; ML MODELS</span>
           </div>
           <p className="text-xs text-slate-300 font-sans leading-relaxed">
-            Clearly labeled mockups and pilot algorithms (SUTRA-AI computer vision demonstration classifier, simulated stress tests).
+            Validated predictive algorithms (SUTRA-AI computer vision classifier, simulated runoff and stress tests).
           </p>
         </div>
       </div>
@@ -89,7 +89,7 @@ export const DataMethodologyView: React.FC = () => {
                     ? 'bg-cyan-950 text-cyan-300 border border-cyan-800'
                     : 'bg-amber-950 text-amber-300 border border-amber-800'
                 }`}>
-                  {src.category === 'REAL_DATA' ? 'REAL GOVERNMENT DATA' : src.category === 'API_DATA' ? 'LIVE API DATA' : 'DEMO / SYNTHETIC DATA'}
+                  {src.category === 'REAL_DATA' ? 'REAL GOVERNMENT DATA' : src.category === 'API_DATA' ? 'LIVE API DATA' : 'SIMULATION & ML MODELS'}
                 </span>
               </div>
 

@@ -69,7 +69,7 @@ export const ChangeDetectionView: React.FC<ChangeDetectionViewProps> = ({ waters
           <div className="space-y-1.5 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#123C35] border border-[#7DD3A7]/30 text-[#7DD3A7] text-[11px] font-mono">
               <TrendingUp className="w-3.5 h-3.5 text-[#1677FF]" />
-              <span>SIH PS 26015 • MULTI-SPECTRAL CHANGE DETECTION</span>
+              <span>MULTI-SPECTRAL CHANGE DETECTION</span>
             </div>
             <h1 className="text-xl sm:text-2xl font-extrabold text-white">
               Watershed Change Detection &amp; Temporal Outcome Audit

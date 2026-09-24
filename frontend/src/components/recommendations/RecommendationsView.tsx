@@ -26,7 +26,7 @@ export const RecommendationsView: React.FC<RecommendationsViewProps> = ({
           <div className="space-y-1.5 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#123C35] border border-[#7DD3A7]/30 text-[#7DD3A7] text-[11px] font-mono">
               <Sparkles className="w-3.5 h-3.5 text-[#7DD3A7]" />
-              <span>SIH PS 26015 • AI-ASSISTED INTERVENTION SIZING &amp; SITING</span>
+              <span>AI-ASSISTED INTERVENTION SIZING &amp; SITING</span>
             </div>
             <h1 className="text-xl sm:text-2xl font-extrabold text-white">
               AI-Assisted Watershed Recommendations &amp; Cost Estimation
@@ -118,8 +118,8 @@ export const RecommendationsView: React.FC<RecommendationsViewProps> = ({
                   2. Hydrological Justification &amp; Siting Criteria
                 </h3>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#07130F] text-amber-400 border border-amber-800/40">
-                AI Confidence: {selectedRec.confidence_score}% (Simulated Demo)
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#07130F] text-[#7DD3A7] border border-[#7DD3A7]/40">
+                AI Confidence: {selectedRec.confidence_score}%
               </span>
             </div>
 

@@ -568,18 +568,8 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess, onClose })
                   <div>
                     <div className="flex justify-between items-center mb-1.5">
                       <label className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider font-mono">
-                        Email or Mobile Number
+                        Official Email or Mobile Number
                       </label>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setLoginIdentifier('admin@geowatershed.gov.in');
-                          setLoginPassword('Admin#PMKSY2026');
-                        }}
-                        className="text-[11px] font-mono text-[#7DD3A7] hover:underline"
-                      >
-                        Fill Admin Demo
-                      </button>
                     </div>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
@@ -589,7 +579,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess, onClose })
                         type="text"
                         value={loginIdentifier}
                         onChange={(e) => setLoginIdentifier(e.target.value)}
-                        placeholder="officer.sharma@wdc-pmksy.gov.in"
+                        placeholder="officer@geowatershed.gov.in"
                         className="w-full pl-9 pr-4 py-2.5 bg-[#07130F] border border-slate-800 rounded-lg text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-[#7DD3A7] focus:ring-1 focus:ring-[#7DD3A7] font-mono min-h-[44px]"
                         disabled={loading}
                         required

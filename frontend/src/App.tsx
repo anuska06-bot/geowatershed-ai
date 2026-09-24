@@ -52,7 +52,14 @@ export const App: React.FC = () => {
       // Clear legacy permanent cache so the first page every session is the Sign-In / Registration gateway
       localStorage.removeItem('srishti_drishti_user');
       const saved = sessionStorage.getItem('geowatershed_session_user');
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const u = JSON.parse(saved);
+        if (u?.name && (u.name.includes('Saha') || u.name.includes('Anushka'))) {
+          u.name = u.name.replace(/Anushka/g, 'Anuska').replace(/Saha/g, 'Shah');
+          sessionStorage.setItem('geowatershed_session_user', JSON.stringify(u));
+        }
+        return u;
+      }
       return null;
     } catch {
       return null;
@@ -690,7 +697,7 @@ export const App: React.FC = () => {
                   4. Advisory Nature of Predictive ML
                 </h4>
                 <p className="mt-1 text-[#9ba3a7]">
-                  Machine learning recommendations (Random Forest recharge suitability indices and SIH erosion vulnerability scores)
+                  Machine learning recommendations (Random Forest recharge suitability indices and soil erosion vulnerability scores)
                   are analytical aids to assist field engineers. They do not supersede certified hydrological DPRs (Detailed Project Reports)
                   executed by registered hydrologists.
                 </p>
@@ -843,7 +850,7 @@ export const App: React.FC = () => {
               <span className="font-bold text-white">GeoWatershed AI</span>
               <span className="text-slate-600">|</span>
               <span className="text-[#7DD3A7] bg-[#123C35] px-2 py-0.5 rounded border border-[#7DD3A7]/30 text-[10px] font-mono">
-                WDC-PMKSY 2.0 • NGP-2022
+                Geospatial Decision Support System
               </span>
               <span className="text-slate-600">•</span>
               <span className="text-slate-400 text-[11px]">
