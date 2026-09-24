@@ -118,7 +118,7 @@ export const FieldSurveyView: React.FC<FieldSurveyViewProps> = ({
       latitude: finalLat,
       longitude: finalLon,
       has_exif_gps: Boolean(lat && lon),
-      image_url: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
+      image_url: 'https://images.unsplash.com/photo-1548263594-a71ea65a8598?auto=format&fit=crop&w=800&q=80',
       authenticity_status: 'VERIFIED_AUTHENTIC',
       authenticity_details: `In-situ mobile survey synchronized. GPS coordinates (${finalLat.toFixed(4)}°N, ${finalLon.toFixed(4)}°E) match CartoDEM drainage reach.`,
       structural_condition: condition,

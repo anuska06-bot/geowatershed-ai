@@ -104,7 +104,7 @@ export const ImageIntelligenceView: React.FC<ImageIntelligenceViewProps> = ({
       const newRecord: GeoCodedImageRecord = {
         id: `geo-img-${Date.now()}`,
         filename: uploadFile ? uploadFile.name : 'field_inspection_photo.jpg',
-        image_url: previewUrl || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80',
+        image_url: previewUrl || 'https://images.unsplash.com/photo-1548263594-a71ea65a8598?auto=format&fit=crop&w=1200&q=80',
         latitude: lat,
         longitude: lon,
         elevation_meters: 154.0,

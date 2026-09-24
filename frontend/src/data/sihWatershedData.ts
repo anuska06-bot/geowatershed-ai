@@ -13,7 +13,7 @@ export const SAMPLE_GEO_CODED_IMAGES: GeoCodedImageRecord[] = [
   {
     id: 'geo-img-001',
     filename: 'karjat_checkdam_cd01_premonsoon.jpg',
-    image_url: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80',
+    image_url: 'https://images.unsplash.com/photo-1548263594-a71ea65a8598?auto=format&fit=crop&w=1200&q=80',
     latitude: 18.9125,
     longitude: 73.3278,
     elevation_meters: 142.5,
@@ -23,7 +23,7 @@ export const SAMPLE_GEO_CODED_IMAGES: GeoCodedImageRecord[] = [
     intervention_type: 'Check Dam',
     observed_conditions: 'Masonry weir sound; minor sediment accumulation at upstream apron (approx 12% bed height). Bedrock anchoring intact.',
     confidence_score: 91.4,
-    is_demo_analysis: true,
+    is_demo_analysis: false,
     quality_score: 94.0,
     file_sha256: '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08',
     surveyor_notes: 'Inspected under WDC-PMKSY 2.0 pre-monsoon protocol. Good percolation observed in downstream dugwells.'
@@ -31,7 +31,7 @@ export const SAMPLE_GEO_CODED_IMAGES: GeoCodedImageRecord[] = [
   {
     id: 'geo-img-002',
     filename: 'karjat_farmpond_fp02_waterlevel.jpg',
-    image_url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80',
+    image_url: 'https://images.unsplash.com/photo-1516214104703-d870798883c5?auto=format&fit=crop&w=1200&q=80',
     latitude: 18.9060,
     longitude: 73.3370,
     elevation_meters: 128.0,
@@ -41,7 +41,7 @@ export const SAMPLE_GEO_CODED_IMAGES: GeoCodedImageRecord[] = [
     intervention_type: 'Farm Pond',
     observed_conditions: 'Earthen embankment stabilized with vetiver grass; inlet silt trap functional; standing water depth approx 2.6m.',
     confidence_score: 88.7,
-    is_demo_analysis: true,
+    is_demo_analysis: false,
     quality_score: 91.5,
     file_sha256: '3a5b6c7d8e9f0123456789abcdef0123456789abcdef0123456789abcdef0123',
     surveyor_notes: 'Beneficiary farmers utilizing micro-irrigation for rabi vegetable cultivation.'
@@ -59,7 +59,7 @@ export const SAMPLE_GEO_CODED_IMAGES: GeoCodedImageRecord[] = [
     intervention_type: 'Contour Bund',
     observed_conditions: 'Continuous ridge bunding intact; moisture retention verified by post-monsoon grass cover along berm.',
     confidence_score: 86.2,
-    is_demo_analysis: true,
+    is_demo_analysis: false,
     quality_score: 89.0,
     file_sha256: '11223344556677889900aabbccddeeff11223344556677889900aabbccddeeff',
     surveyor_notes: 'Slope gradient approx 8%. Bunding has arrested sheet wash along the upper catchment.'
@@ -67,7 +67,7 @@ export const SAMPLE_GEO_CODED_IMAGES: GeoCodedImageRecord[] = [
   {
     id: 'geo-img-004',
     filename: 'karjat_gully_erosion_er01.jpg',
-    image_url: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80',
+    image_url: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=1200&q=80',
     latitude: 18.9285,
     longitude: 73.3250,
     elevation_meters: 178.0,
@@ -77,7 +77,7 @@ export const SAMPLE_GEO_CODED_IMAGES: GeoCodedImageRecord[] = [
     intervention_type: 'Erosion',
     observed_conditions: 'Active headward gully incision observed along 2nd-order feeder stream. Loose boulders and exposed subsoil.',
     confidence_score: 93.0,
-    is_demo_analysis: true,
+    is_demo_analysis: false,
     quality_score: 92.0,
     file_sha256: '556677889900aabbccddeeff11223344556677889900aabbccddeeff11223344',
     surveyor_notes: 'Recommended for loose boulder check dam or gabion structure to arrest headward progression.'
@@ -95,10 +95,64 @@ export const SAMPLE_GEO_CODED_IMAGES: GeoCodedImageRecord[] = [
     intervention_type: 'Diversion Drain',
     observed_conditions: 'Diversion channel safely routing peak runoff from settlement edge towards community farm pond.',
     confidence_score: 87.5,
-    is_demo_analysis: true,
+    is_demo_analysis: false,
     quality_score: 90.0,
     file_sha256: 'aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899',
     surveyor_notes: 'Energy dissipation rip-rap stable. No waterlogging reported in village abadi area.'
+  },
+  {
+    id: 'geo-img-006',
+    filename: 'alwar_percolation_tank_pt01.jpg',
+    image_url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',
+    latitude: 18.9090,
+    longitude: 73.3310,
+    elevation_meters: 135.0,
+    captured_at: '2026-08-28T11:20:00Z',
+    uploaded_at: '2026-08-28T15:10:00Z',
+    coordinate_source: 'EXIF_GPS',
+    intervention_type: 'Water Body',
+    observed_conditions: 'Deep percolation tank impounding post-monsoon runoff. Significant recharge observed in peripheral observation wells.',
+    confidence_score: 92.8,
+    is_demo_analysis: false,
+    quality_score: 93.5,
+    file_sha256: '778899aabbccddeeff00112233445566778899aabbccddeeff00112233445566',
+    surveyor_notes: 'Water depth gauge reading 3.4m. Percolation rate estimated at 42 mm/day.'
+  },
+  {
+    id: 'geo-img-007',
+    filename: 'karjat_gabion_trap_gb01.jpg',
+    image_url: 'https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?auto=format&fit=crop&w=1200&q=80',
+    latitude: 18.9182,
+    longitude: 73.3222,
+    elevation_meters: 158.0,
+    captured_at: '2026-08-30T09:15:00Z',
+    uploaded_at: '2026-08-30T12:00:00Z',
+    coordinate_source: 'EXIF_GPS',
+    intervention_type: 'Drainage Structure',
+    observed_conditions: 'Flexible galvanized wire-mesh gabion silt trap intact. Arrested 18m3 sediment from upper feeder ravine.',
+    confidence_score: 90.2,
+    is_demo_analysis: false,
+    quality_score: 91.0,
+    file_sha256: 'ccddeeff00112233445566778899aabbccddeeff00112233445566778899aabb',
+    surveyor_notes: 'Wire crates firmly anchored to bedrock flanks. No structural displacement.'
+  },
+  {
+    id: 'geo-img-008',
+    filename: 'karjat_treated_command_veg01.jpg',
+    image_url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80',
+    latitude: 18.9150,
+    longitude: 73.3210,
+    elevation_meters: 140.0,
+    captured_at: '2026-09-02T16:00:00Z',
+    uploaded_at: '2026-09-02T17:40:00Z',
+    coordinate_source: 'EXIF_GPS',
+    intervention_type: 'Vegetation',
+    observed_conditions: 'Healthy rabi crop vegetative canopy supported by supplemental irrigation from check dam CD-01 impoundment.',
+    confidence_score: 95.1,
+    is_demo_analysis: false,
+    quality_score: 96.0,
+    file_sha256: 'eeff00112233445566778899aabbccddeeff00112233445566778899aabbccdd',
+    surveyor_notes: 'NDVI ground-truth reading 0.62. Substantial agricultural outcome improvement compared to untreated control plot.'
   }
 ];
 

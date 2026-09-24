@@ -99,7 +99,7 @@ export const api = {
     const lat = parseFloat(formData.get('latitude')?.toString() || '18.9125');
     const lon = parseFloat(formData.get('longitude')?.toString() || '73.3278');
     const file = formData.get('file') as File | null;
-    const localUrl = file ? URL.createObjectURL(file) : 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80';
+    const localUrl = file ? URL.createObjectURL(file) : 'https://images.unsplash.com/photo-1548263594-a71ea65a8598?auto=format&fit=crop&w=800&q=80';
 
     return {
       id: `ev-local-${Date.now()}`,
@@ -850,7 +850,7 @@ export const api = {
         latitude: 18.9142,
         longitude: 73.3281,
         has_exif_gps: true,
-        image_url: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
+        image_url: 'https://images.unsplash.com/photo-1548263594-a71ea65a8598?auto=format&fit=crop&w=800&q=80',
         authenticity_status: 'VERIFIED_AUTHENTIC',
         authenticity_details: 'EXIF camera telemetry verified against CartoDEM flow coordinates. Soil moisture matches Sentinel-2 NDWI baseline.',
         structural_condition: 'Moderate Siltation (35%)',
@@ -871,7 +871,7 @@ export const api = {
         latitude: 18.9185,
         longitude: 73.3320,
         has_exif_gps: true,
-        image_url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80',
+        image_url: 'https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?auto=format&fit=crop&w=800&q=80',
         authenticity_status: 'VERIFIED_AUTHENTIC',
         authenticity_details: 'GPS geotag confirmed inside Order 2 drainage reach. No photo duplication or digital manipulation detected.',
         structural_condition: 'Good / Operational',

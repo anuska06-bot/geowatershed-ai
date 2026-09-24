@@ -11,6 +11,27 @@ interface ChangeDetectionViewProps {
 
 type IndicatorBand = 'ndvi' | 'ndwi' | 'rgb' | 'bare_soil';
 
+const SATELLITE_IMAGE_PAIRS: Record<string, { before: string; after: string; description: string }> = {
+  'MH-WDC-042': {
+    // Karjat, Maharashtra: Pre-monsoon arid basalt catchment -> Post-intervention lush green valley & check dam reservoir
+    before: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=1600&q=85',
+    after: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=85',
+    description: 'Deccan Basalt Catchment (Pre-Monsoon Dry Baseline vs Post-Monsoon Operational Greenness)'
+  },
+  'RJ-WDC-108': {
+    // Alwar, Rajasthan: Hyper-arid parched scrubland -> Traditional Johad recharge with green agricultural perimeter
+    before: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1600&q=85',
+    after: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=85',
+    description: 'Semi-Arid Aravalli Basin (Severe Drought Baseline vs Johad Water Harvesting Storage)'
+  },
+  'MP-WDC-077': {
+    // Jhabua, Madhya Pradesh: Severely degraded undulating slopes -> Continuous contour trenching & terraced agroforestry
+    before: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1600&q=85',
+    after: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=85',
+    description: 'Central Undulating Red Soil Ridge (Eroded Rill Slopes vs Vetiver Terracing & Tree Cover)'
+  }
+};
+
 export const ChangeDetectionView: React.FC<ChangeDetectionViewProps> = ({ watershed }) => {
   const [selectedLocation, setSelectedLocation] = useState<string>(watershed.code || 'MH-WDC-042');
   const [indicator, setIndicator] = useState<IndicatorBand>('ndvi');
@@ -18,39 +39,43 @@ export const ChangeDetectionView: React.FC<ChangeDetectionViewProps> = ({ waters
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | null>(null);
+  const directionRef = useRef<number>(1);
 
   const activeRecord = WATERSHED_CHANGE_DETECTION_RECORDS[selectedLocation] || WATERSHED_CHANGE_DETECTION_RECORDS['MH-WDC-042'];
+  const currentImages = SATELLITE_IMAGE_PAIRS[selectedLocation] || SATELLITE_IMAGE_PAIRS['MH-WDC-042'];
 
   // Handle smooth drag on slider
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (e.buttons !== 1 && e.type !== 'pointerdown') return;
     if (!containerRef.current) return;
+    if (isPlaying) {
+      setIsPlaying(false);
+    }
     const rect = containerRef.current.getBoundingClientRect();
     const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
     const pct = Math.round((x / rect.width) * 100);
     setSliderPos(pct);
   };
 
-  // Automated sweep animation
+  // Automated sweep animation (smooth 60fps ping-pong between 8% and 92%)
   useEffect(() => {
     if (!isPlaying) {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
       return;
     }
 
-    let direction = 1;
-    let current = sliderPos;
-
     const step = () => {
-      current += direction * 0.75;
-      if (current >= 95) {
-        current = 95;
-        direction = -1;
-      } else if (current <= 5) {
-        current = 5;
-        direction = 1;
-      }
-      setSliderPos(Math.round(current));
+      setSliderPos((prev) => {
+        let next = prev + directionRef.current * 0.45;
+        if (next >= 92) {
+          next = 92;
+          directionRef.current = -1;
+        } else if (next <= 8) {
+          next = 8;
+          directionRef.current = 1;
+        }
+        return next;
+      });
       animationRef.current = requestAnimationFrame(step);
     };
 
@@ -58,7 +83,7 @@ export const ChangeDetectionView: React.FC<ChangeDetectionViewProps> = ({ waters
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
-  }, [isPlaying, sliderPos]);
+  }, [isPlaying]);
 
   return (
     <div className="w-full space-y-6 pb-12 font-sans text-slate-100">
@@ -105,6 +130,9 @@ export const ChangeDetectionView: React.FC<ChangeDetectionViewProps> = ({ waters
               <h3 className="font-bold text-sm text-white font-mono">
                 {activeRecord.location_name}
               </h3>
+              <p className="text-[11px] text-slate-400 font-sans">
+                {currentImages.description}
+              </p>
             </div>
 
             {/* Band Selector */}
@@ -143,15 +171,15 @@ export const ChangeDetectionView: React.FC<ChangeDetectionViewProps> = ({ waters
             onPointerMove={handlePointerMove}
             className="relative w-full h-[380px] sm:h-[460px] rounded-xl overflow-hidden border border-slate-800 select-none cursor-ew-resize touch-none shadow-inner bg-[#07130F]"
           >
-            {/* "AFTER" Image (Base layer) */}
+            {/* "AFTER" Image (Base layer - Operational Treatment) */}
             <div 
-              className="absolute inset-0 bg-cover bg-center"
+              className="absolute inset-0 bg-cover bg-center transition-all duration-300"
               style={{
                 backgroundImage: indicator === 'ndvi' 
-                  ? `linear-gradient(to bottom, rgba(16, 185, 129, 0.40), rgba(7, 19, 15, 0.75)), url('/watershed-hero-hd.jpg')`
+                  ? `linear-gradient(to bottom, rgba(16, 185, 129, 0.35), rgba(7, 19, 15, 0.70)), url('${currentImages.after}')`
                   : indicator === 'ndwi'
-                  ? `linear-gradient(to bottom, rgba(22, 119, 255, 0.45), rgba(7, 19, 15, 0.75)), url('/watershed-hero-hd.jpg')`
-                  : `linear-gradient(to bottom, rgba(217, 119, 6, 0.35), rgba(7, 19, 15, 0.75)), url('/watershed-hero-hd.jpg')`
+                  ? `linear-gradient(to bottom, rgba(14, 165, 233, 0.40), rgba(7, 19, 15, 0.70)), url('${currentImages.after}')`
+                  : `linear-gradient(to bottom, rgba(180, 83, 9, 0.25), rgba(7, 19, 15, 0.70)), url('${currentImages.after}')`
               }}
             >
               <div className="absolute top-4 right-4 px-3 py-1.5 rounded-lg bg-[#07130F]/90 backdrop-blur-md border border-[#7DD3A7]/40 text-[#7DD3A7] text-xs font-mono font-bold shadow-md">
@@ -159,16 +187,16 @@ export const ChangeDetectionView: React.FC<ChangeDetectionViewProps> = ({ waters
               </div>
             </div>
 
-            {/* "BEFORE" Image (Clipped layer) */}
+            {/* "BEFORE" Image (Clipped layer - Baseline Dry/Pre-Intervention) */}
             <div 
-              className="absolute inset-0 bg-cover bg-center border-r-2 border-white shadow-2xl"
+              className="absolute inset-0 bg-cover bg-center border-r-2 border-white shadow-2xl transition-[width] duration-75"
               style={{
                 width: `${sliderPos}%`,
                 backgroundImage: indicator === 'ndvi' 
-                  ? `linear-gradient(to bottom, rgba(115, 115, 115, 0.55), rgba(7, 19, 15, 0.85)), url('/watershed-hero-hd.jpg')`
+                  ? `linear-gradient(to bottom, rgba(161, 98, 7, 0.35), rgba(7, 19, 15, 0.75)), url('${currentImages.before}')`
                   : indicator === 'ndwi'
-                  ? `linear-gradient(to bottom, rgba(100, 116, 139, 0.55), rgba(7, 19, 15, 0.85)), url('/watershed-hero-hd.jpg')`
-                  : `linear-gradient(to bottom, rgba(180, 83, 9, 0.55), rgba(7, 19, 15, 0.85)), url('/watershed-hero-hd.jpg')`
+                  ? `linear-gradient(to bottom, rgba(71, 85, 105, 0.40), rgba(7, 19, 15, 0.75)), url('${currentImages.before}')`
+                  : `linear-gradient(to bottom, rgba(234, 88, 12, 0.45), rgba(7, 19, 15, 0.75)), url('${currentImages.before}')`
               }}
             >
               <div className="absolute top-4 left-4 px-3 py-1.5 rounded-lg bg-[#07130F]/90 backdrop-blur-md border border-slate-700 text-slate-300 text-xs font-mono font-bold shadow-md">
