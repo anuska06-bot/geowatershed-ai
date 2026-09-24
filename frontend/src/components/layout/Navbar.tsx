@@ -15,7 +15,6 @@ export type AppTab =
   | 'interventions'
   | 'recommendations'
   | 'reports'
-  | 'methodology'
   | 'survey'
   | 'overview'
   | 'minister'

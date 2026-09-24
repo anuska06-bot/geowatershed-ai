@@ -106,8 +106,8 @@ export const AskGeoWatershedAiModal: React.FC<AskGeoWatershedAiModalProps> = ({
         targetLabel = 'Inspect Full Registry';
       } else {
         reply = `The requested parameter is not directly available in the currently loaded WDC-PMKSY 2.0 dataset for ${wsName}. Available datasets include CartoDEM 30m terrain, Sentinel-2 NDVI/NDWI, D8 stream orders, and GPS-tagged field photography.`;
-        targetTab = 'methodology';
-        targetLabel = 'Check Data Lineage Matrix';
+        targetTab = 'analysis';
+        targetLabel = 'Open Watershed Analysis';
       }
 
       const botMsg: ChatMessage = {

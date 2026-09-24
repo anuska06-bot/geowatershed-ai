@@ -34,10 +34,6 @@ export const TAB_META: Record<AppTab, { title: string; description: string }> = 
     title: 'Automated 15-Point Watershed Outcome Dossier | GeoWatershed AI',
     description: 'Statutory outcome assessment report covering terrain, remote sensing, intervention inventory, and field validation protocols.'
   },
-  methodology: {
-    title: 'Data Lineage & Scientific Transparency | GeoWatershed AI',
-    description: 'Explicit disclosure of all geospatial layers, satellite surface reflectance inputs, terrain models, and demonstration classifiers.'
-  },
   survey: {
     title: 'Field Surveyor Mobile PWA & In-Situ Geotagging | GeoWatershed AI',
     description: 'Mobile progressive web app for field survey teams capturing EXIF-validated evidence with offline local storage.'

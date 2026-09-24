@@ -28,7 +28,6 @@ import { ChangeDetectionView } from './components/temporal/ChangeDetectionView';
 import { InterventionsView } from './components/interventions/InterventionsView';
 import { RecommendationsView } from './components/recommendations/RecommendationsView';
 import { ReportsView } from './components/reports/ReportsView';
-import { DataMethodologyView } from './components/methodology/DataMethodologyView';
 
 // AI Diagnostics & Modals
 import { SutraAiAssistantModal } from './components/ai/SutraAiAssistantModal';
@@ -566,15 +565,10 @@ export const App: React.FC = () => {
               />
             )}
 
-            {/* View 14: Data Lineage, Verification Matrix & Scientific Methodology (SIH PS 26015) */}
-            {currentTab === 'methodology' && (
-              <DataMethodologyView />
-            )}
-
             {/* Custom 404 View for Invalid Tab (Item 1) */}
             {![
               'dashboard', 'explorer', 'image-intelligence', 'analysis', 'change-detection',
-              'interventions', 'recommendations', 'reports', 'methodology', 'survey',
+              'interventions', 'recommendations', 'reports', 'survey',
               'overview', 'minister', 'telemetry-ml', 'flood-bypass', 'projects', 'economics', 'audit'
             ].includes(currentTab) && (
               <NotFoundView
@@ -860,16 +854,6 @@ export const App: React.FC = () => {
 
             {/* Right: Institutional Modals & Helpdesk */}
             <div className="flex flex-wrap items-center justify-center gap-3 text-xs">
-              <button
-                onClick={() => {
-                  setCurrentTab('methodology');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="text-slate-300 hover:text-[#7DD3A7] transition-colors underline underline-offset-4"
-              >
-                Data Lineage &amp; Methodology
-              </button>
-              <span className="text-slate-600">•</span>
               <button
                 onClick={() => setIsTosOpen(true)}
                 className="text-slate-300 hover:text-[#7DD3A7] transition-colors underline underline-offset-4"

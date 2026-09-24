@@ -42,9 +42,6 @@ export const LandingView: React.FC<LandingViewProps> = ({
   onSwitchWatershed,
   watershedList = [],
 }) => {
-  // Methodology active tab
-  const [activeMethodTab, setActiveMethodTab] = useState<'data' | 'processing' | 'ai' | 'output'>('data');
-
   // Interactive AI assessment simulator state
   const [isProcessingAi, setIsProcessingAi] = useState(false);
   const [processingStep, setProcessingStep] = useState(0);
@@ -164,7 +161,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <span className="text-[11px] font-mono font-semibold text-[#7DD3A7] uppercase tracking-widest block mb-1">
-            System Methodology
+            Operational Workflow
           </span>
           <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
             The Geospatial Decision Pipeline
@@ -877,120 +874,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
 
 
       {/* ========================================================================= */}
-      {/* 9. TECHNICAL METHODOLOGY & COMPLIANCE (EXPANDABLE TABS)                   */}
-      {/* ========================================================================= */}
-      <section id="methodology" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24 space-y-6">
-        <div className="text-center max-w-2xl mx-auto mb-8">
-          <span className="text-[11px] font-mono font-semibold text-[#7DD3A7] uppercase tracking-widest block mb-1">
-            Technical Governance
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-            Methodology &amp; Standards
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-300 mt-2">
-            Scientific equations, training datasets, and statutory compliance frameworks.
-          </p>
-        </div>
-
-        <div className="rounded-xl border border-slate-800 bg-[#07130F] overflow-hidden">
-          {/* Tab Selector Bar */}
-          <div className="flex border-b border-slate-800 bg-[#0B1F1A] text-xs font-mono font-semibold overflow-x-auto scrollbar-none">
-            {[
-              { id: 'data', label: '1. Ingestion Datasets' },
-              { id: 'processing', label: '2. D8 Terrain Math' },
-              { id: 'ai', label: '3. Machine Learning' },
-              { id: 'output', label: '4. Statutory Compliance' },
-            ].map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => setActiveMethodTab(t.id as any)}
-                className={`py-3 px-5 whitespace-nowrap transition-colors border-b-2 ${
-                  activeMethodTab === t.id
-                    ? 'border-[#7DD3A7] text-[#7DD3A7] bg-[#123C35]/30'
-                    : 'border-transparent text-slate-400 hover:text-white'
-                }`}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Tab Content */}
-          <div className="p-6 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-3 font-sans">
-            {activeMethodTab === 'data' && (
-              <div className="space-y-3">
-                <h4 className="font-bold text-white text-base">Multi-Stream Geospatial Telemetry Ingestion</h4>
-                <p>
-                  Combines Sentinel-2 Level-2A bottom-of-atmosphere reflectance (10m resolution for bands 2, 3, 4, 8) with CartoDEM 30m elevation models.
-                  Precipitation metrics are synchronized via Open-Meteo and India Meteorological Department (IMD) APIs, supplemented with 1,420 CGWB observation wells for ground-truth water table calibration.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 font-mono text-xs">
-                  <div className="p-3 bg-[#0B1F1A] rounded-lg border border-slate-800">
-                    <span className="text-[#7DD3A7] font-bold block">Sentinel-2 L2A</span>
-                    <span className="text-slate-400 text-[11px]">NDVI / NDWI / BSI</span>
-                  </div>
-                  <div className="p-3 bg-[#0B1F1A] rounded-lg border border-slate-800">
-                    <span className="text-sky-400 font-bold block">CartoDEM 30m</span>
-                    <span className="text-slate-400 text-[11px]">D8 Flow &amp; Elevation</span>
-                  </div>
-                  <div className="p-3 bg-[#0B1F1A] rounded-lg border border-slate-800">
-                    <span className="text-amber-400 font-bold block">CGWB Database</span>
-                    <span className="text-slate-400 text-[11px]">1,420 National Wells</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeMethodTab === 'processing' && (
-              <div className="space-y-3">
-                <h4 className="font-bold text-white text-base">Hydrological &amp; D8 Routing Algorithms</h4>
-                <p>
-                  Flow direction is determined via the deterministic eight-neighbor (D8) algorithm. Flow accumulation matrices compute the total upstream area draining into each grid cell.
-                  Drainage streams are classified following Arthur Strahler’s hierarchy (1952), filtering channels with minimum upstream threshold cells to eliminate spurious runoff artifacts.
-                </p>
-                <div className="p-3 bg-[#0B1F1A] rounded-lg border border-slate-800 font-mono text-xs text-slate-300">
-                  RUSLE Equation: A = R × K × LS × C × P (Computed across slope and vegetation density).
-                </div>
-              </div>
-            )}
-
-            {activeMethodTab === 'ai' && (
-              <div className="space-y-3">
-                <h4 className="font-bold text-white text-base">Random Forest &amp; Gradient Boosting Architecture</h4>
-                <p>
-                  Trained on 14,280 verified national watershed locations across Maharashtra, Rajasthan, Karnataka, Madhya Pradesh, and Uttarakhand.
-                  Features include groundwater depth, surface runoff, stream order, NDVI vegetation vigor, and bare soil index.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 font-mono text-xs">
-                  <div className="p-3 bg-[#0B1F1A] rounded-lg border border-slate-800">
-                    <span className="text-emerald-400 font-bold">94.8% F1-Score</span>
-                    <span className="text-slate-400 block text-[11px]">Recharge Zone Classification</span>
-                  </div>
-                  <div className="p-3 bg-[#0B1F1A] rounded-lg border border-slate-800">
-                    <span className="text-teal-400 font-bold">96.5% Precision</span>
-                    <span className="text-slate-400 block text-[11px]">Check Dam &amp; Tank Siting</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeMethodTab === 'output' && (
-              <div className="space-y-3">
-                <h4 className="font-bold text-white text-base">Statutory Compliance &amp; Audit Trail</h4>
-                <p>
-                  Fully aligned with the Ministry of Rural Development guidelines for Watershed Development Component of Pradhan Mantri Krishi Sinchayee Yojana (WDC-PMKSY 2.0).
-                  Compliant with National Geospatial Policy (NGP-2022) and Digital Personal Data Protection Act (DPDP 2023). Every field observation is cryptographically hashed with SHA-256 for parliamentary audit.
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-
-      {/* ========================================================================= */}
-      {/* 10. NATIONAL IMPACT METRICS & FINAL LAUNCH CTA                             */}
+      {/* 9. NATIONAL IMPACT METRICS & FINAL LAUNCH CTA                             */}
       {/* ========================================================================= */}
       <section id="impact" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
         <div className="p-8 sm:p-10 rounded-xl border border-slate-800 bg-[#07130F] text-center space-y-8">

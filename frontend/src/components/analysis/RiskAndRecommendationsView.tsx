@@ -7,7 +7,12 @@ import {
   CloudRain, 
   ShieldAlert, 
   Bot,
-  Radio
+  Radio,
+  Calculator,
+  ChevronDown,
+  ChevronUp,
+  Database,
+  Cpu
 } from 'lucide-react';
 
 interface RiskAndRecommendationsViewProps {
@@ -68,6 +73,7 @@ export const RiskAndRecommendationsView: React.FC<RiskAndRecommendationsViewProp
   const [selectedRiskId, setSelectedRiskId] = useState<string | null>(null);
   const [simulatedRainfall, setSimulatedRainfall] = useState<number>(45); // mm/hr
   const [filterLevel, setFilterLevel] = useState<'ALL' | 'CRITICAL_HIGH' | 'MODERATE'>('ALL');
+  const [showCalculationDetails, setShowCalculationDetails] = useState<boolean>(true);
 
   const wsId = watershed?.id || '1';
   const wsName = watershed?.name || 'Karjat Micro-Watershed';
@@ -233,6 +239,125 @@ export const RiskAndRecommendationsView: React.FC<RiskAndRecommendationsViewProp
               </span>
             )}
           </div>
+        </div>
+
+        {/* Risk Alert Calculation Architecture & Methodology Panel */}
+        <div className="bg-[#121619] border border-[#2c373d] rounded-lg overflow-hidden font-mono">
+          <div 
+            onClick={() => setShowCalculationDetails(!showCalculationDetails)}
+            className="flex items-center justify-between p-3.5 bg-[#161c20] cursor-pointer hover:bg-[#1c242a] transition-colors"
+          >
+            <div className="flex items-center gap-2.5">
+              <Calculator className="w-4 h-4 text-[#7DD3A7]" />
+              <span className="text-xs font-bold text-[#f1f0eb]">
+                Risk Alert Calculation Engine &amp; Architectural Lineage
+              </span>
+              <span className="text-[10px] px-2 py-0.5 rounded bg-[#10b981]/20 text-[#10b981] border border-[#10b981]/40 font-semibold">
+                Server-Side Backend + Client Stress Engine
+              </span>
+            </div>
+            <div className="flex items-center gap-2 text-xs text-[#7DD3A7]">
+              <span>{showCalculationDetails ? 'Collapse Details' : 'Expand Formulas & Code Locations'}</span>
+              {showCalculationDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </div>
+          </div>
+
+          {showCalculationDetails && (
+            <div className="p-4 space-y-4 border-t border-[#2c373d] text-xs font-sans text-slate-300">
+              
+              {/* Part 1: Where the Calculation Happens (Code Locations & Architecture) */}
+              <div>
+                <div className="flex items-center gap-2 mb-2 font-mono">
+                  <Database className="w-4 h-4 text-sky-400" />
+                  <span className="font-bold text-white text-xs uppercase tracking-wider">
+                    1. Where Calculation Is Executed (Code Architecture)
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-[11px]">
+                  <div className="p-3 bg-[#0B1F1A] rounded border border-slate-800 space-y-1">
+                    <span className="text-[#7DD3A7] font-bold block">Backend REST Endpoint</span>
+                    <span className="text-slate-400 block font-mono text-[10px]">
+                      GET /api/v1/analysis/risk-screening/{'{watershed_id}'}
+                    </span>
+                    <p className="text-slate-300 text-[10px] font-sans">
+                      Defined in <code className="text-sky-300">backend/app/api/analysis_router.py</code> (Lines 98–460). Computes geo-specific hazard zones, triggering metrics, and mitigation actions.
+                    </p>
+                  </div>
+
+                  <div className="p-3 bg-[#0B1F1A] rounded border border-slate-800 space-y-1">
+                    <span className="text-sky-400 font-bold block">ML Feature &amp; Erosion Engine</span>
+                    <span className="text-slate-400 block font-mono text-[10px]">
+                      RandomForest &amp; HistGradientBoosting
+                    </span>
+                    <p className="text-slate-300 text-[10px] font-sans">
+                      Located in <code className="text-sky-300">backend/app/services/ml_service.py</code>. Calibrates slope, TWI, and vegetative vigor against 14,280 national ground-truth data points.
+                    </p>
+                  </div>
+
+                  <div className="p-3 bg-[#0B1F1A] rounded border border-slate-800 space-y-1">
+                    <span className="text-amber-400 font-bold block">Client Real-Time Simulator</span>
+                    <span className="text-slate-400 block font-mono text-[10px]">
+                      Dynamic Storm Stress Scaling
+                    </span>
+                    <p className="text-slate-300 text-[10px] font-sans">
+                      Located in <code className="text-sky-300">RiskAndRecommendationsView.tsx</code> (Lines 244–250). Dynamically scales the base screening score with simulated monsoon rainfall.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Part 2: How It Is Calculated (Mathematical Formulation & Multi-Criteria Weights) */}
+              <div>
+                <div className="flex items-center gap-2 mb-2 font-mono">
+                  <Cpu className="w-4 h-4 text-emerald-400" />
+                  <span className="font-bold text-white text-xs uppercase tracking-wider">
+                    2. Mathematical Formulation &amp; Multi-Criteria Factor Weights
+                  </span>
+                </div>
+
+                <div className="p-3 bg-[#07130F] rounded-lg border border-slate-800 space-y-3 font-mono text-xs">
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                    <span className="text-slate-300 font-semibold">Composite Baseline Risk Formula:</span>
+                    <span className="text-[#7DD3A7] font-bold">
+                      Risk_Base = (0.35 × S) + (0.30 × D) + (0.20 × V) + (0.15 × M)
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-[10px]">
+                    <div className="p-2 bg-[#0B1F1A] rounded border border-slate-800/80">
+                      <span className="text-emerald-400 font-bold block">Terrain Energy (S: 35%)</span>
+                      <span className="text-slate-400 font-sans">CartoDEM 30m slope gradient. Gradients &gt;15% accelerate particle detachment.</span>
+                    </div>
+                    <div className="p-2 bg-[#0B1F1A] rounded border border-slate-800/80">
+                      <span className="text-sky-400 font-bold block">Drainage Concavity (D: 30%)</span>
+                      <span className="text-slate-400 font-sans">D8 flow accumulation &amp; Strahler stream order (Orders 1–4) channel scour.</span>
+                    </div>
+                    <div className="p-2 bg-[#0B1F1A] rounded border border-slate-800/80">
+                      <span className="text-amber-400 font-bold block">Canopy Deficit (V: 20%)</span>
+                      <span className="text-slate-400 font-sans">Sentinel-2 L2A (1.0 - NDVI). Barren soil increases splash erosion vulnerability.</span>
+                    </div>
+                    <div className="p-2 bg-[#0B1F1A] rounded border border-slate-800/80">
+                      <span className="text-rose-400 font-bold block">Antecedent Stress (M: 15%)</span>
+                      <span className="text-slate-400 font-sans">Open-Meteo &amp; IMD telemetry coupled with CGWB water table depth metrics.</span>
+                    </div>
+                  </div>
+
+                  {/* Dynamic Scaling Formula */}
+                  <div className="border-t border-slate-800 pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px]">
+                    <span className="text-slate-300">
+                      Dynamic Storm Response: <code className="text-amber-300 font-bold">Adjusted_Score = min(100, Base_Score × (Rainfall / 50))</code>
+                    </span>
+                    <div className="flex items-center gap-3 text-[10px]">
+                      <span className="text-rose-400 font-bold">≥75%: Critical/High</span>
+                      <span className="text-amber-400 font-bold">50-74%: Moderate</span>
+                      <span className="text-emerald-400 font-bold">&lt;50%: Low</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          )}
         </div>
 
         {/* Interactive Risk Alert Zones Grid */}
