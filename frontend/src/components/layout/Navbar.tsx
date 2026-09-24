@@ -2,21 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { UserRole, AuthUser, WatershedSummary } from '../../types';
 import {
   Shield, Camera, FileText, Download, Layers,
-  Map, Radar, Waves, AlertTriangle, Briefcase,
-  Calculator, Smartphone, Home, LogOut, User,
-  Building2, Bot, MapPin, ShieldCheck, Menu, X
+  Map, Smartphone, Home, LogOut, User,
+  Bot, MapPin, ShieldCheck, Menu, X, Play, Sparkles, Mountain, TrendingUp
 } from 'lucide-react';
 
 export type AppTab =
+  | 'dashboard'
+  | 'explorer'
+  | 'image-intelligence'
+  | 'analysis'
+  | 'change-detection'
+  | 'interventions'
+  | 'recommendations'
+  | 'reports'
+  | 'methodology'
+  | 'survey'
   | 'overview'
   | 'minister'
-  | 'explorer'
   | 'telemetry-ml'
   | 'flood-bypass'
-  | 'analysis'
   | 'projects'
   | 'economics'
-  | 'survey'
   | 'audit';
 
 interface NavbarProps {
@@ -27,6 +33,8 @@ interface NavbarProps {
   selectedWatershedId?: string;
   onSelectWatershed?: (id: string) => void;
   onOpenSutraAi?: () => void;
+  onOpenAskAi?: () => void;
+  onOpenSihDemo?: () => void;
   onSignOut?: () => void;
   onOpenLogin?: () => void;
   onTabChange: (tab: AppTab) => void;
@@ -45,16 +53,16 @@ const ROLES: { key: UserRole; label: string; badge: string }[] = [
 ];
 
 export const ALL_SUBPARTS_TABS: { key: AppTab; label: string; icon: React.FC<any>; desc: string }[] = [
-  { key: 'overview', label: 'Overview & Showcase', icon: Home, desc: 'Interactive Platform Showcase & Science Story' },
-  { key: 'explorer', label: 'GIS Map & Streams', icon: Map, desc: 'D8 Drainage, Strahler Streams & Layers' },
-  { key: 'minister', label: 'Ministerial Command', icon: Building2, desc: 'Cabinet Briefings & Pan-India Index' },
-  { key: 'telemetry-ml', label: 'Watershed Telemetry & AI', icon: Radar, desc: 'Live Open-Meteo & Soil ML Models' },
-  { key: 'flood-bypass', label: 'Flood Bypass & Dam Tracker', icon: Waves, desc: 'Q50 Channels & Storage Siting' },
-  { key: 'analysis', label: 'Flood Risk Alerts', icon: AlertTriangle, desc: 'Gully Erosion & SUTRA-AI Diagnostics' },
-  { key: 'projects', label: 'Conservation Budget', icon: Briefcase, desc: 'Capital Outlay & Works Register' },
-  { key: 'economics', label: 'Cost Analysis (BCR)', icon: Calculator, desc: 'BCR Ratios & Economic Returns' },
-  { key: 'survey', label: 'Field Surveyor Mobile', icon: Smartphone, desc: 'In-Situ Camera EXIF Verification' },
-  { key: 'audit', label: 'Admin Portal & Reports', icon: ShieldCheck, desc: 'Cryptographic Ledger & Audit Logs' },
+  { key: 'dashboard', label: 'Dashboard', icon: Home, desc: 'Operational Overview & Catchment KPIs' },
+  { key: 'explorer', label: 'Explore Map', icon: Map, desc: 'GIS Workstation, D8 Drainage & Layers' },
+  { key: 'image-intelligence', label: 'Image Intelligence', icon: Camera, desc: 'Geo-Coded EXIF Photos & Classification' },
+  { key: 'analysis', label: 'Watershed Analysis', icon: Mountain, desc: 'Terrain, Elevation & Runoff Potential' },
+  { key: 'change-detection', label: 'Change Detection', icon: TrendingUp, desc: 'Before vs After Multi-Spectral Audit' },
+  { key: 'interventions', label: 'Interventions', icon: Layers, desc: 'Structured Works & Field Inspection Registry' },
+  { key: 'recommendations', label: 'AI Recommendations', icon: Sparkles, desc: 'Siting, Drainage & Cost Estimation' },
+  { key: 'reports', label: 'Reports', icon: FileText, desc: 'Automated 15-Point Outcome Dossier' },
+  { key: 'methodology', label: 'Data & Methodology', icon: ShieldCheck, desc: 'Data Lineage & Scientific Transparency' },
+  { key: 'survey', label: 'Field Mobile PWA', icon: Smartphone, desc: 'Handheld GPS Evidence Collector' },
 ];
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -65,6 +73,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   selectedWatershedId,
   onSelectWatershed,
   onOpenSutraAi,
+  onOpenAskAi,
+  onOpenSihDemo,
   onSignOut,
   onOpenLogin,
   onTabChange,
@@ -145,15 +155,41 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Right: Quick Action Buttons & User Controls */}
           <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
 
+            {/* SIH 2-to-3 Minute Guided Demo Mode */}
+            {onOpenSihDemo && (
+              <button
+                type="button"
+                onClick={onOpenSihDemo}
+                className="h-8.5 px-3 rounded-lg bg-[#10b981] hover:bg-[#059669] text-[#0B1F1A] text-xs font-mono font-bold inline-flex items-center gap-1.5 transition shadow-sm whitespace-nowrap"
+                title="Launch 2-to-3 Minute Guided SIH Judge Walkthrough"
+              >
+                <Play className="w-3.5 h-3.5 fill-current text-[#0B1F1A]" />
+                <span className="font-extrabold tracking-wide">SIH Demo</span>
+              </button>
+            )}
+
+            {/* Ask GeoWatershed AI Assistant */}
+            {onOpenAskAi && (
+              <button
+                type="button"
+                onClick={onOpenAskAi}
+                className="h-8.5 px-2.5 rounded-lg bg-[#123C35] hover:bg-[#1b564c] border border-[#7DD3A7]/40 text-[#7DD3A7] text-xs font-mono font-semibold inline-flex items-center gap-1.5 transition shadow-sm whitespace-nowrap"
+                title="Ask Technical Questions Grounded in Catchment Data"
+              >
+                <Bot className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Ask AI</span>
+              </button>
+            )}
+
             {/* SUTRA-AI Diagnostic Tool */}
             {onOpenSutraAi && (
               <button
                 type="button"
                 onClick={onOpenSutraAi}
-                className="h-8.5 px-2.5 rounded-lg bg-[#123C35] hover:bg-[#1b564c] border border-[#7DD3A7]/40 text-[#7DD3A7] text-xs font-mono font-semibold inline-flex items-center gap-1.5 transition shadow-sm whitespace-nowrap"
+                className="h-8.5 px-2.5 rounded-lg bg-[#07130F] hover:bg-[#123C35] border border-slate-700/80 text-slate-300 hover:text-white text-xs font-mono font-semibold inline-flex items-center gap-1.5 transition shadow-sm whitespace-nowrap"
                 title="Open SUTRA-AI Diagnostic Assistant"
               >
-                <Bot className="w-3.5 h-3.5" />
+                <Sparkles className="w-3.5 h-3.5 text-[#7DD3A7]" />
                 <span className="hidden sm:inline">SUTRA-AI</span>
               </button>
             )}

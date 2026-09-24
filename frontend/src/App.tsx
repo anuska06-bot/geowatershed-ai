@@ -21,8 +21,19 @@ import { FieldSurveyView } from './components/survey/FieldSurveyView';
 import { AdminAuditView } from './components/admin/AdminAuditView';
 import { TelemetryMLView } from './components/telemetry/TelemetryMLView';
 
-// AI Diagnostics
+// SIH PS 26015 Upgraded Views
+import { DashboardView } from './components/dashboard/DashboardView';
+import { ImageIntelligenceView } from './components/evidence/ImageIntelligenceView';
+import { ChangeDetectionView } from './components/temporal/ChangeDetectionView';
+import { InterventionsView } from './components/interventions/InterventionsView';
+import { RecommendationsView } from './components/recommendations/RecommendationsView';
+import { ReportsView } from './components/reports/ReportsView';
+import { DataMethodologyView } from './components/methodology/DataMethodologyView';
+
+// AI Diagnostics & Modals
 import { SutraAiAssistantModal } from './components/ai/SutraAiAssistantModal';
+import { AskGeoWatershedAiModal } from './components/ai/AskGeoWatershedAiModal';
+import { SihDemoModeModal } from './components/demo/SihDemoModeModal';
 
 // Production Readiness Components (20-Point Checklist)
 import { usePageMeta } from './utils/usePageMeta';
@@ -48,7 +59,7 @@ export const App: React.FC = () => {
   });
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [currentRole, setCurrentRole] = useState<UserRole>(currentUser?.role || 'ROLE_FIELD_OFFICER');
-  const [currentTab, setCurrentTab] = useState<AppTab>('overview');
+  const [currentTab, setCurrentTab] = useState<AppTab>('dashboard');
 
   const [watershedList, setWatershedList] = useState<WatershedSummary[]>([]);
   const [watershed, setWatershed] = useState<WatershedDetail | null>(null);
@@ -61,6 +72,8 @@ export const App: React.FC = () => {
   const [isDossierOpen, setIsDossierOpen] = useState(false);
   const [isSutraAiOpen, setIsSutraAiOpen] = useState(false);
   const [sutraStructureType, setSutraStructureType] = useState<string>('Check Dam');
+  const [isAskAiOpen, setIsAskAiOpen] = useState(false);
+  const [isSihDemoOpen, setIsSihDemoOpen] = useState(false);
   const [isTosOpen, setIsTosOpen] = useState(false);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
@@ -277,6 +290,8 @@ export const App: React.FC = () => {
           onOpenUpload={() => setIsUploadOpen(true)}
           onOpenDossier={() => setIsDossierOpen(true)}
           onDownloadCsv={handleDownloadCsv}
+          onOpenAskAi={() => setIsAskAiOpen(true)}
+          onOpenSihDemo={() => setIsSihDemoOpen(true)}
         />
 
         {/* Main App Container */}
@@ -323,7 +338,19 @@ export const App: React.FC = () => {
               </button>
             </div>
           ) : watershed ? (
-            <ErrorBoundary key={currentTab} onReset={() => setCurrentTab('overview')}>
+            <ErrorBoundary key={currentTab} onReset={() => setCurrentTab('dashboard')}>
+              {/* View 0: Master Watershed Decision Support Dashboard (SIH PS 26015) */}
+              {currentTab === 'dashboard' && (
+                <DashboardView
+                  watershed={watershed}
+                  evidenceList={evidenceList}
+                  onNavigateTab={handleTabChange}
+                  onSelectIntervention={handleSelectIntervention}
+                  onOpenUpload={() => setIsUploadOpen(true)}
+                  onOpenReport={() => setCurrentTab('reports')}
+                />
+              )}
+
               {/* View 1: Overview Landing Page */}
               {currentTab === 'overview' && (
                 <LandingView
@@ -493,10 +520,55 @@ export const App: React.FC = () => {
               <AdminAuditView currentUser={currentUser} />
             )}
 
+            {/* View 9: Geo-Coded Field Image Intelligence & Classification (SIH PS 26015) */}
+            {currentTab === 'image-intelligence' && (
+              <ImageIntelligenceView
+                watershed={watershed}
+                onViewOnMap={() => setCurrentTab('explorer')}
+              />
+            )}
+
+            {/* View 10: Multi-Temporal Remote Sensing & Change Detection (SIH PS 26015) */}
+            {currentTab === 'change-detection' && (
+              <ChangeDetectionView
+                watershed={watershed}
+              />
+            )}
+
+            {/* View 11: Structural Interventions & Works Monitoring (SIH PS 26015) */}
+            {currentTab === 'interventions' && (
+              <InterventionsView
+                watershed={watershed}
+                onViewOnMap={() => setCurrentTab('explorer')}
+                onOpenUpload={() => setIsUploadOpen(true)}
+              />
+            )}
+
+            {/* View 12: AI-Assisted Siting & Interventions Recommendation Engine (SIH PS 26015) */}
+            {currentTab === 'recommendations' && (
+              <RecommendationsView
+                watershed={watershed}
+                onViewOnMap={() => setCurrentTab('explorer')}
+              />
+            )}
+
+            {/* View 13: Statutory Watershed Outcome Assessment Dossier (SIH PS 26015) */}
+            {currentTab === 'reports' && (
+              <ReportsView
+                watershed={watershed}
+              />
+            )}
+
+            {/* View 14: Data Lineage, Verification Matrix & Scientific Methodology (SIH PS 26015) */}
+            {currentTab === 'methodology' && (
+              <DataMethodologyView />
+            )}
+
             {/* Custom 404 View for Invalid Tab (Item 1) */}
             {![
-              'overview', 'minister', 'explorer', 'telemetry-ml', 'flood-bypass',
-              'analysis', 'projects', 'economics', 'survey', 'audit'
+              'dashboard', 'explorer', 'image-intelligence', 'analysis', 'change-detection',
+              'interventions', 'recommendations', 'reports', 'methodology', 'survey',
+              'overview', 'minister', 'telemetry-ml', 'flood-bypass', 'projects', 'economics', 'audit'
             ].includes(currentTab) && (
               <NotFoundView
                 invalidEntity={currentTab}
@@ -547,6 +619,23 @@ export const App: React.FC = () => {
           onClose={() => setIsSutraAiOpen(false)}
           watershedId={watershed?.id}
           defaultStructure={sutraStructureType}
+        />
+
+        {/* Grounded Natural Language Spatial Query Assistant (SIH PS 26015) */}
+        <AskGeoWatershedAiModal
+          isOpen={isAskAiOpen}
+          onClose={() => setIsAskAiOpen(false)}
+          watershed={watershed}
+          onNavigateTab={handleTabChange}
+        />
+
+        {/* SIH PS 26015 Guided 2-Minute Judge Walkthrough */}
+        <SihDemoModeModal
+          isOpen={isSihDemoOpen}
+          onClose={() => setIsSihDemoOpen(false)}
+          watershed={watershed}
+          onNavigateTab={handleTabChange}
+          currentTab={currentTab}
         />
       </ErrorBoundary>
 

@@ -196,3 +196,124 @@ export interface FieldSurveySubmission {
   estimated_cost_inr: number;
   submitted_at: string;
 }
+
+// =========================================================================
+// SIH PS 26015 Specialized Interfaces
+// =========================================================================
+
+export type InterventionClass = 
+  | 'Check Dam'
+  | 'Farm Pond'
+  | 'Contour Bund'
+  | 'Drainage Structure'
+  | 'Diversion Drain'
+  | 'Water Body'
+  | 'Vegetation'
+  | 'Erosion'
+  | 'Bare Soil'
+  | 'Damaged Infrastructure'
+  | 'Sedimentation';
+
+export interface GeoCodedImageRecord {
+  id: string;
+  filename: string;
+  image_url: string;
+  thumbnail_url?: string;
+  latitude: number;
+  longitude: number;
+  elevation_meters?: number;
+  captured_at: string;
+  uploaded_at: string;
+  coordinate_source: 'EXIF_GPS' | 'MANUAL_PIN' | 'SURVEY_DEVICE';
+  intervention_type: InterventionClass;
+  observed_conditions: string;
+  confidence_score: number;
+  is_demo_analysis: boolean;
+  quality_score: number;
+  file_sha256: string;
+  surveyor_notes?: string;
+}
+
+export interface ChangeDetectionRecord {
+  location_name: string;
+  watershed_code: string;
+  before_date: string;
+  after_date: string;
+  baseline_ndvi: number;
+  operational_ndvi: number;
+  ndvi_change_observed: number;
+  baseline_water_ha: number;
+  operational_water_ha: number;
+  water_change_observed_ha: number;
+  baseline_bare_soil_pct: number;
+  operational_bare_soil_pct: number;
+  scientific_observation: string;
+}
+
+export interface StructuredInterventionItem {
+  id: string;
+  code: string;
+  name: string;
+  type: InterventionClass;
+  watershed_code: string;
+  watershed_name: string;
+  district: string;
+  state: string;
+  latitude: number;
+  longitude: number;
+  stream_order: number;
+  status: 'Operational' | 'Under Construction' | 'Inspection Due' | 'Maintenance Required';
+  inspection_date: string;
+  observed_condition: string;
+  field_images_count: number;
+  satellite_evidence_status: 'Consistent' | 'Under Review' | 'Verified';
+  ndvi_change_observed: string;
+  water_change_observed: string;
+  priority: 'HIGH' | 'MODERATE' | 'LOW';
+  description: string;
+}
+
+export interface AIInterventionRecommendationItem {
+  id: string;
+  structure_type: InterventionClass;
+  target_lat: number;
+  target_lon: number;
+  stream_order: number;
+  priority: 'HIGH' | 'MODERATE' | 'LOW';
+  confidence_score: number;
+  is_demo_confidence: boolean;
+  hydrological_reason: string;
+  recommended_materials: Array<{
+    material: string;
+    durability_years: number;
+    relative_cost: 'Low' | 'Moderate' | 'High';
+    suitability: string;
+  }>;
+  preliminary_cost: {
+    quantity: number;
+    estimated_material_cost_inr: number;
+    estimated_labour_cost_inr: number;
+    estimated_transport_cost_inr: number;
+    preliminary_total_inr: number;
+    cost_disclaimer: string;
+  };
+  drainage_corridor?: {
+    start_point: [number, number];
+    end_point: [number, number];
+    estimated_length_meters: number;
+    flow_direction_deg: number;
+    reason: string;
+    disclaimer: string;
+  };
+}
+
+export interface DataMethodologySource {
+  dataset_name: string;
+  source_agency: string;
+  resolution: string;
+  acquisition_date: string;
+  processing_method: string;
+  category: 'REAL_DATA' | 'API_DATA' | 'DEMO_SYNTHETIC';
+  description: string;
+}
+
