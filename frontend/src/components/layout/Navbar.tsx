@@ -3,7 +3,7 @@ import { UserRole, AuthUser, WatershedSummary } from '../../types';
 import {
   Shield, Camera, FileText, Download, Layers,
   Map, Smartphone, Home, LogOut, User,
-  Bot, MapPin, ShieldCheck, Menu, X, Sparkles, Mountain, TrendingUp
+  Bot, MapPin, Menu, X, Sparkles, Mountain, TrendingUp
 } from 'lucide-react';
 
 export type AppTab =
@@ -60,7 +60,6 @@ export const ALL_SUBPARTS_TABS: { key: AppTab; label: string; icon: React.FC<any
   { key: 'interventions', label: 'Interventions', icon: Layers, desc: 'Structured Works & Field Inspection Registry' },
   { key: 'recommendations', label: 'AI Recommendations', icon: Sparkles, desc: 'Siting, Drainage & Cost Estimation' },
   { key: 'reports', label: 'Reports', icon: FileText, desc: 'Automated 15-Point Outcome Dossier' },
-  { key: 'methodology', label: 'Data & Methodology', icon: ShieldCheck, desc: 'Data Lineage & Scientific Transparency' },
   { key: 'survey', label: 'Field Mobile PWA', icon: Smartphone, desc: 'Handheld GPS Evidence Collector' },
 ];
 

@@ -861,6 +861,16 @@ export const App: React.FC = () => {
             {/* Right: Institutional Modals & Helpdesk */}
             <div className="flex flex-wrap items-center justify-center gap-3 text-xs">
               <button
+                onClick={() => {
+                  setCurrentTab('methodology');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="text-slate-300 hover:text-[#7DD3A7] transition-colors underline underline-offset-4"
+              >
+                Data Lineage &amp; Methodology
+              </button>
+              <span className="text-slate-600">•</span>
+              <button
                 onClick={() => setIsTosOpen(true)}
                 className="text-slate-300 hover:text-[#7DD3A7] transition-colors underline underline-offset-4"
               >

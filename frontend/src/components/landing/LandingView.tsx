@@ -545,9 +545,6 @@ export const LandingView: React.FC<LandingViewProps> = ({
               Test real hydrological parameters against our Random Forest siting ensemble calibrated on 14,280 Central Ground Water Board (CGWB) observation wells.
             </p>
           </div>
-          <div className="text-xs font-mono text-slate-400 bg-[#07130F] px-3 py-1.5 rounded-lg border border-slate-800 shrink-0">
-            Random Forest + RUSLE
-          </div>
         </div>
 
         {/* Interactive Simulator Card */}
