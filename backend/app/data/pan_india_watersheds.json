@@ -563,6 +563,20 @@
         "features": [
           {
             "type": "Feature",
+            "properties": { "name": "Main Luni-Osian Ephemeral Trunk Channel", "stream_order": 4 },
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [72.8620, 26.7380],
+                [72.8750, 26.7260],
+                [72.8880, 26.7140],
+                [72.9020, 26.7020],
+                [72.9150, 26.6960]
+              ]
+            }
+          },
+          {
+            "type": "Feature",
             "properties": { "name": "Osian Flash Drainage Nala", "stream_order": 3 },
             "geometry": {
               "type": "LineString",

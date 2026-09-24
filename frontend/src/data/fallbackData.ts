@@ -885,6 +885,38 @@ export const FALLBACK_WATERSHEDS_RAW: any[] = [
           {
             "type": "Feature",
             "properties": {
+              "name": "Main Luni-Osian Ephemeral Trunk Channel",
+              "stream_order": 4
+            },
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  72.862,
+                  26.738
+                ],
+                [
+                  72.875,
+                  26.726
+                ],
+                [
+                  72.888,
+                  26.714
+                ],
+                [
+                  72.902,
+                  26.702
+                ],
+                [
+                  72.915,
+                  26.696
+                ]
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
               "name": "Osian Flash Drainage Nala",
               "stream_order": 3
             },

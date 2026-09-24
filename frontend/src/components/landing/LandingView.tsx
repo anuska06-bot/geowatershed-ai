@@ -752,6 +752,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
               onSelectIntervention={onSelectIntervention}
               onSelectEvidence={onSelectEvidence}
               onOpenSutraAi={onOpenSutraAi}
+              onSwitchWatershed={onSwitchWatershed}
             />
           ) : (
             <div className="h-[520px] flex items-center justify-center text-slate-400 font-mono text-xs">

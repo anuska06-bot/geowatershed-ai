@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { WatershedDetail, EvidenceCard } from '../../types';
 import { api } from '../../services/api';
 import L from 'leaflet';
-import { Layers, Eye, EyeOff, Camera, Maximize2, Droplets, Compass } from 'lucide-react';
+import { Layers, Eye, EyeOff, Camera, Maximize2, Droplets, Compass, Activity } from 'lucide-react';
+import { FALLBACK_WATERSHEDS_RAW } from '../../data/fallbackData';
 
 interface WatershedMapProps {
   watershed: WatershedDetail;
@@ -11,6 +12,7 @@ interface WatershedMapProps {
   onSelectIntervention: (id: string) => void;
   onSelectEvidence?: (card: EvidenceCard) => void;
   onOpenSutraAi?: (structureType?: string) => void;
+  onSwitchWatershed?: (codeOrId: string) => void;
 }
 
 
@@ -56,15 +58,19 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
   onSelectIntervention,
   onSelectEvidence,
   onOpenSutraAi,
+  onSwitchWatershed,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
 
-  
+  // Map point markers are strictly for Maharashtra region
+  const isMaharashtra = watershed.state === 'Maharashtra' || watershed.code?.startsWith('MH');
+
   // Layer References
   const baseTileLayerRef = useRef<L.TileLayer | null>(null);
   const boundaryLayerRef = useRef<L.GeoJSON | null>(null);
   const drainageLayerRef = useRef<L.GeoJSON | null>(null);
+  const allStatesStreamsLayerRef = useRef<L.LayerGroup | null>(null);
   const lulcLayerRef = useRef<L.LayerGroup | null>(null);
   const erosionHazardLayerRef = useRef<L.LayerGroup | null>(null);
   const photosLayerRef = useRef<L.LayerGroup | null>(null);
@@ -75,6 +81,7 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
   const [activeBasemap, setActiveBasemap] = useState<'satellite' | 'dark' | 'topo'>('satellite');
   const [showBoundary, setShowBoundary] = useState(true);
   const [showDrainage, setShowDrainage] = useState(true);
+  const [showAllStatesStreams, setShowAllStatesStreams] = useState(true);
   const [showLakes, setShowLakes] = useState(true);
   const [showLulc, setShowLulc] = useState(false);
   const [showErosionHazard, setShowErosionHazard] = useState(false);
@@ -120,6 +127,7 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
     photosLayerRef.current = L.layerGroup().addTo(map);
     interventionsLayerRef.current = L.layerGroup().addTo(map);
     lakesLayerRef.current = L.layerGroup().addTo(map);
+    allStatesStreamsLayerRef.current = L.layerGroup().addTo(map);
 
     mapInstanceRef.current = map;
 
@@ -194,7 +202,7 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
       boundaryLayerRef.current = boundaryLayer;
     }
 
-    // 2. Strahler Stream Drainage Hierarchy
+    // 2. Strahler Stream Drainage Hierarchy with Auto-Stream Tracking
     if (drainageLayerRef.current) {
       map.removeLayer(drainageLayerRef.current);
       drainageLayerRef.current = null;
@@ -205,9 +213,19 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
           const order = feature?.properties?.stream_order || 1;
           switch (order) {
             case 4:
-              return { color: '#0284c7', weight: 5.0, opacity: 0.95 }; // Main Nala
+              return { 
+                color: '#0284c7', 
+                weight: 5.5, 
+                opacity: 0.95,
+                className: 'auto-stream-flow-active'
+              }; // Main Nala / Trunk channel with live auto-stream flow
             case 3:
-              return { color: '#06b6d4', weight: 3.5, opacity: 0.90 }; // Secondary tributary
+              return { 
+                color: '#06b6d4', 
+                weight: 4.0, 
+                opacity: 0.90,
+                className: 'auto-stream-flow-secondary'
+              }; // Secondary tributary with flow animation
             case 2:
               return { color: '#38bdf8', weight: 2.2, opacity: 0.85 }; // Ridge contour
             default:
@@ -215,10 +233,13 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
           }
         },
         onEachFeature: (feature, layer) => {
+          const order = feature.properties?.stream_order || 1;
+          const isMain = order >= 3;
           layer.bindTooltip(
             `<div class="font-mono text-xs">
               <span class="font-bold text-cyan-400">${feature.properties?.name || 'Drainage Channel'}</span><br/>
-              <span class="text-slate-300">Strahler Order: ${feature.properties?.stream_order || 1}</span>
+              <span class="text-slate-300">Strahler Order: ${order} ${order === 4 ? '(Main Auto-Stream Trunk)' : order === 3 ? '(Primary Tributary)' : ''}</span>
+              ${isMain ? '<br/><span class="text-[10px] text-emerald-400 font-bold">⚡ Active Auto-Stream Flow</span>' : ''}
             </div>`,
             { className: 'leaflet-dark-tooltip', sticky: true }
           );
@@ -227,6 +248,75 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
       drainageLayerRef.current = drainageLayer;
     }
   }, [watershed, showBoundary, showDrainage]);
+
+  // 2b. Track Main Stream Lines of All Installed States Altogether
+  useEffect(() => {
+    const map = mapInstanceRef.current;
+    const group = allStatesStreamsLayerRef.current;
+    if (!group) return;
+    group.clearLayers();
+
+    if (!showAllStatesStreams) return;
+
+    FALLBACK_WATERSHEDS_RAW.forEach((entry: any) => {
+      const ws = entry.watershed;
+      if (!ws || !ws.drainage_geojson?.features) return;
+
+      // Extract main trunk lines (Order 4 and Order 3) across all installed states
+      const mainStreamFeatures = ws.drainage_geojson.features.filter(
+        (f: any) => f.properties?.stream_order === 4 || f.properties?.stream_order === 3
+      );
+
+      mainStreamFeatures.forEach((feat: any) => {
+        const order = feat.properties?.stream_order || 4;
+        const isSelectedState = ws.code === watershed.code;
+
+        // Distinct state color accents
+        const stateColorMap: Record<string, string> = {
+          Maharashtra: '#0284c7', // Deep sky blue
+          Rajasthan: '#f59e0b',   // Desert amber gold
+          Karnataka: '#10b981',   // Lush Deccan emerald
+          Uttarakhand: '#06b6d4', // Glacier Himalayan torrent cyan
+          Jharkhand: '#a855f7',   // Chota Nagpur purple
+          Assam: '#14b8a6',       // Brahmaputra teal
+        };
+        const streamColor = stateColorMap[ws.state] || '#38bdf8';
+
+        const streamLayer = L.geoJSON(feat, {
+          style: {
+            color: streamColor,
+            weight: order === 4 ? (isSelectedState ? 6.0 : 4.5) : 3.2,
+            opacity: 0.95,
+            className: order === 4 ? 'auto-stream-flow-active' : 'auto-stream-flow-secondary',
+          },
+          onEachFeature: (_, layer) => {
+            layer.bindTooltip(`
+              <div class="font-mono text-xs p-1">
+                <div class="flex items-center gap-1 font-bold text-cyan-300">
+                  <span>📍 ${ws.state} — ${ws.name}</span>
+                </div>
+                <div class="text-white font-semibold mt-0.5">${feat.properties?.name || 'Main Channel'}</div>
+                <div class="text-[10px] text-emerald-400 font-semibold mt-0.5">
+                  Strahler Order ${order} ${order === 4 ? '(Main Auto-Stream Trunk)' : '(Primary Tributary)'}
+                </div>
+                <div class="text-[10px] text-slate-400 mt-1">Click to focus ${ws.state} basin</div>
+              </div>
+            `, { className: 'leaflet-dark-tooltip', sticky: true });
+
+            layer.on('click', () => {
+              if (onSwitchWatershed) {
+                onSwitchWatershed(ws.code || ws.id);
+              }
+              if (map && ws.centroid_lat && ws.centroid_lon) {
+                map.flyTo([ws.centroid_lat, ws.centroid_lon], 13, { duration: 1.5 });
+              }
+            });
+          }
+        });
+        group.addLayer(streamLayer);
+      });
+    });
+  }, [showAllStatesStreams, watershed.code, onSwitchWatershed]);
 
   // Render Thematic Layer: LULC (Land Use / Land Cover)
   useEffect(() => {
@@ -406,20 +496,26 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
           popupContent.appendChild(sutraBtn);
         }
 
-        beaconMarker.bindPopup(popupContent, { className: 'leaflet-dark-popup' });
         outerRing.bindPopup(popupContent, { className: 'leaflet-dark-popup' });
-
         group.addLayer(outerRing);
-        group.addLayer(beaconMarker);
+
+        // Map point markers are strictly for Maharashtra region
+        if (isMaharashtra) {
+          beaconMarker.bindPopup(popupContent, { className: 'leaflet-dark-popup' });
+          group.addLayer(beaconMarker);
+        }
       });
     }
-  }, [showErosionHazard, watershed, riskAlertZones]);
+  }, [showErosionHazard, watershed, riskAlertZones, isMaharashtra]);
 
   // Render Field Geo-Tagged Survey Photos Layer (Camera Pin Markers with Thumbnail Popups)
   useEffect(() => {
     const group = photosLayerRef.current;
     if (!group) return;
     group.clearLayers();
+
+    // Map point markers are strictly for Maharashtra region as per specification
+    if (!isMaharashtra) return;
 
     if (showSurveyPhotos && evidenceList.length > 0) {
       evidenceList.forEach((ev) => {
@@ -477,13 +573,16 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
         group.addLayer(marker);
       });
     }
-  }, [showSurveyPhotos, evidenceList]);
+  }, [showSurveyPhotos, evidenceList, isMaharashtra]);
 
-  // Render Interventions Markers
+  // Render Interventions Markers (strictly for Maharashtra region)
   useEffect(() => {
     const group = interventionsLayerRef.current;
     if (!group) return;
     group.clearLayers();
+
+    // Map point markers are strictly for Maharashtra region as per specification
+    if (!isMaharashtra) return;
 
     if (showInterventions) {
       watershed.interventions.forEach((item) => {
@@ -526,7 +625,7 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
         group.addLayer(marker);
       });
     }
-  }, [watershed, showInterventions, selectedInterventionId]);
+  }, [watershed, showInterventions, selectedInterventionId, isMaharashtra]);
 
   // 8. Render Lakes, Reservoirs & Water Inlets Network
   useEffect(() => {
@@ -645,33 +744,35 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
 
         group.addLayer(poly);
 
-        // Add animated inlet flow pin at lake entry point
-        const inletIcon = L.divIcon({
-          className: 'inlet-pin',
-          html: `
-            <div class="relative flex items-center justify-center cursor-pointer">
-              <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-cyan-400 opacity-75"></span>
-              <div class="w-5 h-5 rounded-full bg-sky-950 border border-sky-400 flex items-center justify-center text-[10px] text-sky-300 shadow">
-                🌊
+        // Add animated inlet flow pin at lake entry point (strictly for Maharashtra region)
+        if (isMaharashtra) {
+          const inletIcon = L.divIcon({
+            className: 'inlet-pin',
+            html: `
+              <div class="relative flex items-center justify-center cursor-pointer">
+                <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-cyan-400 opacity-75"></span>
+                <div class="w-5 h-5 rounded-full bg-sky-950 border border-sky-400 flex items-center justify-center text-[10px] text-sky-300 shadow">
+                  🌊
+                </div>
               </div>
+            `,
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+          });
+
+          const inletMarker = L.marker(wb.inletCoords, { icon: inletIcon });
+          inletMarker.bindTooltip(`
+            <div class="font-mono text-[10px]">
+              <span class="text-cyan-300 font-bold">🌊 Stream Water Inlet</span><br/>
+              <span>Active flow channel feeding into ${wb.name}</span>
             </div>
-          `,
-          iconSize: [20, 20],
-          iconAnchor: [10, 10]
-        });
+          `, { className: 'leaflet-dark-tooltip' });
 
-        const inletMarker = L.marker(wb.inletCoords, { icon: inletIcon });
-        inletMarker.bindTooltip(`
-          <div class="font-mono text-[10px]">
-            <span class="text-cyan-300 font-bold">🌊 Stream Water Inlet</span><br/>
-            <span>Active flow channel feeding into ${wb.name}</span>
-          </div>
-        `, { className: 'leaflet-dark-tooltip' });
-
-        group.addLayer(inletMarker);
+          group.addLayer(inletMarker);
+        }
       });
     }
-  }, [watershed, showLakes]);
+  }, [watershed, showLakes, isMaharashtra]);
 
   return (
     <div className="relative w-full h-[540px] rounded-lg overflow-hidden border border-slate-800 bg-[#090d14] shadow-lg">
@@ -719,9 +820,22 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
           >
             <span className="flex items-center gap-1.5">
               <span className="w-2.5 h-1 bg-cyan-400 rounded-sm"></span>
-              Drainage Hierarchy (1-4)
+              Basin Drainage (1-4)
             </span>
             {showDrainage ? <Eye className="w-3 h-3 text-cyan-400" /> : <EyeOff className="w-3 h-3 text-slate-600" />}
+          </button>
+
+          {/* 2b. All States Main Auto-Stream Tracking */}
+          <button
+            type="button"
+            onClick={() => setShowAllStatesStreams(!showAllStatesStreams)}
+            className={`flex items-center justify-between gap-3 px-2 py-1 rounded text-[11px] transition-colors ${showAllStatesStreams ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-400/60 font-semibold shadow-[0_0_8px_rgba(6,182,212,0.25)]' : 'text-slate-400 hover:bg-slate-900'}`}
+          >
+            <span className="flex items-center gap-1.5 font-mono">
+              <Activity className="w-3 h-3 text-cyan-400 animate-pulse" />
+              Track All States Streams
+            </span>
+            {showAllStatesStreams ? <Eye className="w-3 h-3 text-cyan-400" /> : <EyeOff className="w-3 h-3 text-slate-600" />}
           </button>
 
           {/* 2.5 Lakes & Water Inflow Channels */}
@@ -758,35 +872,51 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
           >
             <span className="flex items-center gap-1.5 font-mono">
               <span className="w-2.5 h-2.5 rounded-full bg-[#d97706]/60 border border-[#d97706]"></span>
-              Hydrologic Risk Alert Zones ({riskAlertZones.length || 3})
+              Hydrologic Risk Zones ({riskAlertZones.length || 3})
             </span>
             {showErosionHazard ? <Eye className="w-3 h-3 text-[#d97706]" /> : <EyeOff className="w-3 h-3 text-[#9ba3a7]" />}
           </button>
 
-          {/* 5. Field Geo-tagged Photos */}
+          {/* 5. Field Geo-tagged Photos (Maharashtra only) */}
           <button
             type="button"
-            onClick={() => setShowSurveyPhotos(!showSurveyPhotos)}
-            className={`flex items-center justify-between gap-3 px-2 py-1 rounded text-[11px] transition-colors ${showSurveyPhotos ? 'bg-slate-800 text-cyan-300 border border-cyan-500/40' : 'text-slate-400 hover:bg-slate-900'}`}
+            onClick={() => isMaharashtra && setShowSurveyPhotos(!showSurveyPhotos)}
+            disabled={!isMaharashtra}
+            className={`flex items-center justify-between gap-3 px-2 py-1 rounded text-[11px] transition-colors ${
+              !isMaharashtra
+                ? 'opacity-40 cursor-not-allowed text-slate-500 bg-slate-900/40'
+                : showSurveyPhotos
+                ? 'bg-slate-800 text-cyan-300 border border-cyan-500/40'
+                : 'text-slate-400 hover:bg-slate-900'
+            }`}
+            title={isMaharashtra ? 'Toggle field photo pins' : 'Map point markers are strictly active for Maharashtra region'}
           >
             <span className="flex items-center gap-1.5">
               <Camera className="w-3 h-3 text-cyan-400" />
-              Field Photo Pins ({evidenceList.length})
+              Field Photo Pins {isMaharashtra ? `(${evidenceList.length})` : '(MH Only)'}
             </span>
-            {showSurveyPhotos ? <Eye className="w-3 h-3 text-cyan-400" /> : <EyeOff className="w-3 h-3 text-slate-600" />}
+            {isMaharashtra ? (showSurveyPhotos ? <Eye className="w-3 h-3 text-cyan-400" /> : <EyeOff className="w-3 h-3 text-slate-600" />) : null}
           </button>
 
-          {/* 6. Intervention Structures */}
+          {/* 6. Intervention Structures (Maharashtra only) */}
           <button
             type="button"
-            onClick={() => setShowInterventions(!showInterventions)}
-            className={`flex items-center justify-between gap-3 px-2 py-1 rounded text-[11px] transition-colors ${showInterventions ? 'bg-slate-800 text-slate-200 border border-slate-700' : 'text-slate-400 hover:bg-slate-900'}`}
+            onClick={() => isMaharashtra && setShowInterventions(!showInterventions)}
+            disabled={!isMaharashtra}
+            className={`flex items-center justify-between gap-3 px-2 py-1 rounded text-[11px] transition-colors ${
+              !isMaharashtra
+                ? 'opacity-40 cursor-not-allowed text-slate-500 bg-slate-900/40'
+                : showInterventions
+                ? 'bg-slate-800 text-slate-200 border border-slate-700'
+                : 'text-slate-400 hover:bg-slate-900'
+            }`}
+            title={isMaharashtra ? 'Toggle intervention pins' : 'Map point markers are strictly active for Maharashtra region'}
           >
             <span className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-              Intervention Sites ({watershed.interventions.length})
+              Intervention Sites {isMaharashtra ? `(${watershed.interventions.length})` : '(MH Only)'}
             </span>
-            {showInterventions ? <Eye className="w-3 h-3 text-slate-200" /> : <EyeOff className="w-3 h-3 text-slate-600" />}
+            {isMaharashtra ? (showInterventions ? <Eye className="w-3 h-3 text-slate-200" /> : <EyeOff className="w-3 h-3 text-slate-600" />) : null}
           </button>
 
           {/* 7. Quick SUTRA-AI Evaluator Action */}
@@ -800,6 +930,14 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
             </button>
           )}
         </div>
+
+        {/* State Point Scope Indicator */}
+        {!isMaharashtra && (
+          <div className="bg-[#0b0f17]/95 border border-amber-500/30 rounded-md px-2.5 py-1 text-[10px] text-amber-300 flex items-center gap-1.5 shadow-md backdrop-blur-sm max-w-[220px]">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse flex-shrink-0"></span>
+            <span>Point pins: MH pilot active • Auto-stream active for {watershed.state}</span>
+          </div>
+        )}
 
         {/* Basemap Switcher (High Res, Clamped) */}
         <div className="bg-[#0b0f17]/95 border border-slate-800 rounded-md p-1 flex items-center gap-1 shadow-md backdrop-blur-sm">
@@ -830,17 +968,23 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
 
       {/* Map Legend (Bottom-Left) */}
       <div className="absolute bottom-3 left-3 z-20 bg-[#0b0f17]/95 border border-slate-800 rounded-md px-3 py-2 text-[11px] text-slate-300 hidden md:block font-mono shadow-md backdrop-blur-sm">
-        <div className="font-semibold text-slate-400 uppercase tracking-wider text-[10px] mb-1">
-          Hydrologic Strahler Hierarchy
+        <div className="flex items-center justify-between gap-4 mb-1">
+          <div className="font-semibold text-slate-400 uppercase tracking-wider text-[10px]">
+            Hydrologic Strahler Hierarchy
+          </div>
+          <span className="text-[9px] text-emerald-400 flex items-center gap-1 font-semibold">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            Auto-Stream Active
+          </span>
         </div>
         <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[10px]">
           <div className="flex items-center gap-2">
-            <span className="w-4 h-1.5 bg-[#0284c7] rounded"></span>
-            <span>Order 4 (Main Stem)</span>
+            <span className="w-4 h-1.5 bg-[#0284c7] rounded shadow-[0_0_6px_rgba(2,132,199,0.8)]"></span>
+            <span className="font-semibold text-cyan-200">Order 4 (Main Trunk Stem)</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-4 h-1 bg-[#06b6d4] rounded"></span>
-            <span>Order 3 (Tributary)</span>
+            <span>Order 3 (Primary Tributary)</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-4 h-0.5 bg-[#38bdf8] rounded"></span>
@@ -848,7 +992,7 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
           </div>
           <div className="flex items-center gap-2">
             <span className="w-4 h-0.5 border-b border-[#7dd3fc] border-dashed"></span>
-            <span>Order 1 (Feeder)</span>
+            <span>Order 1 (Feeder Gully)</span>
           </div>
         </div>
       </div>
@@ -857,23 +1001,50 @@ export const WatershedMap: React.FC<WatershedMapProps> = ({
       <div className="absolute top-3 right-3 z-20 bg-[#0b0f17]/95 border border-slate-800 rounded-md p-1.5 flex items-center gap-1.5 text-xs font-mono shadow-md backdrop-blur-sm">
         <div className="flex items-center gap-1 text-[10px] uppercase text-[#10b981] font-bold px-1.5 py-0.5 rounded bg-[#10b981]/10 border border-[#10b981]/30 whitespace-nowrap">
           <Compass className="w-3 h-3 text-[#10b981]" />
-          <span>Pan-India Radar</span>
+          <span>Pan-India Stream Radar</span>
         </div>
         <select
+          value={watershed.code || ''}
           onChange={(e) => {
             const val = e.target.value;
             if (!val || !mapInstanceRef.current) return;
-            const [lat, lon, zoom] = val.split(',').map(Number);
-            mapInstanceRef.current.flyTo([lat, lon], zoom || 14, { duration: 1.8 });
+            if (val === 'ALL') {
+              setShowAllStatesStreams(true);
+              mapInstanceRef.current.flyTo([22.5937, 78.9629], 5, { duration: 1.8 });
+              return;
+            }
+            if (onSwitchWatershed) {
+              onSwitchWatershed(val);
+            } else {
+              const matched = FALLBACK_WATERSHEDS_RAW.find(w => w.watershed?.code === val);
+              if (matched && mapInstanceRef.current) {
+                mapInstanceRef.current.flyTo([matched.watershed.centroid_lat, matched.watershed.centroid_lon], 13, { duration: 1.8 });
+              }
+            }
           }}
-          className="bg-[#121619] border border-slate-700 rounded px-2 py-1 text-[11px] text-slate-200 focus:outline-none cursor-pointer max-w-[200px] truncate"
+          className="bg-[#121619] border border-slate-700 rounded px-2 py-1 text-[11px] text-slate-200 focus:outline-none cursor-pointer max-w-[210px] truncate"
         >
-          <option value="18.9150,73.3280,14">📍 Maharashtra (Ulhas Catchment)</option>
-          <option value="27.5530,76.6346,14">📍 Rajasthan (Alwar Arid Basin)</option>
-          <option value="11.9680,76.4950,14">📍 Karnataka (Cauvery Reach)</option>
-          <option value="22.7196,75.8577,14">📍 Madhya Pradesh (Narmada Valley)</option>
-          <option value="30.3165,78.0322,14">📍 Uttarakhand (Garhwal Ridge)</option>
+          <option value="ALL">🌐 Track All States Streams (Pan-India)</option>
+          <option value="MH-WDC-042">📍 Maharashtra (Ulhas Main Stem)</option>
+          <option value="MH-WDC-108">📍 Maharashtra (Ahmednagar Parner Nala)</option>
+          <option value="RJ-WDC-061">📍 Rajasthan (Luni-Osian Trunk Channel)</option>
+          <option value="KA-WDC-024">📍 Karnataka (Mulbagal Valley Stream)</option>
+          <option value="UK-WDC-015">📍 Uttarakhand (Song River Trunk)</option>
+          <option value="JH-WDC-033">📍 Jharkhand (Bhurkunda Nala Trunk)</option>
+          <option value="AS-WDC-009">📍 Assam (Rani Foothill Rivulet)</option>
         </select>
+        <button
+          type="button"
+          onClick={() => {
+            setShowAllStatesStreams(true);
+            mapInstanceRef.current?.flyTo([22.5937, 78.9629], 5, { duration: 1.8 });
+          }}
+          title="Zoom to View All States Main Streams"
+          className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 text-[10px] flex items-center gap-1 font-mono transition-colors"
+        >
+          <Maximize2 className="w-3 h-3" />
+          <span className="hidden sm:inline">Track All</span>
+        </button>
       </div>
 
     </div>

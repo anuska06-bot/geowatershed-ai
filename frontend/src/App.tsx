@@ -417,6 +417,7 @@ export const App: React.FC = () => {
                           if (structType) setSutraStructureType(structType);
                           setIsSutraAiOpen(true);
                         }}
+                        onSwitchWatershed={handleSwitchWatershed}
                       />
                     </div>
 
