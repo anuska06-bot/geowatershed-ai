@@ -296,7 +296,13 @@ export const api = {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ identifier, channel }),
       });
-      if (res.ok) return await res.json();
+      if (res.ok) {
+        const data = await res.json();
+        return {
+          ...data,
+          debug_otp: data.otp_debug || data.debug_otp,
+        };
+      }
     } catch (e) {
       console.warn('Backend OTP request failed, using resilient OTP gateway', e);
     }

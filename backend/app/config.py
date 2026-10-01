@@ -9,6 +9,22 @@ EVIDENCE_DIR = UPLOAD_DIR / "evidence"
 # Ensure upload directory exists
 EVIDENCE_DIR.mkdir(parents=True, exist_ok=True)
 
+# Automatically load .env if present in backend directory
+_env_file = BASE_DIR / ".env"
+if _env_file.exists():
+    try:
+        with open(_env_file, "r", encoding="utf-8") as _f:
+            for _line in _f:
+                _line = _line.strip()
+                if _line and not _line.startswith("#") and "=" in _line:
+                    _k, _v = _line.split("=", 1)
+                    _k = _k.strip()
+                    _v = _v.strip().strip("'").strip('"')
+                    if _k not in os.environ:
+                        os.environ[_k] = _v
+    except Exception:
+        pass
+
 class Settings(BaseModel):
     PROJECT_NAME: str = "GeoWatershed AI"
     API_V1_STR: str = "/api/v1"

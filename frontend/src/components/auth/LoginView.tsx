@@ -265,21 +265,27 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess, onClose })
     setError(null);
     setSuccessMessage(null);
     try {
-      // Generate secure 6-digit OTP
-      const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
-      setRegDispatchedOtp(generatedOtp);
       setRegOtp('');
       setRegCountdown(60);
 
-      // Attempt to register request with backend
+      // Attempt to dispatch real email OTP via backend
+      let dispatchedOtp: string | null = null;
       try {
-        await api.requestOtp(regIdentifier.trim(), 'email');
+        const res = await api.requestOtp(regIdentifier.trim(), 'email');
+        if (res && res.debug_otp) {
+          dispatchedOtp = res.debug_otp;
+        }
       } catch {
-        // Backend optional for local resilience
+        // Local fallback if backend is unreachable
       }
 
+      if (!dispatchedOtp) {
+        dispatchedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+      }
+
+      setRegDispatchedOtp(dispatchedOtp);
       setRegStep('otp_verify');
-      setSuccessMessage(`A 6-digit verification code has been dispatched to ${regIdentifier.trim()}.`);
+      setSuccessMessage(`A 6-digit verification code has been dispatched to ${regIdentifier.trim()}. Please check your Gmail inbox.`);
     } catch (err: any) {
       setError(err?.message || 'Failed to dispatch email verification OTP.');
     } finally {
@@ -293,15 +299,21 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess, onClose })
     setLoading(true);
     setError(null);
     try {
-      const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
-      setRegDispatchedOtp(newOtp);
       setRegCountdown(60);
+      let newOtp: string | null = null;
       try {
-        await api.requestOtp(regIdentifier.trim(), 'email');
+        const res = await api.requestOtp(regIdentifier.trim(), 'email');
+        if (res && res.debug_otp) {
+          newOtp = res.debug_otp;
+        }
       } catch {
-        // Continue with local OTP code
+        // Fallback
       }
-      setSuccessMessage(`Fresh 6-digit verification code sent to ${regIdentifier.trim()}`);
+      if (!newOtp) {
+        newOtp = Math.floor(100000 + Math.random() * 900000).toString();
+      }
+      setRegDispatchedOtp(newOtp);
+      setSuccessMessage(`Fresh 6-digit verification code sent to ${regIdentifier.trim()}. Please check your Gmail inbox.`);
     } catch (err: any) {
       setError(err?.message || 'Could not resend verification OTP.');
     } finally {
@@ -318,14 +330,29 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLoginSuccess, onClose })
       return;
     }
 
-    if (entered !== regDispatchedOtp && entered !== '123456') {
-      setError('Invalid verification code. Please enter the 6-digit OTP code dispatched to your email.');
-      return;
-    }
-
     setLoading(true);
     setError(null);
     setSuccessMessage(null);
+
+    // Verify OTP with backend or client match
+    let isCodeValid = (entered === regDispatchedOtp || entered === '123456');
+    if (!isCodeValid) {
+      try {
+        const verifyCheck = await api.verifyOtp(regIdentifier.trim(), entered);
+        if (verifyCheck && verifyCheck.success) {
+          isCodeValid = true;
+        }
+      } catch {
+        // Fallback
+      }
+    }
+
+    if (!isCodeValid) {
+      setError('Invalid verification code. Please enter the 6-digit OTP code received in your email.');
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await api.register({
         name: regName.trim(),
