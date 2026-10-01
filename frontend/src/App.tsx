@@ -22,7 +22,6 @@ import { AdminAuditView } from './components/admin/AdminAuditView';
 import { TelemetryMLView } from './components/telemetry/TelemetryMLView';
 
 // SIH PS 26015 Upgraded Views
-import { DashboardView } from './components/dashboard/DashboardView';
 import { ImageIntelligenceView } from './components/evidence/ImageIntelligenceView';
 import { ChangeDetectionView } from './components/temporal/ChangeDetectionView';
 import { InterventionsView } from './components/interventions/InterventionsView';
@@ -301,7 +300,7 @@ export const App: React.FC = () => {
         />
 
         {/* Main App Container */}
-        <main className={`flex-1 w-full ${currentTab === 'overview' ? 'w-full' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'}`}>
+        <main className={`flex-1 w-full ${(currentTab === 'overview' || currentTab === 'dashboard') ? 'w-full' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'}`}>
           
           {loading ? (
             <div className="py-10 px-2 max-w-5xl mx-auto w-full space-y-6">
@@ -345,20 +344,8 @@ export const App: React.FC = () => {
             </div>
           ) : watershed ? (
             <ErrorBoundary key={currentTab} onReset={() => setCurrentTab('dashboard')}>
-              {/* View 0: Master Watershed Decision Support Dashboard (SIH PS 26015) */}
-              {currentTab === 'dashboard' && (
-                <DashboardView
-                  watershed={watershed}
-                  evidenceList={evidenceList}
-                  onNavigateTab={handleTabChange}
-                  onSelectIntervention={handleSelectIntervention}
-                  onOpenUpload={() => setIsUploadOpen(true)}
-                  onOpenReport={() => setCurrentTab('reports')}
-                />
-              )}
-
-              {/* View 1: Overview Landing Page */}
-              {currentTab === 'overview' && (
+              {/* View 0: Master Watershed Decision Support Hero & Overview (LandingView) */}
+              {(currentTab === 'dashboard' || currentTab === 'overview') && (
                 <LandingView
                   watershed={watershed}
                   evidenceList={evidenceList}

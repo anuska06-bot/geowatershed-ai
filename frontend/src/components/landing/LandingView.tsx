@@ -134,8 +134,14 @@ export const LandingView: React.FC<LandingViewProps> = ({
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
             <button
               type="button"
-              onClick={() => scrollToSection('decision-gis')}
-              className="w-full sm:w-auto h-11 px-6 rounded-lg bg-[#10b981] hover:bg-[#059669] text-[#0B1F1A] font-bold text-sm flex items-center justify-center gap-2 transition-colors shadow-sm"
+              onClick={() => {
+                if (onLaunchExplorer) {
+                  onLaunchExplorer();
+                } else {
+                  scrollToSection('decision-gis');
+                }
+              }}
+              className="w-full sm:w-auto h-11 px-6 rounded-lg bg-[#10b981] hover:bg-[#059669] text-[#0B1F1A] font-bold text-sm flex items-center justify-center gap-2 transition-colors shadow-sm cursor-pointer"
             >
               <Compass className="w-4 h-4 text-[#0B1F1A]" />
               <span>Explore Interactive GIS</span>
@@ -143,8 +149,14 @@ export const LandingView: React.FC<LandingViewProps> = ({
 
             <button
               type="button"
-              onClick={() => scrollToSection('ai-analysis')}
-              className="w-full sm:w-auto h-11 px-6 rounded-lg bg-[#123C35] hover:bg-[#1b564c] text-white border border-[#7DD3A7]/30 font-semibold text-sm flex items-center justify-center gap-2 transition-colors"
+              onClick={() => {
+                if (onSelectTab) {
+                  onSelectTab('recommendations');
+                } else {
+                  scrollToSection('ai-analysis');
+                }
+              }}
+              className="w-full sm:w-auto h-11 px-6 rounded-lg bg-[#123C35] hover:bg-[#1b564c] text-white border border-[#7DD3A7]/30 font-semibold text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer"
             >
               <Bot className="w-4 h-4 text-[#7DD3A7]" />
               <span>Run AI Siting Model</span>
